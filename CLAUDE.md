@@ -138,11 +138,25 @@ For changes that touch `packages/*`, add `npm run build --workspaces` — `tsup`
 - **Mid-refactor states** in the de-MUI + React 19 work — a half-ported panel set that happens to compile is not a coherent unit.
 - **Anything you were told to do differently** in the current session. Session instructions outrank this file.
 
+### Branching and history
+
+**Work directly on `main` — do not create branches.** Small team, no CI, no PR review step; a branch here is ceremony with no gate behind it.
+
+History stays **linear**. No merge commits: integrate with rebase or fast-forward only. Configured locally, so the defaults do the right thing:
+
+```bash
+git config pull.rebase true   # rebase on pull, never a merge commit
+git config merge.ff only      # refuse a merge that isn't a fast-forward
+```
+
+If a pull rebases local commits onto new upstream work, that is expected. If `merge.ff only` refuses, histories have diverged — stop and report it rather than forcing a merge.
+
 ### Never without an explicit request
 
 - `git push` — always ask, every time.
-- Committing directly to `main`. Branch first: `git checkout -b <area>/<short-desc>`.
-- `git rebase`, `git reset --hard`, force-push, amending a pushed commit, `--no-verify`.
+- `git reset --hard`, force-push, amending or rebasing a commit that is already pushed, `--no-verify`.
+
+Rebasing **unpushed local commits** is fine and is the normal way to keep history linear.
 
 ### Message format
 
