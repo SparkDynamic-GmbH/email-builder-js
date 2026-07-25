@@ -26,7 +26,7 @@ Short version of the decision:
 
 **Cherry-pick source, not a base:** [onchainsuite/email-builder-js](https://github.com/onchainsuite/email-builder-js) independently solved three of our gaps — `VariablesContext` (merge-tag picker), undo/redo in `EditorContext`, and `makeResponsiveHtml.ts` (ESP-sanitizer-proof export). All MIT; **preserve attribution** when lifting. Caveat: all three are post-processing in the sample app, _not_ fixes in the renderers.
 
-> **Path drift:** the issue and plan doc refer to `packages/editor-sample`. Upstream commit `ecf226b` moved it — in this tree it is **`examples/vite-emailbuilder-mui`**.
+> **Path drift:** the issue and plan doc refer to `packages/editor-sample`. Upstream commit `ecf226b` moved it — in this tree it is **`examples/vite-emailbuilder`**.
 
 ## Commands
 
@@ -39,7 +39,7 @@ npm test                                # jest (ts-jest + jsdom)
 npx tsc --noEmit                        # typecheck
 npx eslint . && npx prettier . --check  # what CI used to enforce; still the bar
 
-cd examples/vite-emailbuilder-mui && npx vite   # editor at http://localhost:5173/email-builder-js/
+cd examples/vite-emailbuilder && npx vite   # editor at http://localhost:5173/email-builder-js/
 ```
 
 ## Architecture
@@ -53,7 +53,7 @@ packages/
                      container, divider, heading, html, image, spacer, text
   email-builder/     assembles blocks → Reader + renderToStaticMarkup
 examples/
-  vite-emailbuilder-mui/   the editor SPA (MUI + zustand + vite)
+  vite-emailbuilder/       the editor SPA (MUI + zustand + vite)
 ```
 
 ### The central idea: a block dictionary
@@ -88,7 +88,7 @@ The shared `style` shape (color / fontSize / fontFamily / fontWeight / textAlign
 
 Output is old-school email HTML: `<table role="presentation" cellSpacing="0">`, inline styles, MSO conditional comments injected via `dangerouslySetInnerHTML` (`block-button/src/index.tsx:157`). `block-text` sanitizes markdown through `marked` + `insane` — keep that sanitization when touching text rendering.
 
-### Editor app (`examples/vite-emailbuilder-mui`)
+### Editor app (`examples/vite-emailbuilder`)
 
 - **State**: one zustand store, `documents/editor/EditorContext.tsx` — document, `selectedBlockId`, main tab, screen size, drawer flags. `useX()` hooks + free `setX()` functions; no reducer, **no undo** (undo/redo is a work-queue item; the onchainsuite fork has an implementation to lift).
 - **Shell**: `App/index.tsx` = SamplesDrawer (left) + TemplatePanel (centre) + InspectorDrawer (right).
