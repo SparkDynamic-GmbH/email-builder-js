@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import TextField from '../../../../../../ui/TextField';
 
@@ -12,6 +12,16 @@ type Props = {
 };
 export default function TextInput({ helperText, label, placeholder, rows, defaultValue, onChange }: Props) {
   const [value, setValue] = useState(defaultValue);
+
+  // Adopt changes made elsewhere — inline editing on the canvas writes to the same block.
+  const lastDefaultValue = useRef(defaultValue);
+  useEffect(() => {
+    if (defaultValue !== lastDefaultValue.current) {
+      lastDefaultValue.current = defaultValue;
+      setValue(defaultValue);
+    }
+  }, [defaultValue]);
+
   return (
     <TextField
       rows={rows}
