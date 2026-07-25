@@ -1,0 +1,31 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Editor in Edge",
+      "type": "msedge",
+      "request": "launch",
+      "url": "http://localhost:5173/email-builder-js/",
+      "webRoot": "${workspaceFolder}/examples/vite-emailbuilder",
+      "preLaunchTask": "dev: editor",
+      "sourceMaps": true
+    },
+    {
+      "name": "Editor in Chrome",
+      "type": "chrome",
+      "request": "launch",
+      "url": "http://localhost:5173/email-builder-js/",
+      "webRoot": "${workspaceFolder}/examples/vite-emailbuilder",
+      "preLaunchTask": "dev: editor",
+      "sourceMaps": true
+    },
+    {
+      "name": "Attach to running editor (Edge)",
+      "detail": "Use when the dev server and browser are already open; does not start either.",
+      "type": "msedge",
+      "request": "attach",
+      "port": 9222,
+      "webRoot": "${workspaceFolder}/examples/vite-emailbuilder"
+    }
+  ]
+}

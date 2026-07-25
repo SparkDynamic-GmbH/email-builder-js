@@ -1,0 +1,92 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "build: packages",
+      "detail": "tsup build for every packages/* workspace. The editor imports them through dist/, so this has to run at least once before the dev server will resolve them.",
+      "type": "shell",
+      "command": "npm run build --workspaces",
+      "options": { "cwd": "${workspaceFolder}" },
+      "problemMatcher": ["$tsc"],
+      "presentation": {
+        "reveal": "silent",
+        "revealProblems": "onProblem",
+        "panel": "dedicated",
+        "clear": true
+      }
+    },
+    {
+      "label": "dev: editor",
+      "detail": "Vite dev server for examples/vite-emailbuilder at http://localhost:5173/email-builder-js/",
+      "type": "shell",
+      "command": "npm run dev --workspace @usewaypoint/vite-emailbuilder -- --strictPort",
+      "options": { "cwd": "${workspaceFolder}" },
+      "dependsOn": "build: packages",
+      "isBackground": true,
+      "group": { "kind": "build", "isDefault": true },
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "clear": true
+      },
+      "problemMatcher": {
+        "owner": "vite",
+        "fileLocation": ["relative", "${workspaceFolder}/examples/vite-emailbuilder"],
+        "pattern": {
+          "regexp": "^([^\\s].*)\\((\\d+,\\d+)\\):\\s*(.*)$",
+          "file": 1,
+          "location": 2,
+          "message": 3
+        },
+        "background": {
+          "activeOnStart": true,
+          // Vite colourises its banner, so escape codes sit between "VITE" and
+          // the version and between "Local" and its colon. Match only on
+          // substrings that stay contiguous in the raw output.
+          "beginsPattern": "(?i).*vite.*",
+          "endsPattern": "(?i).*localhost:.*"
+        }
+      }
+    },
+    {
+      "label": "gate",
+      "detail": "The pre-commit gate from CLAUDE.md: prettier, eslint, tsc, jest. Nothing gets committed on a red build. Split into sequential steps rather than one '&&' chain, because VS Code runs tasks through PowerShell on Windows, where '&&' is a parse error.",
+      "dependsOrder": "sequence",
+      "dependsOn": ["gate: format", "gate: lint", "gate: typecheck", "gate: test"],
+      "group": { "kind": "test", "isDefault": true },
+      "problemMatcher": []
+    },
+    {
+      "label": "gate: format",
+      "type": "shell",
+      "command": "npx prettier . --write",
+      "options": { "cwd": "${workspaceFolder}" },
+      "presentation": { "reveal": "always", "panel": "dedicated", "clear": true },
+      "problemMatcher": []
+    },
+    {
+      "label": "gate: lint",
+      "type": "shell",
+      "command": "npx eslint .",
+      "options": { "cwd": "${workspaceFolder}" },
+      "presentation": { "reveal": "always", "panel": "dedicated" },
+      "problemMatcher": ["$eslint-stylish"]
+    },
+    {
+      "label": "gate: typecheck",
+      "type": "shell",
+      "command": "npx tsc --noEmit",
+      "options": { "cwd": "${workspaceFolder}" },
+      "presentation": { "reveal": "always", "panel": "dedicated" },
+      "problemMatcher": ["$tsc"]
+    },
+    {
+      "label": "gate: test",
+      "type": "shell",
+      "command": "npm test",
+      "options": { "cwd": "${workspaceFolder}" },
+      "presentation": { "reveal": "always", "panel": "dedicated" },
+      "problemMatcher": []
+    }
+  ]
+}

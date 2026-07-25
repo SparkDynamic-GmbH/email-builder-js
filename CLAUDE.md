@@ -42,6 +42,8 @@ npx eslint . && npx prettier . --check  # what CI used to enforce; still the bar
 cd examples/vite-emailbuilder && npx vite   # editor at http://localhost:5173/email-builder-js/
 ```
 
+In VS Code, `.vscode/tasks.json` wraps these: **dev: editor** (the default build task, `Ctrl+Shift+B`) builds the packages then starts Vite, and **gate** runs the pre-commit gate as sequential steps. `.vscode/launch.json` adds _Editor in Edge_ / _Editor in Chrome_, which start the dev server and open it with breakpoints attached.
+
 ## Architecture
 
 npm-workspaces monorepo, TypeScript + React + zod.
