@@ -93,7 +93,7 @@ Output is old-school email HTML: `<table role="presentation" cellSpacing="0">`, 
 ### Editor app (`examples/vite-emailbuilder`)
 
 - **State**: one zustand store, `documents/editor/EditorContext.tsx` — document, `selectedBlockId`, main tab, screen size, drawer flags. `useX()` hooks + free `setX()` functions; no reducer, **no undo** (undo/redo is a work-queue item; the onchainsuite fork has an implementation to lift).
-- **Shell**: `App/index.tsx` = SamplesDrawer (left) + TemplatePanel (centre) + InspectorDrawer (right).
+- **Shell**: `App/index.tsx` = TemplatePanel + InspectorDrawer (right). The upstream samples drawer is gone; the sample documents themselves are kept in `getConfiguration/sample/` and still load via the `#sample/<name>` hash.
 - **TemplatePanel** switches between `<EditorBlock id="root"/>`, `<Reader/>` preview, HTML and JSON views.
 - **InspectorDrawer** → `ConfigurationPanel` dispatches on block type to a `*SidebarPanel`, all built on `BaseSidebarPanel` + reusable inputs under `input-panels/helpers/inputs/`. The panels are highly repetitive by design — they compose `PaddingInput`, `ColorInput`, `RadioGroupInput` etc., which in turn sit on the shared primitives in `src/ui/`.
 - **UI primitives** (`src/ui/`): thin Radix + Tailwind wrappers — `Button`, `IconButton`, `Drawer`, `Tabs`, `ToggleGroup`, `Slider`, `Switch`, `Select`, `TextField`, `Label`, `Dialog`, `Popover`, `Toast`, `Tooltip`. Design tokens live in `src/styles.css` under `@theme`, carried over verbatim from the deleted MUI theme. **Style selected states off ARIA (`aria-selected:`, `aria-checked:`), not `data-state`** — wrapping a Radix trigger in a Radix `Tooltip` overwrites `data-state` with the tooltip's own open/closed value.

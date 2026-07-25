@@ -13,7 +13,6 @@ type TValue = {
   selectedScreenSize: 'desktop' | 'mobile';
 
   inspectorDrawerOpen: boolean;
-  samplesDrawerOpen: boolean;
 };
 
 const editorStateStore = create<TValue>(() => ({
@@ -24,7 +23,6 @@ const editorStateStore = create<TValue>(() => ({
   selectedScreenSize: 'desktop',
 
   inspectorDrawerOpen: true,
-  samplesDrawerOpen: true,
 }));
 
 export function useDocument() {
@@ -53,10 +51,6 @@ export function useSelectedSidebarTab() {
 
 export function useInspectorDrawerOpen() {
   return editorStateStore((s) => s.inspectorDrawerOpen);
-}
-
-export function useSamplesDrawerOpen() {
-  return editorStateStore((s) => s.samplesDrawerOpen);
 }
 
 export function setSelectedBlockId(selectedBlockId: TValue['selectedBlockId']) {
@@ -97,11 +91,6 @@ export function setDocument(document: TValue['document']) {
 export function toggleInspectorDrawerOpen() {
   const inspectorDrawerOpen = !editorStateStore.getState().inspectorDrawerOpen;
   return editorStateStore.setState({ inspectorDrawerOpen });
-}
-
-export function toggleSamplesDrawerOpen() {
-  const samplesDrawerOpen = !editorStateStore.getState().samplesDrawerOpen;
-  return editorStateStore.setState({ samplesDrawerOpen });
 }
 
 export function setSelectedScreenSize(selectedScreenSize: TValue['selectedScreenSize']) {

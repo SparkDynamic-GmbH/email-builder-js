@@ -12,7 +12,6 @@ import {
 } from '../../documents/editor/EditorContext';
 import ToggleGroup, { ToggleButton } from '../../ui/ToggleGroup';
 import ToggleInspectorPanelButton from '../InspectorDrawer/ToggleInspectorPanelButton';
-import ToggleSamplesPanelButton from '../SamplesDrawer/ToggleSamplesPanelButton';
 
 import DownloadJson from './DownloadJson';
 import HtmlPanel from './HtmlPanel';
@@ -72,7 +71,6 @@ export default function TemplatePanel() {
   return (
     <>
       <div className="sticky top-0 z-20 flex h-[49px] items-center justify-between border-b border-divider bg-white px-2">
-        <ToggleSamplesPanelButton />
         {/* items-stretch so the active tab's indicator sits on the toolbar's bottom edge, as MUI's did. */}
         <div className="flex w-full items-stretch justify-between gap-4 px-4">
           <MainTabsGroup />

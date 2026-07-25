@@ -1,9 +1,8 @@
 import React from 'react';
 
-import { useInspectorDrawerOpen, useSamplesDrawerOpen } from '../documents/editor/EditorContext';
+import { useInspectorDrawerOpen } from '../documents/editor/EditorContext';
 
 import InspectorDrawer, { INSPECTOR_DRAWER_WIDTH } from './InspectorDrawer';
-import SamplesDrawer, { SAMPLES_DRAWER_WIDTH } from './SamplesDrawer';
 import TemplatePanel from './TemplatePanel';
 
 /**
@@ -16,22 +15,16 @@ function drawerTransition(property: 'margin-left' | 'margin-right', open: boolea
 
 export default function App() {
   const inspectorDrawerOpen = useInspectorDrawerOpen();
-  const samplesDrawerOpen = useSamplesDrawerOpen();
 
   return (
     <>
       <InspectorDrawer />
-      <SamplesDrawer />
 
       <div
         className="flex flex-col"
         style={{
           marginRight: inspectorDrawerOpen ? INSPECTOR_DRAWER_WIDTH : 0,
-          marginLeft: samplesDrawerOpen ? SAMPLES_DRAWER_WIDTH : 0,
-          transition: [
-            drawerTransition('margin-left', samplesDrawerOpen),
-            drawerTransition('margin-right', inspectorDrawerOpen),
-          ].join(', '),
+          transition: drawerTransition('margin-right', inspectorDrawerOpen),
         }}
       >
         <TemplatePanel />
