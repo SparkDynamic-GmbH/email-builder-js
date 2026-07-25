@@ -5,7 +5,6 @@ import { LinkButton } from '../../ui/Button';
 import Drawer from '../../ui/Drawer';
 
 import SidebarButton from './SidebarButton';
-import logo from './waypoint.svg';
 
 export const SAMPLES_DRAWER_WIDTH = 240;
 
@@ -14,7 +13,7 @@ export default function SamplesDrawer() {
 
   return (
     <Drawer anchor="left" open={samplesDrawerOpen} width={SAMPLES_DRAWER_WIDTH}>
-      <div className="flex h-full flex-col justify-between gap-6 overflow-auto px-4 py-2">
+      <div className="flex h-full flex-col gap-6 overflow-auto px-4 py-2">
         <div className="flex flex-col gap-4">
           <h1 className="p-1.5 text-h6">EmailBuilder.js</h1>
 
@@ -50,27 +49,6 @@ export default function SamplesDrawer() {
               View on GitHub
             </LinkButton>
           </div>
-        </div>
-
-        <div className="flex flex-col gap-4 px-1.5 py-6">
-          <a href="https://usewaypoint.com?utm_source=emailbuilderjs" target="_blank" className="leading-none">
-            <img src={logo} width={32} alt="Waypoint" />
-          </a>
-          <div>
-            <p className="text-overline">Looking to send emails?</p>
-            <p className="text-body2 text-txt-secondary">
-              Waypoint is an end-to-end email API with a &apos;pro&apos; version of this template builder with dynamic
-              variables, loops, conditionals, drag and drop, layouts, and more.
-            </p>
-          </div>
-          <LinkButton
-            variant="contained"
-            className="justify-center"
-            href="https://usewaypoint.com?utm_source=emailbuilderjs"
-            target="_blank"
-          >
-            Learn more
-          </LinkButton>
         </div>
       </div>
     </Drawer>
