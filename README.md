@@ -7,6 +7,16 @@
   </p>
 </div>
 
+> ### 🍴 SparkDynamic fork
+>
+> This is SparkDynamic's **permanent hard fork** of [usewaypoint/email-builder-js](https://github.com/usewaypoint/email-builder-js) (MIT), taken at upstream head `ce3e610`. It is the editor for the Cloudwawi newsletter module.
+>
+> Upstream is dormant — we vendor it, we do not track it. Decision record, standing decisions and work queue: **[Cloudwawi#259](https://github.com/SparkDynamic-GmbH/Cloudwawi/issues/259)**. Architecture notes and contributor guidance: [`CLAUDE.md`](CLAUDE.md).
+>
+> There is no CI; build and test locally (`npm ci && npm run build --workspaces && npm test`).
+>
+> The rest of this README is upstream's and describes the original project.
+
 ## Introduction
 
 EmailBuilder.js is a free and open-source email template builder for developers. Build emails faster than ever with clean JSON or HTML output that render well across clients and devices.
