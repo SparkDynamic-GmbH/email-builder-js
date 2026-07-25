@@ -1,18 +1,9 @@
 import React, { useState } from 'react';
 
-import {
-  Alert,
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  Link,
-  TextField,
-  Typography,
-} from '@mui/material';
-
 import { resetDocument } from '../../../documents/editor/EditorContext';
+import Button from '../../../ui/Button';
+import Dialog, { DialogActions, DialogContent } from '../../../ui/Dialog';
+import TextField from '../../../ui/TextField';
 
 import validateJsonStringValue from './validateJsonStringValue';
 
@@ -32,12 +23,15 @@ export default function ImportJsonDialog({ onClose }: ImportJsonDialogProps) {
 
   let errorAlert = null;
   if (error) {
-    errorAlert = <Alert color="error">{error}</Alert>;
+    errorAlert = (
+      <div role="alert" className="mb-2 rounded-sm bg-brand-red/8 px-4 py-3 text-body1 text-brand-red">
+        {error}
+      </div>
+    );
   }
 
   return (
-    <Dialog open onClose={onClose}>
-      <DialogTitle>Import JSON</DialogTitle>
+    <Dialog title="Import JSON" onClose={onClose}>
       <form
         onSubmit={(ev) => {
           ev.preventDefault();
@@ -51,28 +45,24 @@ export default function ImportJsonDialog({ onClose }: ImportJsonDialogProps) {
         }}
       >
         <DialogContent>
-          <Typography color="text.secondary" paragraph>
+          <p className="mb-4 text-body1 text-txt-secondary">
             Copy and paste an EmailBuilder.js JSON (
-            <Link
+            <a
+              className="text-brand-blue hover:underline"
               href="https://gist.githubusercontent.com/jordanisip/efb61f56ba71bd36d3a9440122cb7f50/raw/30ea74a6ac7e52ebdc309bce07b71a9286ce2526/emailBuilderTemplate.json"
               target="_blank"
-              underline="none"
             >
               example
-            </Link>
+            </a>
             ).
-          </Typography>
+          </p>
           {errorAlert}
           <TextField
             error={error !== null}
             value={value}
             onChange={handleChange}
-            type="text"
             helperText="This will override your current template."
-            variant="outlined"
-            fullWidth
             rows={10}
-            multiline
           />
         </DialogContent>
         <DialogActions>

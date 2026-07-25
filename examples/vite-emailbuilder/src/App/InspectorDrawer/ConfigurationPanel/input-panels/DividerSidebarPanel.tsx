@@ -1,7 +1,7 @@
+import { MoveVertical } from 'lucide-react';
 import React, { useState } from 'react';
 import { ZodError } from 'zod';
 
-import { HeightOutlined } from '@mui/icons-material';
 import { DividerProps, DividerPropsDefaults, DividerPropsSchema } from '@usewaypoint/block-divider';
 
 import BaseSidebarPanel from './helpers/BaseSidebarPanel';
@@ -37,7 +37,7 @@ export default function DividerSidebarPanel({ data, setData }: DividerSidebarPan
       />
       <SliderInput
         label="Height"
-        iconLabel={<HeightOutlined sx={{ color: 'text.secondary' }} />}
+        iconLabel={<MoveVertical className="size-4 text-txt-secondary" />}
         units="px"
         step={1}
         min={1}

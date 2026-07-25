@@ -21,6 +21,7 @@ describe('renderToStaticMarkup', () => {
       },
       { rootBlockId: 'root' }
     );
-    expect(result).toEqual('<!DOCTYPE html><html><body><div></div></body></html>');
+    // React 19 always emits a <head> for a rendered <html>, even an empty one.
+    expect(result).toEqual('<!DOCTYPE html><html><head></head><body><div></div></body></html>');
   });
 });

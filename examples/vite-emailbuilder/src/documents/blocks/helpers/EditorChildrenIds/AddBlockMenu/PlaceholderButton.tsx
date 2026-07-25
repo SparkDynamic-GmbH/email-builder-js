@@ -1,36 +1,21 @@
+import { Plus } from 'lucide-react';
 import React from 'react';
-
-import { AddOutlined } from '@mui/icons-material';
-import { ButtonBase } from '@mui/material';
 
 type Props = {
   onClick: () => void;
 };
 export default function PlaceholderButton({ onClick }: Props) {
   return (
-    <ButtonBase
+    <button
+      type="button"
+      aria-label="Add block"
       onClick={(ev) => {
         ev.stopPropagation();
         onClick();
       }}
-      sx={{
-        display: 'flex',
-        alignContent: 'center',
-        justifyContent: 'center',
-        height: 48,
-        width: '100%',
-        bgcolor: 'rgba(0,0,0, 0.05)',
-      }}
+      className="flex h-12 w-full items-center justify-center bg-black/5"
     >
-      <AddOutlined
-        sx={{
-          p: 0.12,
-          bgcolor: 'brand.blue',
-          borderRadius: 24,
-          color: 'primary.contrastText',
-        }}
-        fontSize="small"
-      />
-    </ButtonBase>
+      <Plus className="size-5 rounded-full bg-brand-blue p-[1px] text-white" />
+    </button>
   );
 }

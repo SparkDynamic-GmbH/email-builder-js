@@ -1,13 +1,10 @@
+import { AlignVerticalJustifyCenter, AlignVerticalJustifyEnd, AlignVerticalJustifyStart } from 'lucide-react';
 import React, { useState } from 'react';
 import { ZodError } from 'zod';
 
-import {
-  VerticalAlignBottomOutlined,
-  VerticalAlignCenterOutlined,
-  VerticalAlignTopOutlined,
-} from '@mui/icons-material';
-import { Stack, ToggleButton } from '@mui/material';
 import { ImageProps, ImagePropsSchema } from '@usewaypoint/block-image';
+
+import { ToggleButton } from '../../../../ui/ToggleGroup';
 
 import BaseSidebarPanel from './helpers/BaseSidebarPanel';
 import RadioGroupInput from './helpers/inputs/RadioGroupInput';
@@ -56,7 +53,7 @@ export default function ImageSidebarPanel({ data, setData }: ImageSidebarPanelPr
           updateData({ ...data, props: { ...data.props, linkHref } });
         }}
       />
-      <Stack direction="row" spacing={2}>
+      <div className="flex gap-4">
         <TextDimensionInput
           label="Width"
           defaultValue={data.props?.width}
@@ -67,21 +64,21 @@ export default function ImageSidebarPanel({ data, setData }: ImageSidebarPanelPr
           defaultValue={data.props?.height}
           onChange={(height) => updateData({ ...data, props: { ...data.props, height } })}
         />
-      </Stack>
+      </div>
 
       <RadioGroupInput
         label="Alignment"
         defaultValue={data.props?.contentAlignment ?? 'middle'}
         onChange={(contentAlignment) => updateData({ ...data, props: { ...data.props, contentAlignment } })}
       >
-        <ToggleButton value="top">
-          <VerticalAlignTopOutlined fontSize="small" />
+        <ToggleButton value="top" tooltip="Align top">
+          <AlignVerticalJustifyStart className="size-5" />
         </ToggleButton>
-        <ToggleButton value="middle">
-          <VerticalAlignCenterOutlined fontSize="small" />
+        <ToggleButton value="middle" tooltip="Align middle">
+          <AlignVerticalJustifyCenter className="size-5" />
         </ToggleButton>
-        <ToggleButton value="bottom">
-          <VerticalAlignBottomOutlined fontSize="small" />
+        <ToggleButton value="bottom" tooltip="Align bottom">
+          <AlignVerticalJustifyEnd className="size-5" />
         </ToggleButton>
       </RadioGroupInput>
 

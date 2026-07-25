@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import { HexColorInput, HexColorPicker } from 'react-colorful';
 
-import { Box, Stack, SxProps } from '@mui/material';
-
 import Swatch from './Swatch';
 
 const DEFAULT_PRESET_COLORS = [
@@ -38,37 +36,6 @@ const DEFAULT_PRESET_COLORS = [
   '#000000',
 ];
 
-const SX: SxProps = {
-  p: 1,
-  '.react-colorful__pointer ': {
-    width: 16,
-    height: 16,
-  },
-  '.react-colorful__saturation': {
-    mb: 1,
-    borderRadius: '4px',
-  },
-  '.react-colorful__last-control': {
-    borderRadius: '4px',
-  },
-  '.react-colorful__hue-pointer': {
-    width: '4px',
-    borderRadius: '4px',
-    height: 24,
-    cursor: 'col-resize',
-  },
-  '.react-colorful__saturation-pointer': {
-    cursor: 'all-scroll',
-  },
-  input: {
-    padding: 1,
-    border: '1px solid',
-    borderColor: 'grey.300',
-    borderRadius: '4px',
-    width: '100%',
-  },
-};
-
 type Props = {
   value: string;
   onChange: (v: string) => void;
@@ -83,12 +50,12 @@ export default function Picker({ value, onChange }: Props) {
   };
 
   return (
-    <Stack spacing={1} sx={SX}>
+    <div className="color-picker flex flex-col gap-2 p-2">
       <HexColorPicker color={value} onChange={handleChange} />
       <Swatch paletteColors={DEFAULT_PRESET_COLORS} value={value} onChange={handleChange} />
-      <Box pt={1}>
+      <div className="pt-2">
         <HexColorInput prefixed color={internalValue} onChange={handleChange} />
-      </Box>
-    </Stack>
+      </div>
+    </div>
   );
 }

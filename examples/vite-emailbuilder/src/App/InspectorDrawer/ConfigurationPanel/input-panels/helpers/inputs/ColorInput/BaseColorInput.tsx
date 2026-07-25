@@ -1,18 +1,12 @@
+import { Plus, X } from 'lucide-react';
 import React, { useState } from 'react';
 
-import { AddOutlined, CloseOutlined } from '@mui/icons-material';
-import { ButtonBase, InputLabel, Menu, Stack } from '@mui/material';
+import Label from '../../../../../../../ui/Label';
+import Popover from '../../../../../../../ui/Popover';
 
 import Picker from './Picker';
 
-const BUTTON_SX = {
-  border: '1px solid',
-  borderColor: 'cadet.400',
-  width: 32,
-  height: 32,
-  borderRadius: '4px',
-  bgcolor: '#FFFFFF',
-};
+const SWATCH_BUTTON = 'size-8 rounded-sm border border-cadet-400 inline-flex items-center justify-center bg-white';
 
 type Props =
   | {
@@ -28,11 +22,7 @@ type Props =
       defaultValue: string;
     };
 export default function ColorInput({ label, defaultValue, onChange, nullable }: Props) {
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [value, setValue] = useState(defaultValue);
-  const handleClickOpen = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
 
   const renderResetButton = () => {
     if (!nullable) {
@@ -42,51 +32,42 @@ export default function ColorInput({ label, defaultValue, onChange, nullable }: 
       return null;
     }
     return (
-      <ButtonBase
+      <button
+        type="button"
+        aria-label={`Clear ${label}`}
         onClick={() => {
           setValue(null);
           onChange(null);
         }}
       >
-        <CloseOutlined fontSize="small" sx={{ color: 'grey.600' }} />
-      </ButtonBase>
+        <X className="size-5 text-grey-600" />
+      </button>
     );
   };
 
-  const renderOpenButton = () => {
-    if (value) {
-      return <ButtonBase onClick={handleClickOpen} sx={{ ...BUTTON_SX, bgcolor: value }} />;
-    }
-    return (
-      <ButtonBase onClick={handleClickOpen} sx={{ ...BUTTON_SX }}>
-        <AddOutlined fontSize="small" />
-      </ButtonBase>
-    );
-  };
+  const openButton = value ? (
+    <button type="button" aria-label={label} className={SWATCH_BUTTON} style={{ backgroundColor: value }} />
+  ) : (
+    <button type="button" aria-label={label} className={SWATCH_BUTTON}>
+      <Plus className="size-5" />
+    </button>
+  );
 
   return (
-    <Stack alignItems="flex-start">
-      <InputLabel sx={{ mb: 0.5 }}>{label}</InputLabel>
-      <Stack direction="row" spacing={1}>
-        {renderOpenButton()}
+    <div className="flex flex-col items-start gap-1">
+      <Label>{label}</Label>
+      <div className="flex items-center gap-2">
+        <Popover trigger={openButton} align="start">
+          <Picker
+            value={value || ''}
+            onChange={(v) => {
+              setValue(v);
+              onChange(v);
+            }}
+          />
+        </Popover>
         {renderResetButton()}
-      </Stack>
-      <Menu
-        anchorEl={anchorEl}
-        open={Boolean(anchorEl)}
-        onClose={() => setAnchorEl(null)}
-        MenuListProps={{
-          sx: { height: 'auto', padding: 0 },
-        }}
-      >
-        <Picker
-          value={value || ''}
-          onChange={(v) => {
-            setValue(v);
-            onChange(v);
-          }}
-        />
-      </Menu>
-    </Stack>
+      </div>
+    </div>
   );
 }

@@ -1,19 +1,22 @@
+import { ChevronFirst, Menu } from 'lucide-react';
 import React from 'react';
 
-import { FirstPageOutlined, MenuOutlined } from '@mui/icons-material';
-import { IconButton } from '@mui/material';
-
 import { toggleSamplesDrawerOpen, useSamplesDrawerOpen } from '../../documents/editor/EditorContext';
+import IconButton from '../../ui/IconButton';
 
 function useIcon() {
   const samplesDrawerOpen = useSamplesDrawerOpen();
   if (samplesDrawerOpen) {
-    return <FirstPageOutlined fontSize="small" />;
+    return <ChevronFirst className="size-5" />;
   }
-  return <MenuOutlined fontSize="small" />;
+  return <Menu className="size-5" />;
 }
 
 export default function ToggleSamplesPanelButton() {
   const icon = useIcon();
-  return <IconButton onClick={toggleSamplesDrawerOpen}>{icon}</IconButton>;
+  return (
+    <IconButton onClick={toggleSamplesDrawerOpen} aria-label="Toggle samples panel">
+      {icon}
+    </IconButton>
+  );
 }

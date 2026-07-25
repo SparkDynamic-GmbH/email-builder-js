@@ -1,9 +1,9 @@
+import { Download } from 'lucide-react';
 import React, { useMemo } from 'react';
 
-import { FileDownloadOutlined } from '@mui/icons-material';
-import { IconButton, Tooltip } from '@mui/material';
-
 import { useDocument } from '../../../documents/editor/EditorContext';
+import { IconLinkButton } from '../../../ui/IconButton';
+import Tooltip from '../../../ui/Tooltip';
 
 export default function DownloadJson() {
   const doc = useDocument();
@@ -12,9 +12,9 @@ export default function DownloadJson() {
   }, [doc]);
   return (
     <Tooltip title="Download JSON file">
-      <IconButton href={href} download="emailTemplate.json">
-        <FileDownloadOutlined fontSize="small" />
-      </IconButton>
+      <IconLinkButton href={href} download="emailTemplate.json" aria-label="Download JSON file">
+        <Download className="size-5" />
+      </IconLinkButton>
     </Tooltip>
   );
 }

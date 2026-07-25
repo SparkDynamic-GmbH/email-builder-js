@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { ZodError } from 'zod';
 
-import { ToggleButton } from '@mui/material';
 import { HeadingProps, HeadingPropsDefaults, HeadingPropsSchema } from '@usewaypoint/block-heading';
+
+import { ToggleButton } from '../../../../ui/ToggleGroup';
 
 import BaseSidebarPanel from './helpers/BaseSidebarPanel';
 import RadioGroupInput from './helpers/inputs/RadioGroupInput';

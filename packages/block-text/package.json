@@ -1,6 +1,6 @@
 {
   "name": "@usewaypoint/block-text",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "@usewaypoint/document compatible Text component",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
@@ -21,11 +21,11 @@
   "author": "carlos@usewaypoint.com",
   "license": "MIT",
   "peerDependencies": {
-    "react": "^16 || ^17 || ^18",
+    "react": "^16 || ^17 || ^18 || ^19",
     "zod": "^1 || ^2 || ^3"
   },
   "devDependencies": {
-    "@testing-library/react": "^14.2.1",
+    "@testing-library/react": "^16",
     "@types/insane": "^1.0.0"
   },
   "dependencies": {

@@ -1,7 +1,5 @@
 import React from 'react';
 
-import { Box, Typography } from '@mui/material';
-
 import { TEditorBlock } from '../../../documents/editor/core';
 import { setDocument, useDocument, useSelectedBlockId } from '../../../documents/editor/EditorContext';
 
@@ -19,9 +17,9 @@ import TextSidebarPanel from './input-panels/TextSidebarPanel';
 
 function renderMessage(val: string) {
   return (
-    <Box sx={{ m: 3, p: 1, border: '1px dashed', borderColor: 'divider' }}>
-      <Typography color="text.secondary">{val}</Typography>
-    </Box>
+    <div className="m-6 border border-dashed border-divider p-2">
+      <p className="text-body1 text-txt-secondary">{val}</p>
+    </div>
   );
 }
 

@@ -1,7 +1,7 @@
+import { Plus } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 
-import { AddOutlined } from '@mui/icons-material';
-import { Fade, IconButton } from '@mui/material';
+import cn from '../../../../../ui/cn';
 
 type Props = {
   buttonElement: HTMLElement | null;
@@ -35,30 +35,20 @@ export default function DividerButton({ buttonElement, onClick }: Props) {
   }, [buttonElement, setVisible]);
 
   return (
-    <Fade in={visible}>
-      <IconButton
-        size="small"
-        sx={{
-          p: 0.12,
-          position: 'absolute',
-          top: '-12px',
-          left: '50%',
-          transform: 'translateX(-10px)',
-          bgcolor: 'brand.blue',
-          color: 'primary.contrastText',
-          zIndex: 'fab',
-          '&:hover, &:active, &:focus': {
-            bgcolor: 'brand.blue',
-            color: 'primary.contrastText',
-          },
-        }}
-        onClick={(ev) => {
-          ev.stopPropagation();
-          onClick();
-        }}
-      >
-        <AddOutlined fontSize="small" />
-      </IconButton>
-    </Fade>
+    <button
+      type="button"
+      aria-label="Add block"
+      className={cn(
+        'absolute top-[-12px] left-1/2 z-40 inline-flex -translate-x-[10px] rounded-full bg-brand-blue p-[1px]',
+        'text-white transition-opacity duration-[225ms]',
+        visible ? 'opacity-100' : 'pointer-events-none opacity-0'
+      )}
+      onClick={(ev) => {
+        ev.stopPropagation();
+        onClick();
+      }}
+    >
+      <Plus className="size-5" />
+    </button>
   );
 }

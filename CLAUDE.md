@@ -16,13 +16,13 @@ Short version of the decision:
 
 ### Standing decisions — do not re-litigate
 
-| Decision                                                                                   | Consequence                                                                                                      |
-| ------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------- |
-| **Drop MUI entirely**; rebuild the editor shell + sidebar panels on **Tailwind 4 + Radix** | Matches `Cloudwawi.Web`. Do _not_ add MUI components to new code.                                                |
-| **React 19**                                                                               | Upgrade happens together with de-MUI — MUI v5 is the main React-19 friction point, so they are one job, not two. |
-| **Table-based markup in the `block-*` renderers**                                          | The real Outlook fix. Renderers currently emit `div` + padding.                                                  |
-| Keep `react-colorful`                                                                      | 2.8 kB, no deps; Radix has no colour picker.                                                                     |
-| BeeFree stays available for tenants who want it                                            | This is about what we build on, not removing an existing flow.                                                   |
+| Decision                                                                                   | Consequence                                                                                                  |
+| ------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------ |
+| **Drop MUI entirely**; rebuild the editor shell + sidebar panels on **Tailwind 4 + Radix** | **Done.** Matches `Cloudwawi.Web`. Do _not_ add MUI components to new code.                                  |
+| **React 19**                                                                               | **Done**, together with de-MUI — MUI v5 was the main React-19 friction point, so they were one job, not two. |
+| **Table-based markup in the `block-*` renderers**                                          | The real Outlook fix. Renderers currently emit `div` + padding.                                              |
+| Keep `react-colorful`                                                                      | 2.8 kB, no deps; Radix has no colour picker.                                                                 |
+| BeeFree stays available for tenants who want it                                            | This is about what we build on, not removing an existing flow.                                               |
 
 **Cherry-pick source, not a base:** [onchainsuite/email-builder-js](https://github.com/onchainsuite/email-builder-js) independently solved three of our gaps — `VariablesContext` (merge-tag picker), undo/redo in `EditorContext`, and `makeResponsiveHtml.ts` (ESP-sanitizer-proof export). All MIT; **preserve attribution** when lifting. Caveat: all three are post-processing in the sample app, _not_ fixes in the renderers.
 
@@ -53,7 +53,7 @@ packages/
                      container, divider, heading, html, image, spacer, text
   email-builder/     assembles blocks → Reader + renderToStaticMarkup
 examples/
-  vite-emailbuilder/       the editor SPA (MUI + zustand + vite)
+  vite-emailbuilder/       the editor SPA (React 19 + Tailwind 4 + Radix + zustand + vite)
 ```
 
 ### The central idea: a block dictionary
@@ -82,7 +82,7 @@ Container blocks (`Container`, `ColumnsContainer`, `EmailLayout`) live in `email
 
 ### Blocks
 
-Each `block-*` package is self-contained and exports `XPropsSchema` (zod), `XProps`, `XPropsDefaults`, `X`. **They have no MUI dependency and no dependency on `document-core`** — just `react` + `zod` peer deps (plus `marked`/`insane` in block-text). This is why dropping MUI is cheaper than it looks: it touches the editor shell, not the renderers.
+Each `block-*` package is self-contained and exports `XPropsSchema` (zod), `XProps`, `XPropsDefaults`, `X`. **They have no UI-framework dependency and no dependency on `document-core`** — just `react` + `zod` peer deps (plus `marked`/`insane` in block-text). This is why dropping MUI was cheaper than it looked: it touched the editor shell, not the renderers.
 
 The shared `style` shape (color / fontSize / fontFamily / fontWeight / textAlign / padding) and the `getFontFamily` switch are **copy-pasted into every block** — deliberate, for package independence. Preserve that independence; don't "fix" it by introducing a shared runtime dependency.
 
@@ -93,7 +93,8 @@ Output is old-school email HTML: `<table role="presentation" cellSpacing="0">`, 
 - **State**: one zustand store, `documents/editor/EditorContext.tsx` — document, `selectedBlockId`, main tab, screen size, drawer flags. `useX()` hooks + free `setX()` functions; no reducer, **no undo** (undo/redo is a work-queue item; the onchainsuite fork has an implementation to lift).
 - **Shell**: `App/index.tsx` = SamplesDrawer (left) + TemplatePanel (centre) + InspectorDrawer (right).
 - **TemplatePanel** switches between `<EditorBlock id="root"/>`, `<Reader/>` preview, HTML and JSON views.
-- **InspectorDrawer** → `ConfigurationPanel` dispatches on block type to a `*SidebarPanel`, all built on `BaseSidebarPanel` + reusable inputs under `input-panels/helpers/inputs/`. **This is the ~60-file MUI surface to port** — the panels are highly repetitive, so build `PaddingInput`, `ColorInput`, `FontSelect` etc. once on Radix and reuse.
+- **InspectorDrawer** → `ConfigurationPanel` dispatches on block type to a `*SidebarPanel`, all built on `BaseSidebarPanel` + reusable inputs under `input-panels/helpers/inputs/`. The panels are highly repetitive by design — they compose `PaddingInput`, `ColorInput`, `RadioGroupInput` etc., which in turn sit on the shared primitives in `src/ui/`.
+- **UI primitives** (`src/ui/`): thin Radix + Tailwind wrappers — `Button`, `IconButton`, `Drawer`, `Tabs`, `ToggleGroup`, `Slider`, `Switch`, `Select`, `TextField`, `Label`, `Dialog`, `Popover`, `Toast`, `Tooltip`. Design tokens live in `src/styles.css` under `@theme`, carried over verbatim from the deleted MUI theme. **Style selected states off ARIA (`aria-selected:`, `aria-checked:`), not `data-state`** — wrapping a Radix trigger in a Radix `Tooltip` overwrites `data-state` with the tooltip's own open/closed value.
 - **Mutation**: `TuneMenu.tsx` implements move/duplicate/delete by walking every block to find the parent (`findParentBlockId:26`); the same three-case container switch repeats in each handler.
 - **Persistence**: none. Documents load from `window.location.hash` — `#sample/<name>` or `#code/<base64>` (`getConfiguration/index.tsx:11`); `ShareButton` encodes back. Autosave/persistence is a work-queue item.
 

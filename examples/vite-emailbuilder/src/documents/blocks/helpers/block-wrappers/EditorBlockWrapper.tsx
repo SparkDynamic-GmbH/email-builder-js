@@ -1,14 +1,12 @@
 import React, { CSSProperties, useState } from 'react';
 
-import { Box } from '@mui/material';
-
 import { useCurrentBlockId } from '../../../editor/EditorBlock';
 import { setSelectedBlockId, useSelectedBlockId } from '../../../editor/EditorContext';
 
 import TuneMenu from './TuneMenu';
 
 type TEditorBlockWrapperProps = {
-  children: JSX.Element;
+  children: React.JSX.Element;
 };
 
 export default function EditorBlockWrapper({ children }: TEditorBlockWrapperProps) {
@@ -31,13 +29,9 @@ export default function EditorBlockWrapper({ children }: TEditorBlockWrapperProp
   };
 
   return (
-    <Box
-      sx={{
-        position: 'relative',
-        maxWidth: '100%',
-        outlineOffset: '-1px',
-        outline,
-      }}
+    <div
+      className="relative max-w-full [outline-offset:-1px]"
+      style={{ outline }}
       onMouseEnter={(ev) => {
         setMouseInside(true);
         ev.stopPropagation();
@@ -53,6 +47,6 @@ export default function EditorBlockWrapper({ children }: TEditorBlockWrapperProp
     >
       {renderMenu()}
       {children}
-    </Box>
+    </div>
   );
 }

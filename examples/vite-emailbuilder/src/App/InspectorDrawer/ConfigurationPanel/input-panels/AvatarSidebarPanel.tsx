@@ -1,9 +1,10 @@
+import { Scaling } from 'lucide-react';
 import React, { useState } from 'react';
 import { ZodError } from 'zod';
 
-import { AspectRatioOutlined } from '@mui/icons-material';
-import { ToggleButton } from '@mui/material';
 import { AvatarProps, AvatarPropsDefaults, AvatarPropsSchema } from '@usewaypoint/block-avatar';
+
+import { ToggleButton } from '../../../../ui/ToggleGroup';
 
 import BaseSidebarPanel from './helpers/BaseSidebarPanel';
 import RadioGroupInput from './helpers/inputs/RadioGroupInput';
@@ -36,7 +37,7 @@ export default function AvatarSidebarPanel({ data, setData }: AvatarSidebarPanel
     <BaseSidebarPanel title="Avatar block">
       <SliderInput
         label="Size"
-        iconLabel={<AspectRatioOutlined sx={{ color: 'text.secondary' }} />}
+        iconLabel={<Scaling className="size-4 text-txt-secondary" />}
         units="px"
         step={3}
         min={32}

@@ -1,6 +1,6 @@
 {
   "name": "@usewaypoint/document-core",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Tools to render waypoint-style documents (core package)",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
@@ -21,7 +21,7 @@
   "author": "carlos@usewaypoint.com",
   "license": "MIT",
   "peerDependencies": {
-    "react": "^16 || ^17 || ^18",
+    "react": "^16 || ^17 || ^18 || ^19",
     "zod": "^1 || ^2 || ^3"
   }
 }

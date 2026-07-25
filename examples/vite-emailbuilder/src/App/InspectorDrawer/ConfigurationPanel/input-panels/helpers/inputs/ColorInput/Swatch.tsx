@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Box, Button, SxProps } from '@mui/material';
+import cn from '../../../../../../../ui/cn';
 
 type Props = {
   paletteColors: string[];
@@ -8,34 +8,21 @@ type Props = {
   onChange: (value: string) => void;
 };
 
-const TILE_BUTTON: SxProps = {
-  width: 24,
-  height: 24,
-};
 export default function Swatch({ paletteColors, value, onChange }: Props) {
   const renderButton = (colorValue: string) => {
     return (
-      <Button
+      <button
         key={colorValue}
+        type="button"
+        aria-label={colorValue}
         onClick={() => onChange(colorValue)}
-        sx={{
-          ...TILE_BUTTON,
-          backgroundColor: colorValue,
-          border: '1px solid',
-          borderColor: value === colorValue ? 'black' : 'grey.200',
-          minWidth: 24,
-          display: 'inline-flex',
-          '&:hover': {
-            backgroundColor: colorValue,
-            borderColor: 'grey.500',
-          },
-        }}
+        style={{ backgroundColor: colorValue }}
+        className={cn(
+          'inline-flex size-6 rounded-sm border hover:border-grey-500',
+          value === colorValue ? 'border-black' : 'border-grey-200'
+        )}
       />
     );
   };
-  return (
-    <Box width="100%" sx={{ display: 'grid', gap: 1, gridTemplateColumns: '1fr 1fr 1fr 1fr 1fr 1fr' }}>
-      {paletteColors.map((c) => renderButton(c))}
-    </Box>
-  );
+  return <div className="grid w-full grid-cols-6 gap-2">{paletteColors.map((c) => renderButton(c))}</div>;
 }

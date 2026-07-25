@@ -1,8 +1,8 @@
 import React from 'react';
 
-import { Box, Drawer, Tab, Tabs } from '@mui/material';
-
 import { setSidebarTab, useInspectorDrawerOpen, useSelectedSidebarTab } from '../../documents/editor/EditorContext';
+import Drawer from '../../ui/Drawer';
+import Tabs, { Tab } from '../../ui/Tabs';
 
 import ConfigurationPanel from './ConfigurationPanel';
 import StylesPanel from './StylesPanel';
@@ -23,25 +23,14 @@ export default function InspectorDrawer() {
   };
 
   return (
-    <Drawer
-      variant="persistent"
-      anchor="right"
-      open={inspectorDrawerOpen}
-      sx={{
-        width: inspectorDrawerOpen ? INSPECTOR_DRAWER_WIDTH : 0,
-      }}
-    >
-      <Box sx={{ width: INSPECTOR_DRAWER_WIDTH, height: 49, borderBottom: 1, borderColor: 'divider' }}>
-        <Box px={2}>
-          <Tabs value={selectedSidebarTab} onChange={(_, v) => setSidebarTab(v)}>
-            <Tab value="styles" label="Styles" />
-            <Tab value="block-configuration" label="Inspect" />
-          </Tabs>
-        </Box>
-      </Box>
-      <Box sx={{ width: INSPECTOR_DRAWER_WIDTH, height: 'calc(100% - 49px)', overflow: 'auto' }}>
-        {renderCurrentSidebarPanel()}
-      </Box>
+    <Drawer anchor="right" open={inspectorDrawerOpen} width={INSPECTOR_DRAWER_WIDTH}>
+      <div className="h-[49px] border-b border-divider px-4">
+        <Tabs value={selectedSidebarTab} onValueChange={setSidebarTab} className="h-full">
+          <Tab value="styles">Styles</Tab>
+          <Tab value="block-configuration">Inspect</Tab>
+        </Tabs>
+      </div>
+      <div className="h-[calc(100%-49px)] overflow-auto">{renderCurrentSidebarPanel()}</div>
     </Drawer>
   );
 }

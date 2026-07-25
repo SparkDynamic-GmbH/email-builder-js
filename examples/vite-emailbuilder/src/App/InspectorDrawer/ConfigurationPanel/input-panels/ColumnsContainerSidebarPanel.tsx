@@ -1,17 +1,16 @@
+import {
+  AlignVerticalJustifyCenter,
+  AlignVerticalJustifyEnd,
+  AlignVerticalJustifyStart,
+  MoveHorizontal,
+} from 'lucide-react';
 import React, { useState } from 'react';
 import { ZodError } from 'zod';
-
-import {
-  SpaceBarOutlined,
-  VerticalAlignBottomOutlined,
-  VerticalAlignCenterOutlined,
-  VerticalAlignTopOutlined,
-} from '@mui/icons-material';
-import { ToggleButton } from '@mui/material';
 
 import ColumnsContainerPropsSchema, {
   ColumnsContainerProps,
 } from '../../../../documents/blocks/ColumnsContainer/ColumnsContainerPropsSchema';
+import { ToggleButton } from '../../../../ui/ToggleGroup';
 
 import BaseSidebarPanel from './helpers/BaseSidebarPanel';
 import ColumnWidthsInput from './helpers/inputs/ColumnWidthsInput';
@@ -55,7 +54,7 @@ export default function ColumnsContainerPanel({ data, setData }: ColumnsContaine
       />
       <SliderInput
         label="Columns gap"
-        iconLabel={<SpaceBarOutlined sx={{ color: 'text.secondary' }} />}
+        iconLabel={<MoveHorizontal className="size-4 text-txt-secondary" />}
         units="px"
         step={4}
         marks
@@ -71,14 +70,14 @@ export default function ColumnsContainerPanel({ data, setData }: ColumnsContaine
           updateData({ ...data, props: { ...data.props, contentAlignment } });
         }}
       >
-        <ToggleButton value="top">
-          <VerticalAlignTopOutlined fontSize="small" />
+        <ToggleButton value="top" tooltip="Align top">
+          <AlignVerticalJustifyStart className="size-5" />
         </ToggleButton>
-        <ToggleButton value="middle">
-          <VerticalAlignCenterOutlined fontSize="small" />
+        <ToggleButton value="middle" tooltip="Align middle">
+          <AlignVerticalJustifyCenter className="size-5" />
         </ToggleButton>
-        <ToggleButton value="bottom">
-          <VerticalAlignBottomOutlined fontSize="small" />
+        <ToggleButton value="bottom" tooltip="Align bottom">
+          <AlignVerticalJustifyEnd className="size-5" />
         </ToggleButton>
       </RadioGroupInput>
 

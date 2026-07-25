@@ -3,7 +3,7 @@
     "target": "es2015",
     "module": "esnext",
     "lib": [],
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "jsx": "react",
     "strict": true,
     "sourceMap": true,

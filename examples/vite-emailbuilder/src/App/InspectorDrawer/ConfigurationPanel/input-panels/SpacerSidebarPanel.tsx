@@ -1,7 +1,7 @@
+import { MoveVertical } from 'lucide-react';
 import React, { useState } from 'react';
 import { ZodError } from 'zod';
 
-import { HeightOutlined } from '@mui/icons-material';
 import { SpacerProps, SpacerPropsDefaults, SpacerPropsSchema } from '@usewaypoint/block-spacer';
 
 import BaseSidebarPanel from './helpers/BaseSidebarPanel';
@@ -28,7 +28,7 @@ export default function SpacerSidebarPanel({ data, setData }: SpacerSidebarPanel
     <BaseSidebarPanel title="Spacer block">
       <SliderInput
         label="Height"
-        iconLabel={<HeightOutlined sx={{ color: 'text.secondary' }} />}
+        iconLabel={<MoveVertical className="size-4 text-txt-secondary" />}
         units="px"
         step={4}
         min={4}

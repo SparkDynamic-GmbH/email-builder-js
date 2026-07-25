@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { TextField, Typography } from '@mui/material';
+import TextField from '../../../../../../ui/TextField';
 
 type TextDimensionInputProps = {
   label: string;
@@ -14,20 +14,11 @@ export default function TextDimensionInput({ label, defaultValue, onChange }: Te
   };
   return (
     <TextField
-      fullWidth
       onChange={handleChange}
-      defaultValue={defaultValue}
+      defaultValue={defaultValue ?? ''}
       label={label}
-      variant="standard"
       placeholder="auto"
-      size="small"
-      InputProps={{
-        endAdornment: (
-          <Typography variant="body2" color="text.secondary">
-            px
-          </Typography>
-        ),
-      }}
+      endAdornment="px"
     />
   );
 }

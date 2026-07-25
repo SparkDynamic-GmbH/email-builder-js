@@ -1,7 +1,7 @@
+import { AlignCenter, AlignLeft, AlignRight } from 'lucide-react';
 import React, { useState } from 'react';
 
-import { FormatAlignCenterOutlined, FormatAlignLeftOutlined, FormatAlignRightOutlined } from '@mui/icons-material';
-import { ToggleButton } from '@mui/material';
+import { ToggleButton } from '../../../../../../ui/ToggleGroup';
 
 import RadioGroupInput from './RadioGroupInput';
 
@@ -22,14 +22,14 @@ export default function TextAlignInput({ label, defaultValue, onChange }: Props)
         onChange(value);
       }}
     >
-      <ToggleButton value="left">
-        <FormatAlignLeftOutlined fontSize="small" />
+      <ToggleButton value="left" tooltip="Align left">
+        <AlignLeft className="size-5" />
       </ToggleButton>
-      <ToggleButton value="center">
-        <FormatAlignCenterOutlined fontSize="small" />
+      <ToggleButton value="center" tooltip="Align center">
+        <AlignCenter className="size-5" />
       </ToggleButton>
-      <ToggleButton value="right">
-        <FormatAlignRightOutlined fontSize="small" />
+      <ToggleButton value="right" tooltip="Align right">
+        <AlignRight className="size-5" />
       </ToggleButton>
     </RadioGroupInput>
   );

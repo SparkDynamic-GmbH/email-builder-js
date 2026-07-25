@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { FormControlLabel, Switch } from '@mui/material';
+import Switch from '../../../../../../ui/Switch';
 
 type Props = {
   label: string;
@@ -11,17 +11,13 @@ type Props = {
 export default function BooleanInput({ label, defaultValue, onChange }: Props) {
   const [value, setValue] = useState(defaultValue);
   return (
-    <FormControlLabel
+    <Switch
       label={label}
-      control={
-        <Switch
-          checked={value}
-          onChange={(_, checked: boolean) => {
-            setValue(checked);
-            onChange(checked);
-          }}
-        />
-      }
+      checked={value}
+      onCheckedChange={(checked) => {
+        setValue(checked);
+        onChange(checked);
+      }}
     />
   );
 }

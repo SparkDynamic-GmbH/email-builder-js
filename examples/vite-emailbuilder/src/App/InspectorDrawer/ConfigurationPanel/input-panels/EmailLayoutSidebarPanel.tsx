@@ -1,7 +1,6 @@
+import { SquareRoundCorner } from 'lucide-react';
 import React, { useState } from 'react';
 import { ZodError } from 'zod';
-
-import { RoundedCornerOutlined } from '@mui/icons-material';
 
 import EmailLayoutPropsSchema, {
   EmailLayoutProps,
@@ -47,7 +46,7 @@ export default function EmailLayoutSidebarFields({ data, setData }: EmailLayoutS
         onChange={(borderColor) => updateData({ ...data, borderColor })}
       />
       <SliderInput
-        iconLabel={<RoundedCornerOutlined />}
+        iconLabel={<SquareRoundCorner className="size-4" />}
         units="px"
         step={4}
         marks

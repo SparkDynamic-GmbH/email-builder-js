@@ -1,9 +1,8 @@
+import { ChevronLast, PanelRight } from 'lucide-react';
 import React from 'react';
 
-import { AppRegistrationOutlined, LastPageOutlined } from '@mui/icons-material';
-import { IconButton } from '@mui/material';
-
 import { toggleInspectorDrawerOpen, useInspectorDrawerOpen } from '../../documents/editor/EditorContext';
+import IconButton from '../../ui/IconButton';
 
 export default function ToggleInspectorPanelButton() {
   const inspectorDrawerOpen = useInspectorDrawerOpen();
@@ -11,16 +10,10 @@ export default function ToggleInspectorPanelButton() {
   const handleClick = () => {
     toggleInspectorDrawerOpen();
   };
-  if (inspectorDrawerOpen) {
-    return (
-      <IconButton onClick={handleClick}>
-        <LastPageOutlined fontSize="small" />
-      </IconButton>
-    );
-  }
+  const icon = inspectorDrawerOpen ? <ChevronLast className="size-5" /> : <PanelRight className="size-5" />;
   return (
-    <IconButton onClick={handleClick}>
-      <AppRegistrationOutlined fontSize="small" />
+    <IconButton onClick={handleClick} aria-label="Toggle inspector panel">
+      {icon}
     </IconButton>
   );
 }

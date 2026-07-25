@@ -1,9 +1,10 @@
+import { Share } from 'lucide-react';
 import React, { useState } from 'react';
 
-import { IosShareOutlined } from '@mui/icons-material';
-import { IconButton, Snackbar, Tooltip } from '@mui/material';
-
 import { useDocument } from '../../documents/editor/EditorContext';
+import IconButton from '../../ui/IconButton';
+import Toast from '../../ui/Toast';
+import Tooltip from '../../ui/Tooltip';
 
 export default function ShareButton() {
   const document = useDocument();
@@ -21,17 +22,12 @@ export default function ShareButton() {
 
   return (
     <>
-      <IconButton onClick={onClick}>
-        <Tooltip title="Share current template">
-          <IosShareOutlined fontSize="small" />
-        </Tooltip>
-      </IconButton>
-      <Snackbar
-        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-        open={message !== null}
-        onClose={onClose}
-        message={message}
-      />
+      <Tooltip title="Share current template">
+        <IconButton onClick={onClick} aria-label="Share current template">
+          <Share className="size-5" />
+        </IconButton>
+      </Tooltip>
+      <Toast message={message} onClose={onClose} />
     </>
   );
 }

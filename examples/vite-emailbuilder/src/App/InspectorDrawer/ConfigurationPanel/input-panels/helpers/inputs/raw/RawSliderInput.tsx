@@ -1,9 +1,9 @@
 import React from 'react';
 
-import { Box, Slider, Stack, Typography } from '@mui/material';
+import Slider from '../../../../../../../ui/Slider';
 
 type SliderInputProps = {
-  iconLabel: JSX.Element;
+  iconLabel: React.ReactNode;
 
   step?: number;
   marks?: boolean;
@@ -17,24 +17,13 @@ type SliderInputProps = {
 
 export default function RawSliderInput({ iconLabel, value, setValue, units, ...props }: SliderInputProps) {
   return (
-    <Stack direction="row" alignItems="center" spacing={2} justifyContent="space-between" width="100%">
-      <Box sx={{ minWidth: 24, lineHeight: 1, flexShrink: 0 }}>{iconLabel}</Box>
-      <Slider
-        {...props}
-        value={value}
-        onChange={(_, value: unknown) => {
-          if (typeof value !== 'number') {
-            throw new Error('RawSliderInput values can only receive numeric values');
-          }
-          setValue(value);
-        }}
-      />
-      <Box sx={{ minWidth: 32, textAlign: 'right', flexShrink: 0 }}>
-        <Typography variant="body2" color="text.secondary" sx={{ lineHeight: 1 }}>
-          {value}
-          {units}
-        </Typography>
-      </Box>
-    </Stack>
+    <div className="flex w-full items-center justify-between gap-4">
+      <div className="min-w-6 shrink-0 leading-none">{iconLabel}</div>
+      <Slider {...props} value={value} onValueChange={setValue} />
+      <div className="min-w-8 shrink-0 text-right text-body2 leading-none text-txt-secondary">
+        {value}
+        {units}
+      </div>
+    </div>
   );
 }

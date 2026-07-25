@@ -1,13 +1,12 @@
+import { Braces, Code, Eye, Pencil } from 'lucide-react';
 import React from 'react';
 
-import { CodeOutlined, DataObjectOutlined, EditOutlined, PreviewOutlined } from '@mui/icons-material';
-import { Tab, Tabs, Tooltip } from '@mui/material';
-
 import { setSelectedMainTab, useSelectedMainTab } from '../../documents/editor/EditorContext';
+import Tabs, { Tab } from '../../ui/Tabs';
 
 export default function MainTabsGroup() {
   const selectedMainTab = useSelectedMainTab();
-  const handleChange = (_: unknown, v: unknown) => {
+  const handleChange = (v: string) => {
     switch (v) {
       case 'json':
       case 'preview':
@@ -21,39 +20,19 @@ export default function MainTabsGroup() {
   };
 
   return (
-    <Tabs value={selectedMainTab} onChange={handleChange}>
-      <Tab
-        value="editor"
-        label={
-          <Tooltip title="Edit">
-            <EditOutlined fontSize="small" />
-          </Tooltip>
-        }
-      />
-      <Tab
-        value="preview"
-        label={
-          <Tooltip title="Preview">
-            <PreviewOutlined fontSize="small" />
-          </Tooltip>
-        }
-      />
-      <Tab
-        value="html"
-        label={
-          <Tooltip title="HTML output">
-            <CodeOutlined fontSize="small" />
-          </Tooltip>
-        }
-      />
-      <Tab
-        value="json"
-        label={
-          <Tooltip title="JSON output">
-            <DataObjectOutlined fontSize="small" />
-          </Tooltip>
-        }
-      />
+    <Tabs value={selectedMainTab} onValueChange={handleChange} className="h-full">
+      <Tab value="editor" tooltip="Edit">
+        <Pencil className="size-5" />
+      </Tab>
+      <Tab value="preview" tooltip="Preview">
+        <Eye className="size-5" />
+      </Tab>
+      <Tab value="html" tooltip="HTML output">
+        <Code className="size-5" />
+      </Tab>
+      <Tab value="json" tooltip="JSON output">
+        <Braces className="size-5" />
+      </Tab>
     </Tabs>
   );
 }

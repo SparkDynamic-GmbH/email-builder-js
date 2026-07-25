@@ -1,8 +1,8 @@
 import React from 'react';
 
-import { Box, Button, Divider, Drawer, Link, Stack, Typography } from '@mui/material';
-
 import { useSamplesDrawerOpen } from '../../documents/editor/EditorContext';
+import { LinkButton } from '../../ui/Button';
+import Drawer from '../../ui/Drawer';
 
 import SidebarButton from './SidebarButton';
 import logo from './waypoint.svg';
@@ -13,21 +13,12 @@ export default function SamplesDrawer() {
   const samplesDrawerOpen = useSamplesDrawerOpen();
 
   return (
-    <Drawer
-      variant="persistent"
-      anchor="left"
-      open={samplesDrawerOpen}
-      sx={{
-        width: samplesDrawerOpen ? SAMPLES_DRAWER_WIDTH : 0,
-      }}
-    >
-      <Stack spacing={3} py={1} px={2} width={SAMPLES_DRAWER_WIDTH} justifyContent="space-between" height="100%">
-        <Stack spacing={2} sx={{ '& .MuiButtonBase-root': { width: '100%', justifyContent: 'flex-start' } }}>
-          <Typography variant="h6" component="h1" sx={{ p: 0.75 }}>
-            EmailBuilder.js
-          </Typography>
+    <Drawer anchor="left" open={samplesDrawerOpen} width={SAMPLES_DRAWER_WIDTH}>
+      <div className="flex h-full flex-col justify-between gap-6 overflow-auto px-4 py-2">
+        <div className="flex flex-col gap-4">
+          <h1 className="p-1.5 text-h6">EmailBuilder.js</h1>
 
-          <Stack alignItems="flex-start">
+          <div className="flex flex-col items-start">
             <SidebarButton href="#">Empty</SidebarButton>
             <SidebarButton href="#sample/welcome">Welcome email</SidebarButton>
             <SidebarButton href="#sample/one-time-password">One-time passcode (OTP)</SidebarButton>
@@ -37,43 +28,51 @@ export default function SamplesDrawer() {
             <SidebarButton href="#sample/reservation-reminder">Reservation reminder</SidebarButton>
             <SidebarButton href="#sample/post-metrics-report">Post metrics</SidebarButton>
             <SidebarButton href="#sample/respond-to-message">Respond to inquiry</SidebarButton>
-          </Stack>
+          </div>
 
-          <Divider />
+          <hr className="border-divider" />
 
-          <Stack>
-            <Button size="small" href="https://www.usewaypoint.com/open-source/emailbuilderjs" target="_blank">
+          <div className="flex flex-col items-start">
+            <LinkButton
+              size="small"
+              className="w-full justify-start"
+              href="https://www.usewaypoint.com/open-source/emailbuilderjs"
+              target="_blank"
+            >
               Learn more
-            </Button>
-            <Button size="small" href="https://github.com/usewaypoint/email-builder-js" target="_blank">
+            </LinkButton>
+            <LinkButton
+              size="small"
+              className="w-full justify-start"
+              href="https://github.com/usewaypoint/email-builder-js"
+              target="_blank"
+            >
               View on GitHub
-            </Button>
-          </Stack>
-        </Stack>
-        <Stack spacing={2} px={0.75} py={3}>
-          <Link href="https://usewaypoint.com?utm_source=emailbuilderjs" target="_blank" sx={{ lineHeight: 1 }}>
-            <Box component="img" src={logo} width={32} />
-          </Link>
-          <Box>
-            <Typography variant="overline" gutterBottom>
-              Looking to send emails?
-            </Typography>
-            <Typography variant="body2" color="text.secondary" paragraph>
+            </LinkButton>
+          </div>
+        </div>
+
+        <div className="flex flex-col gap-4 px-1.5 py-6">
+          <a href="https://usewaypoint.com?utm_source=emailbuilderjs" target="_blank" className="leading-none">
+            <img src={logo} width={32} alt="Waypoint" />
+          </a>
+          <div>
+            <p className="text-overline">Looking to send emails?</p>
+            <p className="text-body2 text-txt-secondary">
               Waypoint is an end-to-end email API with a &apos;pro&apos; version of this template builder with dynamic
               variables, loops, conditionals, drag and drop, layouts, and more.
-            </Typography>
-          </Box>
-          <Button
+            </p>
+          </div>
+          <LinkButton
             variant="contained"
-            color="primary"
-            sx={{ justifyContent: 'center' }}
+            className="justify-center"
             href="https://usewaypoint.com?utm_source=emailbuilderjs"
             target="_blank"
           >
             Learn more
-          </Button>
-        </Stack>
-      </Stack>
+          </LinkButton>
+        </div>
+      </div>
     </Drawer>
   );
 }

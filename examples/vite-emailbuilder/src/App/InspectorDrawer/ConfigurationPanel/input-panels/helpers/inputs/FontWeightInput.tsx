@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { ToggleButton } from '@mui/material';
+import { ToggleButton } from '../../../../../../ui/ToggleGroup';
 
 import RadioGroupInput from './RadioGroupInput';
 

@@ -1,33 +1,29 @@
 import React, { useState } from 'react';
 
-import { InputLabel, Stack, ToggleButtonGroup } from '@mui/material';
+import Label from '../../../../../../ui/Label';
+import ToggleGroup from '../../../../../../ui/ToggleGroup';
 
 type Props = {
-  label: string | JSX.Element;
-  children: JSX.Element | JSX.Element[];
+  label: string | React.JSX.Element;
+  children: React.ReactNode;
   defaultValue: string;
   onChange: (v: string) => void;
 };
 export default function RadioGroupInput({ label, children, defaultValue, onChange }: Props) {
   const [value, setValue] = useState(defaultValue);
   return (
-    <Stack alignItems="flex-start">
-      <InputLabel shrink>{label}</InputLabel>
-      <ToggleButtonGroup
-        exclusive
+    <div className="flex w-full flex-col items-start gap-1">
+      <Label>{label}</Label>
+      <ToggleGroup
         fullWidth
         value={value}
-        size="small"
-        onChange={(_, v: unknown) => {
-          if (typeof v !== 'string') {
-            throw new Error('RadioGroupInput can only receive string values');
-          }
+        onValueChange={(v) => {
           setValue(v);
           onChange(v);
         }}
       >
         {children}
-      </ToggleButtonGroup>
-    </Stack>
+      </ToggleGroup>
+    </div>
   );
 }
