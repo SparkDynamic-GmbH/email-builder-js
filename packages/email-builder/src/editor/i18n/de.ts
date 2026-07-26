@@ -81,6 +81,7 @@ const de: TTranslations = {
   'field.minRowHeight': 'Mindesthöhe der Zeile',
   'field.numberOfColumns': 'Anzahl der Spalten',
   'field.padding': 'Innenabstand',
+  'field.preheader': 'Vorschautext',
   'field.shape': 'Form',
   'field.size': 'Größe',
   'field.sourceUrl': 'Quell-URL',
@@ -90,6 +91,9 @@ const de: TTranslations = {
   'field.textColor': 'Textfarbe',
   'field.url': 'URL',
   'field.width': 'Breite',
+
+  // Helper text
+  'helper.preheader': 'Erscheint im Posteingang neben der Betreffzeile. In der E-Mail selbst unsichtbar.',
 
   // Option labels
   'option.shape.circle': 'Rund',

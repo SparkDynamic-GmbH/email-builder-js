@@ -85,6 +85,7 @@ const en = {
   'field.minRowHeight': 'Minimum row height',
   'field.numberOfColumns': 'Number of columns',
   'field.padding': 'Padding',
+  'field.preheader': 'Preheader',
   'field.shape': 'Shape',
   'field.size': 'Size',
   'field.sourceUrl': 'Source URL',
@@ -94,6 +95,9 @@ const en = {
   'field.textColor': 'Text color',
   'field.url': 'Url',
   'field.width': 'Width',
+
+  // Helper text
+  'helper.preheader': 'Shown next to the subject line in the inbox. Hidden in the email itself.',
 
   // Option labels
   'option.shape.circle': 'Circle',

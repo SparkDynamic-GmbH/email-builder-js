@@ -35,66 +35,105 @@ function getBorder({ borderColor }: EmailLayoutProps) {
   return `1px solid ${borderColor}`;
 }
 
+/**
+ * Invisible filler appended after the preheader so a client that keeps scraping
+ * text for its preview runs out of room before it reaches the first real block —
+ * otherwise the inbox shows "<preheader> View in browser Shop About …".
+ * Combining grapheme joiner + zero-width non-joiner + no-break space: nothing
+ * renders, nothing collapses away.
+ */
+const PREVIEW_PADDING = '͏‌ '.repeat(60);
+
+/**
+ * Clients disagree about which of these they honour, so all of them are set:
+ * `display:none` is ignored by Outlook (hence `mso-hide`) and by a handful of
+ * others that do respect a zero height.
+ */
+const PREHEADER_STYLE = {
+  display: 'none',
+  maxHeight: 0,
+  maxWidth: 0,
+  opacity: 0,
+  overflow: 'hidden',
+  msoHide: 'all',
+  fontSize: '1px',
+  lineHeight: '1px',
+  color: 'transparent',
+} as React.CSSProperties;
+
+function Preheader({ text }: { text: string }) {
+  return (
+    <div style={PREHEADER_STYLE}>
+      {text}
+      {PREVIEW_PADDING}
+    </div>
+  );
+}
+
 export default function EmailLayoutReader(props: EmailLayoutProps) {
   const childrenIds = props.childrenIds ?? [];
   const backdropColor = props.backdropColor ?? '#F5F5F5';
+  const preheader = props.preheader?.trim();
   return (
-    <table
-      role="presentation"
-      width="100%"
-      cellPadding="0"
-      cellSpacing="0"
-      border={0}
-      bgcolor={backdropColor}
-      style={{
-        backgroundColor: backdropColor,
-        minHeight: '100%',
-        width: '100%',
-      }}
-    >
-      <tbody>
-        <tr>
-          <td
-            align="center"
-            style={{
-              color: props.textColor ?? '#262626',
-              fontFamily: getFontFamily(props.fontFamily),
-              fontSize: '16px',
-              fontWeight: '400',
-              letterSpacing: '0.15008px',
-              lineHeight: '1.5',
-              padding: '32px 0',
-            }}
-          >
-            <table
+    <>
+      {preheader ? <Preheader text={preheader} /> : null}
+      <table
+        role="presentation"
+        width="100%"
+        cellPadding="0"
+        cellSpacing="0"
+        border={0}
+        bgcolor={backdropColor}
+        style={{
+          backgroundColor: backdropColor,
+          minHeight: '100%',
+          width: '100%',
+        }}
+      >
+        <tbody>
+          <tr>
+            <td
               align="center"
-              width="100%"
               style={{
-                margin: '0 auto',
-                maxWidth: '600px',
-                backgroundColor: props.canvasColor ?? '#FFFFFF',
-                borderRadius: props.borderRadius ?? undefined,
-                border: getBorder(props),
+                color: props.textColor ?? '#262626',
+                fontFamily: getFontFamily(props.fontFamily),
+                fontSize: '16px',
+                fontWeight: '400',
+                letterSpacing: '0.15008px',
+                lineHeight: '1.5',
+                padding: '32px 0',
               }}
-              bgcolor={props.canvasColor ?? '#FFFFFF'}
-              role="presentation"
-              cellSpacing="0"
-              cellPadding="0"
-              border={0}
             >
-              <tbody>
-                <tr style={{ width: '100%' }}>
-                  <td>
-                    {childrenIds.map((childId) => (
-                      <ReaderBlock key={childId} id={childId} />
-                    ))}
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+              <table
+                align="center"
+                width="100%"
+                style={{
+                  margin: '0 auto',
+                  maxWidth: '600px',
+                  backgroundColor: props.canvasColor ?? '#FFFFFF',
+                  borderRadius: props.borderRadius ?? undefined,
+                  border: getBorder(props),
+                }}
+                bgcolor={props.canvasColor ?? '#FFFFFF'}
+                role="presentation"
+                cellSpacing="0"
+                cellPadding="0"
+                border={0}
+              >
+                <tbody>
+                  <tr style={{ width: '100%' }}>
+                    <td>
+                      {childrenIds.map((childId) => (
+                        <ReaderBlock key={childId} id={childId} />
+                      ))}
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </>
   );
 }
