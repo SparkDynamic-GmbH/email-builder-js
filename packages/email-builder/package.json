@@ -40,7 +40,10 @@
   },
   "files": [
     "dist",
-    "src"
+    "src",
+    "!src/**/*.spec.tsx",
+    "!src/**/__snapshots__",
+    "NOTICE"
   ],
   "scripts": {
     "build": "npm run build:js && npm run build:css",

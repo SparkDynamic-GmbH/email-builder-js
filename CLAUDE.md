@@ -151,6 +151,27 @@ Output is old-school email HTML: `<table role="presentation" cellSpacing="0">`, 
 - Tests are colocated snapshot tests — `src/blocks/<Name>/index.spec.tsx` per block, plus the builders under `src/core/builders/`. **Changing renderer markup will churn snapshots — that is expected for the table-based-markup work; review the diffs rather than blindly updating them.**
 - One package, one `version`. It is unpublished at 0.1.0 — bumping it is publish-affecting, so ask first.
 
+## Releasing
+
+`.github/workflows/publish.yml` publishes on a `v*` tag. It checks the tag against the package version, runs the gate, builds, logs the tarball contents, then `npm publish`.
+
+Authentication is **npm trusted publishing over OIDC** — no `NPM_TOKEN` in this repo, and provenance is attached automatically (the repo is public, which provenance requires). Two things this depends on, both easy to break:
+
+- **The workflow's filename.** The trusted publisher on npmjs.com is configured against this repo _and_ `publish.yml` by name. Renaming the file breaks publishing until npm is updated to match.
+- **No `registry-url` on `actions/setup-node`.** It writes an `.npmrc` containing an `${NODE_AUTH_TOKEN}` placeholder; with no token set, npm sends an empty credential and the registry answers **404** rather than falling through to OIDC. That 404 is the standard symptom and says nothing about what is actually wrong. Same symptom if npm is older than 11.5.1.
+
+### The first publish cannot use this workflow
+
+npm only lets you configure a trusted publisher on a package that **already exists**, so the very first `0.1.0` has to be published another way — locally by a maintainer with 2FA, or once with a granular token. After that, add the trusted publisher in the package settings on npmjs.com and every later release goes through the tag.
+
+Do not tag a release expecting the workflow to bootstrap the package; it will 404.
+
+### Cutting a release
+
+1. Update `CHANGELOG.md` — move `Unreleased` to the new version.
+2. Bump `version` in `packages/email-builder/package.json`. **Ask first** — publish-affecting.
+3. Commit, then `git tag v<version>` and push the tag.
+
 ## Commit policy
 
 There is no CI, so the gate is local and it is not optional. **Nothing is committed on a red build.**

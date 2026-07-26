@@ -103,4 +103,4 @@ To develop against this package from another repository, `npm link` it or point 
 
 ## Licence and attribution
 
-MIT. This package is a hard fork of [usewaypoint/email-builder-js](https://github.com/usewaypoint/email-builder-js) (MIT, Copyright (c) 2024 Waypoint (Metaccountant, Inc.)), taken at upstream commit `ce3e610`; the block framework, the renderers and the editor shell originate there. Some changes are lifted from [onchainsuite/email-builder-js](https://github.com/onchainsuite/email-builder-js) (MIT), noted in the commits that do so. See `LICENSE` and the repository's `NOTICE`.
+MIT. This package is a hard fork of [usewaypoint/email-builder-js](https://github.com/usewaypoint/email-builder-js) (MIT, Copyright (c) 2024 Waypoint (Metaccountant, Inc.)), taken at upstream commit `ce3e610`; the block framework, the renderers and the editor shell originate there. Some changes are lifted from [onchainsuite/email-builder-js](https://github.com/onchainsuite/email-builder-js) (MIT), noted in the commits that do so. See the `LICENSE` and `NOTICE` files shipped alongside this package.
