@@ -47,7 +47,7 @@
   ],
   "scripts": {
     "build": "npm run build:js && npm run build:css",
-    "build:js": "tsup src/index.ts src/exports/extensions.ts src/exports/blocks.ts src/exports/reader.ts src/exports/editor.ts --outDir dist --format esm --dts --sourcemap",
+    "build:js": "tsup src/index.ts src/exports/extensions.ts src/exports/blocks.ts src/exports/reader.ts src/exports/editor.ts --outDir dist --clean --format esm --dts --sourcemap",
     "build:css": "tailwindcss --input src/editor/styles.css --output dist/styles.css"
   },
   "publishConfig": {
