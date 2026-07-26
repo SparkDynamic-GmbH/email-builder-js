@@ -2,6 +2,7 @@ import { Check, LoaderCircle, TriangleAlert } from 'lucide-react';
 import React from 'react';
 
 import { useCanSave, useEditorActions, useIsDirty, useSaveError, useSaveStatus } from './EditorContext';
+import { useTranslate } from './i18n';
 import Button from './ui/Button';
 
 type Props = {
@@ -16,7 +17,8 @@ type Props = {
  * got to. Renders nothing when the provider was given no `onSave`, so a
  * read-only or autosave-only host can drop it in unconditionally.
  */
-export default function SaveButton({ label = 'Save', size = 'medium', className }: Props) {
+export default function SaveButton({ label, size = 'medium', className }: Props) {
+  const t = useTranslate();
   const canSave = useCanSave();
   const { save } = useEditorActions();
   const status = useSaveStatus();
@@ -36,7 +38,7 @@ export default function SaveButton({ label = 'Save', size = 'medium', className 
       return (
         <Button variant="contained" size={size} className={className} disabled>
           <LoaderCircle className="size-4 animate-spin" aria-hidden />
-          Saving…
+          {t('save.saving')}
         </Button>
       );
     case 'error':
@@ -48,23 +50,23 @@ export default function SaveButton({ label = 'Save', size = 'medium', className 
           size={size}
           className={className}
           onClick={() => void save()}
-          title={error?.message ?? 'The last save failed.'}
+          title={error?.message ?? t('save.failed')}
         >
           <TriangleAlert className="size-4 text-brand-red" aria-hidden />
-          Retry save
+          {t('save.retry')}
         </Button>
       );
     case 'saved':
       return (
         <Button variant="text" size={size} className={className} disabled>
           <Check className="size-4" aria-hidden />
-          Saved
+          {t('save.saved')}
         </Button>
       );
     case 'dirty':
       return (
         <Button variant="contained" size={size} className={className} onClick={() => void save()}>
-          {label}
+          {label ?? t('save.save')}
         </Button>
       );
   }

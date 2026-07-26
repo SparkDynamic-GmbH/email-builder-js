@@ -2,6 +2,7 @@ import { SquareRoundCorner } from 'lucide-react';
 import React from 'react';
 
 import { TStyle } from '../../../../../helpers/TStyle';
+import { useTranslate } from '../../../../../i18n';
 import { NullableColorInput } from '../inputs/ColorInput';
 import { NullableFontFamily } from '../inputs/FontFamily';
 import FontSizeInput from '../inputs/FontSizeInput';
@@ -16,6 +17,7 @@ type StylePropertyPanelProps = {
   onChange: (style: TStyle) => void;
 };
 export default function SingleStylePropertyPanel({ name, value, onChange }: StylePropertyPanelProps) {
+  const t = useTranslate();
   const defaultValue = value[name] ?? null;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleChange = (v: any) => {
@@ -24,9 +26,11 @@ export default function SingleStylePropertyPanel({ name, value, onChange }: Styl
 
   switch (name) {
     case 'backgroundColor':
-      return <NullableColorInput label="Background color" defaultValue={defaultValue} onChange={handleChange} />;
+      return (
+        <NullableColorInput label={t('field.backgroundColor')} defaultValue={defaultValue} onChange={handleChange} />
+      );
     case 'borderColor':
-      return <NullableColorInput label="Border color" defaultValue={defaultValue} onChange={handleChange} />;
+      return <NullableColorInput label={t('field.borderColor')} defaultValue={defaultValue} onChange={handleChange} />;
     case 'borderRadius':
       return (
         <SliderInput
@@ -36,22 +40,22 @@ export default function SingleStylePropertyPanel({ name, value, onChange }: Styl
           marks
           min={0}
           max={48}
-          label="Border radius"
+          label={t('field.borderRadius')}
           defaultValue={defaultValue}
           onChange={handleChange}
         />
       );
     case 'color':
-      return <NullableColorInput label="Text color" defaultValue={defaultValue} onChange={handleChange} />;
+      return <NullableColorInput label={t('field.textColor')} defaultValue={defaultValue} onChange={handleChange} />;
     case 'fontFamily':
-      return <NullableFontFamily label="Font family" defaultValue={defaultValue} onChange={handleChange} />;
+      return <NullableFontFamily label={t('field.fontFamily')} defaultValue={defaultValue} onChange={handleChange} />;
     case 'fontSize':
-      return <FontSizeInput label="Font size" defaultValue={defaultValue} onChange={handleChange} />;
+      return <FontSizeInput label={t('field.fontSize')} defaultValue={defaultValue} onChange={handleChange} />;
     case 'fontWeight':
-      return <FontWeightInput label="Font weight" defaultValue={defaultValue} onChange={handleChange} />;
+      return <FontWeightInput label={t('field.fontWeight')} defaultValue={defaultValue} onChange={handleChange} />;
     case 'textAlign':
-      return <TextAlignInput label="Alignment" defaultValue={defaultValue} onChange={handleChange} />;
+      return <TextAlignInput label={t('field.alignment')} defaultValue={defaultValue} onChange={handleChange} />;
     case 'padding':
-      return <PaddingInput label="Padding" defaultValue={defaultValue} onChange={handleChange} />;
+      return <PaddingInput label={t('field.padding')} defaultValue={defaultValue} onChange={handleChange} />;
   }
 }

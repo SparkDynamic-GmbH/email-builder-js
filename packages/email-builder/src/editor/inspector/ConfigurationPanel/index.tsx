@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { useDocument, useEditorActions, useEditorRegistry, useSelectedBlockId } from '../../EditorContext';
+import { useTranslate } from '../../i18n';
 
 function renderMessage(val: string) {
   return (
@@ -11,17 +12,18 @@ function renderMessage(val: string) {
 }
 
 export default function ConfigurationPanel() {
+  const t = useTranslate();
   const { setDocument } = useEditorActions();
   const { definitions, SidebarPanel } = useEditorRegistry();
   const document = useDocument();
   const selectedBlockId = useSelectedBlockId();
 
   if (!selectedBlockId) {
-    return renderMessage('Click on a block to inspect.');
+    return renderMessage(t('inspector.empty'));
   }
   const block = document[selectedBlockId];
   if (!block) {
-    return renderMessage(`Block with id ${selectedBlockId} was not found. Click on a block to reset.`);
+    return renderMessage(t('inspector.blockNotFound', { id: selectedBlockId }));
   }
 
   if (!definitions[block.type]?.SidebarPanel) {

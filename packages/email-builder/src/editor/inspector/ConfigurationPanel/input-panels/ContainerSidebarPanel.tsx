@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import type { ZodError } from 'zod';
 
 import { ContainerProps, ContainerPropsSchema } from '../../../../blocks/Container/ContainerPropsSchema';
+import { useTranslate } from '../../../i18n';
 
 import BaseSidebarPanel from './helpers/BaseSidebarPanel';
 import MultiStylePropertyPanel from './helpers/style-inputs/MultiStylePropertyPanel';
@@ -12,6 +13,7 @@ type ContainerSidebarPanelProps = {
 };
 
 export default function ContainerSidebarPanel({ data, setData }: ContainerSidebarPanelProps) {
+  const t = useTranslate();
   const [, setErrors] = useState<ZodError | null>(null);
   const updateData = (d: unknown) => {
     const res = ContainerPropsSchema.safeParse(d);
@@ -23,7 +25,7 @@ export default function ContainerSidebarPanel({ data, setData }: ContainerSideba
     }
   };
   return (
-    <BaseSidebarPanel title="Container block">
+    <BaseSidebarPanel title={t('panel.Container')}>
       <MultiStylePropertyPanel
         names={['backgroundColor', 'borderColor', 'borderRadius', 'padding']}
         value={data.style}

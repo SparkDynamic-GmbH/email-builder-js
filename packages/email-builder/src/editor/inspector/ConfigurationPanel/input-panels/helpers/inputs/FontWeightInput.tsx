@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 
+import { useTranslate } from '../../../../../i18n';
 import { ToggleButton } from '../../../../../ui/ToggleGroup';
 
 import RadioGroupInput from './RadioGroupInput';
@@ -10,6 +11,7 @@ type Props = {
   onChange: (value: string) => void;
 };
 export default function FontWeightInput({ label, defaultValue, onChange }: Props) {
+  const t = useTranslate();
   const [value, setValue] = useState(defaultValue);
   return (
     <RadioGroupInput
@@ -20,8 +22,8 @@ export default function FontWeightInput({ label, defaultValue, onChange }: Props
         onChange(fontWeight);
       }}
     >
-      <ToggleButton value="normal">Regular</ToggleButton>
-      <ToggleButton value="bold">Bold</ToggleButton>
+      <ToggleButton value="normal">{t('option.fontWeight.regular')}</ToggleButton>
+      <ToggleButton value="bold">{t('option.fontWeight.bold')}</ToggleButton>
     </RadioGroupInput>
   );
 }

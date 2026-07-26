@@ -1,6 +1,8 @@
 import { Slider as RadixSlider } from 'radix-ui';
 import React, { useMemo } from 'react';
 
+import { useTranslate } from '../i18n';
+
 type Props = {
   value: number;
   onValueChange: (v: number) => void;
@@ -12,6 +14,7 @@ type Props = {
 };
 
 export default function Slider({ value, onValueChange, min = 0, max = 100, step = 1, marks }: Props) {
+  const t = useTranslate();
   const markOffsets = useMemo(() => {
     if (!marks || step <= 0 || max <= min) {
       return [];
@@ -44,7 +47,7 @@ export default function Slider({ value, onValueChange, min = 0, max = 100, step 
       </RadixSlider.Track>
       <RadixSlider.Thumb
         className="block size-4 cursor-col-resize rounded-full bg-brand-blue transition-shadow hover:shadow-[0_0_0_4px_rgba(0,121,204,0.2)] focus-visible:shadow-[0_0_0_4px_rgba(0,121,204,0.2)] focus-visible:outline-none"
-        aria-label="Value"
+        aria-label={t('input.value')}
       />
     </RadixSlider.Root>
   );

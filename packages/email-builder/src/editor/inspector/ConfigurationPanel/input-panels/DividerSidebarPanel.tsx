@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { ZodError } from 'zod';
 
 import { DividerProps, DividerPropsDefaults, DividerPropsSchema } from '../../../../exports/blocks';
+import { useTranslate } from '../../../i18n';
 
 import BaseSidebarPanel from './helpers/BaseSidebarPanel';
 import ColorInput from './helpers/inputs/ColorInput';
@@ -14,6 +15,7 @@ type DividerSidebarPanelProps = {
   setData: (v: DividerProps) => void;
 };
 export default function DividerSidebarPanel({ data, setData }: DividerSidebarPanelProps) {
+  const t = useTranslate();
   const [, setErrors] = useState<ZodError | null>(null);
   const updateData = (d: unknown) => {
     const res = DividerPropsSchema.safeParse(d);
@@ -29,14 +31,14 @@ export default function DividerSidebarPanel({ data, setData }: DividerSidebarPan
   const lineHeight = data.props?.lineHeight ?? DividerPropsDefaults.lineHeight;
 
   return (
-    <BaseSidebarPanel title="Divider block">
+    <BaseSidebarPanel title={t('panel.Divider')}>
       <ColorInput
-        label="Color"
+        label={t('field.color')}
         defaultValue={lineColor}
         onChange={(lineColor) => updateData({ ...data, props: { ...data.props, lineColor } })}
       />
       <SliderInput
-        label="Height"
+        label={t('field.height')}
         iconLabel={<MoveVertical className="size-4 text-txt-secondary" />}
         units="px"
         step={1}

@@ -31,6 +31,27 @@ export {
   useSelectedSidebarTab,
 } from './EditorContext';
 
+/**
+ * i18n. The editor's chrome is translated from a keyed catalog; pick the
+ * language with the provider's `language` prop, and reword or extend it with
+ * `translations`. `useTranslate` lets a host's own chrome and blocks read from
+ * the same catalog.
+ */
+export {
+  createTranslate,
+  DEFAULT_LANGUAGE,
+  I18nProvider,
+  LANGUAGES,
+  TKey,
+  TLanguage,
+  TTranslate,
+  TTranslationKey,
+  TTranslationOverrides,
+  TTranslations,
+  useLanguage,
+  useTranslate,
+} from './i18n';
+
 /** Saves through the provider's `onSave`, and shows where that got to. */
 export { default as SaveButton } from './SaveButton';
 

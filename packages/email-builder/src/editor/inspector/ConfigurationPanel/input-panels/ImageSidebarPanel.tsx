@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { ZodError } from 'zod';
 
 import { ImageProps, ImagePropsSchema } from '../../../../exports/blocks';
+import { useTranslate } from '../../../i18n';
 import { ToggleButton } from '../../../ui/ToggleGroup';
 
 import BaseSidebarPanel from './helpers/BaseSidebarPanel';
@@ -16,6 +17,7 @@ type ImageSidebarPanelProps = {
   setData: (v: ImageProps) => void;
 };
 export default function ImageSidebarPanel({ data, setData }: ImageSidebarPanelProps) {
+  const t = useTranslate();
   const [, setErrors] = useState<ZodError | null>(null);
 
   const updateData = (d: unknown) => {
@@ -29,9 +31,9 @@ export default function ImageSidebarPanel({ data, setData }: ImageSidebarPanelPr
   };
 
   return (
-    <BaseSidebarPanel title="Image block">
+    <BaseSidebarPanel title={t('panel.Image')}>
       <TextInput
-        label="Source URL"
+        label={t('field.sourceUrl')}
         defaultValue={data.props?.url ?? ''}
         onChange={(v) => {
           const url = v.trim().length === 0 ? null : v.trim();
@@ -40,12 +42,12 @@ export default function ImageSidebarPanel({ data, setData }: ImageSidebarPanelPr
       />
 
       <TextInput
-        label="Alt text"
+        label={t('field.altText')}
         defaultValue={data.props?.alt ?? ''}
         onChange={(alt) => updateData({ ...data, props: { ...data.props, alt } })}
       />
       <TextInput
-        label="Click through URL"
+        label={t('field.clickThroughUrl')}
         defaultValue={data.props?.linkHref ?? ''}
         onChange={(v) => {
           const linkHref = v.trim().length === 0 ? null : v.trim();
@@ -54,29 +56,29 @@ export default function ImageSidebarPanel({ data, setData }: ImageSidebarPanelPr
       />
       <div className="flex gap-4">
         <TextDimensionInput
-          label="Width"
+          label={t('field.width')}
           defaultValue={data.props?.width}
           onChange={(width) => updateData({ ...data, props: { ...data.props, width } })}
         />
         <TextDimensionInput
-          label="Height"
+          label={t('field.height')}
           defaultValue={data.props?.height}
           onChange={(height) => updateData({ ...data, props: { ...data.props, height } })}
         />
       </div>
 
       <RadioGroupInput
-        label="Alignment"
+        label={t('field.alignment')}
         defaultValue={data.props?.contentAlignment ?? 'middle'}
         onChange={(contentAlignment) => updateData({ ...data, props: { ...data.props, contentAlignment } })}
       >
-        <ToggleButton value="top" tooltip="Align top">
+        <ToggleButton value="top" tooltip={t('option.align.top')}>
           <AlignVerticalJustifyStart className="size-5" />
         </ToggleButton>
-        <ToggleButton value="middle" tooltip="Align middle">
+        <ToggleButton value="middle" tooltip={t('option.align.middle')}>
           <AlignVerticalJustifyCenter className="size-5" />
         </ToggleButton>
-        <ToggleButton value="bottom" tooltip="Align bottom">
+        <ToggleButton value="bottom" tooltip={t('option.align.bottom')}>
           <AlignVerticalJustifyEnd className="size-5" />
         </ToggleButton>
       </RadioGroupInput>

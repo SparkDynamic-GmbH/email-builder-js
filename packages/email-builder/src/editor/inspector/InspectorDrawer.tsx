@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { useEditorActions, useInspectorDrawerOpen, useSelectedSidebarTab } from '../EditorContext';
+import { useTranslate } from '../i18n';
 import Drawer from '../ui/Drawer';
 import Tabs, { Tab } from '../ui/Tabs';
 
@@ -10,6 +11,7 @@ import StylesPanel from './StylesPanel';
 export const INSPECTOR_DRAWER_WIDTH = 320;
 
 export default function InspectorDrawer() {
+  const t = useTranslate();
   const { setSidebarTab } = useEditorActions();
   const selectedSidebarTab = useSelectedSidebarTab();
   const inspectorDrawerOpen = useInspectorDrawerOpen();
@@ -27,8 +29,8 @@ export default function InspectorDrawer() {
     <Drawer anchor="right" open={inspectorDrawerOpen} width={INSPECTOR_DRAWER_WIDTH}>
       <div className="h-[49px] border-b border-divider px-4">
         <Tabs value={selectedSidebarTab} onValueChange={setSidebarTab} className="h-full">
-          <Tab value="styles">Styles</Tab>
-          <Tab value="block-configuration">Inspect</Tab>
+          <Tab value="styles">{t('inspector.tab.styles')}</Tab>
+          <Tab value="block-configuration">{t('inspector.tab.inspect')}</Tab>
         </Tabs>
       </div>
       <div className="h-[calc(100%-49px)] overflow-auto">{renderCurrentSidebarPanel()}</div>

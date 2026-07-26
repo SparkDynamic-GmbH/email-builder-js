@@ -1,14 +1,16 @@
 import React from 'react';
 
 import { useDocument, useEditorActions } from '../EditorContext';
+import { useTranslate } from '../i18n';
 
 import EmailLayoutSidebarPanel from './ConfigurationPanel/input-panels/EmailLayoutSidebarPanel';
 
 export default function StylesPanel() {
+  const t = useTranslate();
   const { setDocument } = useEditorActions();
   const block = useDocument().root;
   if (!block) {
-    return <p>Block not found</p>;
+    return <p>{t('inspector.rootNotFound')}</p>;
   }
 
   const { data, type } = block;

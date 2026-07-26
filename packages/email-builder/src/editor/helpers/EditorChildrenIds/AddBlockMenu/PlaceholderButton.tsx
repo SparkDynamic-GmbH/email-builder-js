@@ -1,14 +1,17 @@
 import { Plus } from 'lucide-react';
 import React from 'react';
 
+import { useTranslate } from '../../../i18n';
+
 type Props = {
   onClick: () => void;
 };
 export default function PlaceholderButton({ onClick }: Props) {
+  const t = useTranslate();
   return (
     <button
       type="button"
-      aria-label="Add block"
+      aria-label={t('canvas.addBlock')}
       onClick={(ev) => {
         ev.stopPropagation();
         onClick();

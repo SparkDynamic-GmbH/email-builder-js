@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { ZodError } from 'zod';
 
 import { SpacerProps, SpacerPropsDefaults, SpacerPropsSchema } from '../../../../exports/blocks';
+import { useTranslate } from '../../../i18n';
 
 import BaseSidebarPanel from './helpers/BaseSidebarPanel';
 import SliderInput from './helpers/inputs/SliderInput';
@@ -12,6 +13,7 @@ type SpacerSidebarPanelProps = {
   setData: (v: SpacerProps) => void;
 };
 export default function SpacerSidebarPanel({ data, setData }: SpacerSidebarPanelProps) {
+  const t = useTranslate();
   const [, setErrors] = useState<ZodError | null>(null);
 
   const updateData = (d: unknown) => {
@@ -25,9 +27,9 @@ export default function SpacerSidebarPanel({ data, setData }: SpacerSidebarPanel
   };
 
   return (
-    <BaseSidebarPanel title="Spacer block">
+    <BaseSidebarPanel title={t('panel.Spacer')}>
       <SliderInput
-        label="Height"
+        label={t('field.height')}
         iconLabel={<MoveVertical className="size-4 text-txt-secondary" />}
         units="px"
         step={4}

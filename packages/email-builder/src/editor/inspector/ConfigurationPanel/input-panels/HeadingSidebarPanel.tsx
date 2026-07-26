@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { ZodError } from 'zod';
 
 import { HeadingProps, HeadingPropsDefaults, HeadingPropsSchema } from '../../../../exports/blocks';
+import { useTranslate } from '../../../i18n';
 import { ToggleButton } from '../../../ui/ToggleGroup';
 
 import BaseSidebarPanel from './helpers/BaseSidebarPanel';
@@ -14,6 +15,7 @@ type HeadingSidebarPanelProps = {
   setData: (v: HeadingProps) => void;
 };
 export default function HeadingSidebarPanel({ data, setData }: HeadingSidebarPanelProps) {
+  const t = useTranslate();
   const [, setErrors] = useState<ZodError | null>(null);
 
   const updateData = (d: unknown) => {
@@ -27,9 +29,9 @@ export default function HeadingSidebarPanel({ data, setData }: HeadingSidebarPan
   };
 
   return (
-    <BaseSidebarPanel title="Heading block">
+    <BaseSidebarPanel title={t('panel.Heading')}>
       <TextInput
-        label="Content"
+        label={t('field.content')}
         rows={3}
         defaultValue={data.props?.text ?? HeadingPropsDefaults.text}
         onChange={(text) => {
@@ -37,7 +39,7 @@ export default function HeadingSidebarPanel({ data, setData }: HeadingSidebarPan
         }}
       />
       <RadioGroupInput
-        label="Level"
+        label={t('field.level')}
         defaultValue={data.props?.level ?? HeadingPropsDefaults.level}
         onChange={(level) => {
           updateData({ ...data, props: { ...data.props, level } });

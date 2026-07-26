@@ -3,6 +3,7 @@ import { createStore, useStore } from 'zustand';
 
 import { BaseZodDictionary, BlockConfiguration, BlockRegistry } from '../core';
 
+import { DEFAULT_LANGUAGE, I18nProvider, TLanguage, TTranslationOverrides } from './i18n';
 import { TEditorBlock, TEditorConfiguration, TEditorRegistry } from './types';
 
 /**
@@ -138,6 +139,21 @@ export type EmailBuilderProviderProps<T extends BaseZodDictionary> = {
    * `beforeunload`/`visibilitychange` handling for that.
    */
   autosaveDebounceMs?: number;
+  /**
+   * The UI language, as an ISO 639-1 code. Defaults to `'en'`; `'de'` is the
+   * other one shipped. It covers the editor's own chrome only — the document's
+   * content is whatever the user typed.
+   */
+  language?: TLanguage;
+  /**
+   * Replaces individual strings, keyed the same way as the built-in catalogs.
+   * Anything left out falls back to `language`, then to English — so this also
+   * serves a host that wants a language we do not ship yet.
+   *
+   * Keep the object stable (module scope or `useMemo`); a new object each
+   * render rebuilds the translate function.
+   */
+  translations?: TTranslationOverrides;
   children: React.ReactNode;
 };
 
@@ -153,6 +169,8 @@ export function EmailBuilderProvider<T extends BaseZodDictionary>({
   onSave,
   autosave = false,
   autosaveDebounceMs = DEFAULT_AUTOSAVE_DEBOUNCE_MS,
+  language = DEFAULT_LANGUAGE,
+  translations,
   children,
 }: EmailBuilderProviderProps<T>) {
   // The one place the block set is erased; see TEditorRegistry.
@@ -290,7 +308,13 @@ export function EmailBuilderProvider<T extends BaseZodDictionary>({
     [store, actions, erasedRegistry, canSave]
   );
 
-  return <EditorContext.Provider value={value}>{children}</EditorContext.Provider>;
+  return (
+    <EditorContext.Provider value={value}>
+      <I18nProvider language={language} translations={translations}>
+        {children}
+      </I18nProvider>
+    </EditorContext.Provider>
+  );
 }
 
 /** The block set this editor was given. */

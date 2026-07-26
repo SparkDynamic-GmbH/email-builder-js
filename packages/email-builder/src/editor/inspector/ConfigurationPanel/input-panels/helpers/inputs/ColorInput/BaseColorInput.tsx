@@ -1,6 +1,7 @@
 import { Plus, X } from 'lucide-react';
 import React, { useState } from 'react';
 
+import { useTranslate } from '../../../../../../i18n';
 import Label from '../../../../../../ui/Label';
 import Popover from '../../../../../../ui/Popover';
 
@@ -22,6 +23,7 @@ type Props =
       defaultValue: string;
     };
 export default function ColorInput({ label, defaultValue, onChange, nullable }: Props) {
+  const t = useTranslate();
   const [value, setValue] = useState(defaultValue);
 
   const renderResetButton = () => {
@@ -34,7 +36,7 @@ export default function ColorInput({ label, defaultValue, onChange, nullable }: 
     return (
       <button
         type="button"
-        aria-label={`Clear ${label}`}
+        aria-label={t('input.clear', { label })}
         onClick={() => {
           setValue(null);
           onChange(null);

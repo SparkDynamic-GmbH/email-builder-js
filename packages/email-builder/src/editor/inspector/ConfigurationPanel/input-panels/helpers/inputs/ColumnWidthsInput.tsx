@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 
+import { useTranslate } from '../../../../../i18n';
+
 import TextDimensionInput from './TextDimensionInput';
 
 export const DEFAULT_2_COLUMNS = [6] as [number];
@@ -17,6 +19,7 @@ type ColumnsLayoutInputProps = {
   onChange: (v: FixedWidths | null | undefined) => void;
 };
 export default function ColumnWidthsInput({ defaultValue, onChange }: ColumnsLayoutInputProps) {
+  const t = useTranslate();
   const [currentValue, setCurrentValue] = useState<[TWidthValue, TWidthValue, TWidthValue]>(() => {
     if (defaultValue) {
       return defaultValue;
@@ -36,7 +39,7 @@ export default function ColumnWidthsInput({ defaultValue, onChange }: ColumnsLay
   if (columnsCountValue === 3) {
     column3 = (
       <TextDimensionInput
-        label="Column 3"
+        label={t('field.column', { number: 3 })}
         defaultValue={currentValue?.[2]}
         onChange={(v) => {
           setIndexValue(2, v);
@@ -47,14 +50,14 @@ export default function ColumnWidthsInput({ defaultValue, onChange }: ColumnsLay
   return (
     <div className="flex gap-2">
       <TextDimensionInput
-        label="Column 1"
+        label={t('field.column', { number: 1 })}
         defaultValue={currentValue?.[0]}
         onChange={(v) => {
           setIndexValue(0, v);
         }}
       />
       <TextDimensionInput
-        label="Column 2"
+        label={t('field.column', { number: 2 })}
         defaultValue={currentValue?.[1]}
         onChange={(v) => {
           setIndexValue(1, v);

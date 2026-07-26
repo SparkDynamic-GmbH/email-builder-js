@@ -1,6 +1,7 @@
 import { Plus } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 
+import { useTranslate } from '../../../i18n';
 import cn from '../../../ui/cn';
 
 type Props = {
@@ -8,6 +9,7 @@ type Props = {
   onClick: () => void;
 };
 export default function DividerButton({ buttonElement, onClick }: Props) {
+  const t = useTranslate();
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
@@ -37,7 +39,7 @@ export default function DividerButton({ buttonElement, onClick }: Props) {
   return (
     <button
       type="button"
-      aria-label="Add block"
+      aria-label={t('canvas.addBlock')}
       className={cn(
         'absolute top-[-12px] left-1/2 z-40 inline-flex -translate-x-[10px] rounded-full bg-brand-blue p-[1px]',
         'text-white transition-opacity duration-[225ms]',

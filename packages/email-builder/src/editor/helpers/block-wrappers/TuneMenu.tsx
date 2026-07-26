@@ -4,6 +4,7 @@ import React from 'react';
 import { ColumnsContainerProps } from '../../../blocks/ColumnsContainer/ColumnsContainerPropsSchema';
 import { useDocument, useEditorActions } from '../../../editor/EditorContext';
 import { TEditorBlock, TEditorConfiguration } from '../../../editor/types';
+import { useTranslate } from '../../i18n';
 import IconButton from '../../ui/IconButton';
 import Tooltip from '../../ui/Tooltip';
 import cloneDocumentBlock from '../cloneDocumentBlock';
@@ -41,6 +42,7 @@ type Props = {
   blockId: string;
 };
 export default function TuneMenu({ blockId }: Props) {
+  const t = useTranslate();
   const { resetDocument, setSelectedBlockId } = useEditorActions();
   const document = useDocument();
 
@@ -224,23 +226,23 @@ export default function TuneMenu({ blockId }: Props) {
       className="absolute top-0 -left-14 z-40 flex flex-col rounded-full bg-white px-1 py-2 shadow-e2"
       onClick={(ev) => ev.stopPropagation()}
     >
-      <Tooltip title="Move up" side="left" align="start">
-        <IconButton onClick={() => handleMoveClick('up')} aria-label="Move up">
+      <Tooltip title={t('canvas.moveUp')} side="left" align="start">
+        <IconButton onClick={() => handleMoveClick('up')} aria-label={t('canvas.moveUp')}>
           <ArrowUp className="size-5" />
         </IconButton>
       </Tooltip>
-      <Tooltip title="Move down" side="left" align="start">
-        <IconButton onClick={() => handleMoveClick('down')} aria-label="Move down">
+      <Tooltip title={t('canvas.moveDown')} side="left" align="start">
+        <IconButton onClick={() => handleMoveClick('down')} aria-label={t('canvas.moveDown')}>
           <ArrowDown className="size-5" />
         </IconButton>
       </Tooltip>
-      <Tooltip title="Duplicate" side="left" align="start">
-        <IconButton onClick={handleDuplicateClick} aria-label="Duplicate">
+      <Tooltip title={t('canvas.duplicate')} side="left" align="start">
+        <IconButton onClick={handleDuplicateClick} aria-label={t('canvas.duplicate')}>
           <Copy className="size-5" />
         </IconButton>
       </Tooltip>
-      <Tooltip title="Delete" side="left" align="start">
-        <IconButton onClick={handleDeleteClick} aria-label="Delete">
+      <Tooltip title={t('canvas.delete')} side="left" align="start">
+        <IconButton onClick={handleDeleteClick} aria-label={t('canvas.delete')}>
           <Trash2 className="size-5" />
         </IconButton>
       </Tooltip>

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { ZodError } from 'zod';
 
 import { HtmlProps, HtmlPropsSchema } from '../../../../exports/blocks';
+import { useTranslate } from '../../../i18n';
 
 import BaseSidebarPanel from './helpers/BaseSidebarPanel';
 import TextInput from './helpers/inputs/TextInput';
@@ -12,6 +13,7 @@ type HtmlSidebarPanelProps = {
   setData: (v: HtmlProps) => void;
 };
 export default function HtmlSidebarPanel({ data, setData }: HtmlSidebarPanelProps) {
+  const t = useTranslate();
   const [, setErrors] = useState<ZodError | null>(null);
 
   const updateData = (d: unknown) => {
@@ -25,9 +27,9 @@ export default function HtmlSidebarPanel({ data, setData }: HtmlSidebarPanelProp
   };
 
   return (
-    <BaseSidebarPanel title="Html block">
+    <BaseSidebarPanel title={t('panel.Html')}>
       <TextInput
-        label="Content"
+        label={t('field.content')}
         rows={5}
         defaultValue={data.props?.contents ?? ''}
         onChange={(contents) => updateData({ ...data, props: { ...data.props, contents } })}

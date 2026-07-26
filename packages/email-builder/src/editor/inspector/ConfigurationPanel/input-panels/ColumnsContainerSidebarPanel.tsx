@@ -10,6 +10,7 @@ import { ZodError } from 'zod';
 import ColumnsContainerPropsSchema, {
   ColumnsContainerProps,
 } from '../../../../blocks/ColumnsContainer/ColumnsContainerPropsSchema';
+import { useTranslate } from '../../../i18n';
 import { ToggleButton } from '../../../ui/ToggleGroup';
 
 import BaseSidebarPanel from './helpers/BaseSidebarPanel';
@@ -23,6 +24,7 @@ type ColumnsContainerPanelProps = {
   setData: (v: ColumnsContainerProps) => void;
 };
 export default function ColumnsContainerPanel({ data, setData }: ColumnsContainerPanelProps) {
+  const t = useTranslate();
   const [, setErrors] = useState<ZodError | null>(null);
   const updateData = (d: unknown) => {
     const res = ColumnsContainerPropsSchema.safeParse(d);
@@ -35,9 +37,9 @@ export default function ColumnsContainerPanel({ data, setData }: ColumnsContaine
   };
 
   return (
-    <BaseSidebarPanel title="Columns block">
+    <BaseSidebarPanel title={t('panel.ColumnsContainer')}>
       <RadioGroupInput
-        label="Number of columns"
+        label={t('field.numberOfColumns')}
         defaultValue={data.props?.columnsCount === 2 ? '2' : '3'}
         onChange={(v) => {
           updateData({ ...data, props: { ...data.props, columnsCount: v === '2' ? 2 : 3 } });
@@ -53,7 +55,7 @@ export default function ColumnsContainerPanel({ data, setData }: ColumnsContaine
         }}
       />
       <SliderInput
-        label="Columns gap"
+        label={t('field.columnsGap')}
         iconLabel={<MoveHorizontal className="size-4 text-txt-secondary" />}
         units="px"
         step={4}
@@ -64,19 +66,19 @@ export default function ColumnsContainerPanel({ data, setData }: ColumnsContaine
         onChange={(columnsGap) => updateData({ ...data, props: { ...data.props, columnsGap } })}
       />
       <RadioGroupInput
-        label="Alignment"
+        label={t('field.alignment')}
         defaultValue={data.props?.contentAlignment ?? 'middle'}
         onChange={(contentAlignment) => {
           updateData({ ...data, props: { ...data.props, contentAlignment } });
         }}
       >
-        <ToggleButton value="top" tooltip="Align top">
+        <ToggleButton value="top" tooltip={t('option.align.top')}>
           <AlignVerticalJustifyStart className="size-5" />
         </ToggleButton>
-        <ToggleButton value="middle" tooltip="Align middle">
+        <ToggleButton value="middle" tooltip={t('option.align.middle')}>
           <AlignVerticalJustifyCenter className="size-5" />
         </ToggleButton>
-        <ToggleButton value="bottom" tooltip="Align bottom">
+        <ToggleButton value="bottom" tooltip={t('option.align.bottom')}>
           <AlignVerticalJustifyEnd className="size-5" />
         </ToggleButton>
       </RadioGroupInput>

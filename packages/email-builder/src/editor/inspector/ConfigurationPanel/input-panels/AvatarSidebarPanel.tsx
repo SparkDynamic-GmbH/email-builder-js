@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { ZodError } from 'zod';
 
 import { AvatarProps, AvatarPropsDefaults, AvatarPropsSchema } from '../../../../exports/blocks';
+import { useTranslate } from '../../../i18n';
 import { ToggleButton } from '../../../ui/ToggleGroup';
 
 import BaseSidebarPanel from './helpers/BaseSidebarPanel';
@@ -16,6 +17,7 @@ type AvatarSidebarPanelProps = {
   setData: (v: AvatarProps) => void;
 };
 export default function AvatarSidebarPanel({ data, setData }: AvatarSidebarPanelProps) {
+  const t = useTranslate();
   const [, setErrors] = useState<ZodError | null>(null);
   const updateData = (d: unknown) => {
     const res = AvatarPropsSchema.safeParse(d);
@@ -33,9 +35,9 @@ export default function AvatarSidebarPanel({ data, setData }: AvatarSidebarPanel
   const shape = data.props?.shape ?? AvatarPropsDefaults.shape;
 
   return (
-    <BaseSidebarPanel title="Avatar block">
+    <BaseSidebarPanel title={t('panel.Avatar')}>
       <SliderInput
-        label="Size"
+        label={t('field.size')}
         iconLabel={<Scaling className="size-4 text-txt-secondary" />}
         units="px"
         step={3}
@@ -47,25 +49,25 @@ export default function AvatarSidebarPanel({ data, setData }: AvatarSidebarPanel
         }}
       />
       <RadioGroupInput
-        label="Shape"
+        label={t('field.shape')}
         defaultValue={shape}
         onChange={(shape) => {
           updateData({ ...data, props: { ...data.props, shape } });
         }}
       >
-        <ToggleButton value="circle">Circle</ToggleButton>
-        <ToggleButton value="square">Square</ToggleButton>
-        <ToggleButton value="rounded">Rounded</ToggleButton>
+        <ToggleButton value="circle">{t('option.shape.circle')}</ToggleButton>
+        <ToggleButton value="square">{t('option.shape.square')}</ToggleButton>
+        <ToggleButton value="rounded">{t('option.shape.rounded')}</ToggleButton>
       </RadioGroupInput>
       <TextInput
-        label="Image URL"
+        label={t('field.imageUrl')}
         defaultValue={imageUrl}
         onChange={(imageUrl) => {
           updateData({ ...data, props: { ...data.props, imageUrl } });
         }}
       />
       <TextInput
-        label="Alt text"
+        label={t('field.altText')}
         defaultValue={alt}
         onChange={(alt) => {
           updateData({ ...data, props: { ...data.props, alt } });
