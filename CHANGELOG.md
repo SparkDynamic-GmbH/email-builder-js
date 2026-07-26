@@ -2,6 +2,18 @@
 
 `@sparkdynamic/email-builder`. This is a hard fork of [usewaypoint/email-builder-js](https://github.com/usewaypoint/email-builder-js) at upstream `ce3e610`, so it has its own version line and does not follow upstream's. It stays on 0.x while the extension API can still change.
 
+## Unreleased
+
+### Added — undo/redo
+
+- **The editor keeps a history.** `undo()` and `redo()` on `useEditorActions()`, `useCanUndo()`/`useCanRedo()` to drive a UI off it, and a `UndoRedoButtons` component for a host's toolbar. Every document mutation goes through `setDocument`/`resetDocument`, so canvas edits, inspector edits and the block menu are all covered without each call site knowing about it.
+- **Ctrl/Cmd+Z and Ctrl/Cmd+Shift+Z (or Ctrl+Y) are bound on the window**, unless the provider is given `undoRedoHotkeys={false}` — which is what a host with two editors on one page, or its own bindings, wants. Keystrokes inside a field or an inline editable are left to the browser: its undo owns the caret there, and the edit is not in the document yet.
+- **A run of like edits is one step.** Writes to the same block less than 500 ms apart collapse, so undoing a slider or colour drag puts the value back rather than stepping one tick. Edits to different blocks never collapse, however close together they land.
+- **Undo restores the selection as well as the document**, so stepping back through a delete puts the inspector back on the block it was on.
+- `resetDocument` takes `{ clearHistory: true }` for loading a different template — the states before it are not steps the user took in this one. The host app passes it when a sample is picked or JSON is imported.
+- History is capped at 100 steps; snapshots are structurally shared, so a step costs the objects the edit replaced and nothing more.
+- The catalogs gain `history.undo` and `history.redo`, in every language.
+
 ## 0.1.2 — 2026-07-26
 
 ### Changed — rich text in the Text block

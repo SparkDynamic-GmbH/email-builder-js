@@ -9,6 +9,10 @@ const it: TTranslations = {
   'save.retry': 'Riprova',
   'save.failed': 'L’ultimo salvataggio non è riuscito.',
 
+  // Undo / redo
+  'history.undo': 'Annulla',
+  'history.redo': 'Ripeti',
+
   // Inspector chrome
   'inspector.tab.styles': 'Stili',
   'inspector.tab.inspect': 'Dettagli',

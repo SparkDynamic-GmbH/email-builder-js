@@ -54,7 +54,7 @@ export default function ImportJsonDialog({ onClose }: ImportJsonDialogProps) {
           if (!data) {
             return;
           }
-          resetDocument(data);
+          resetDocument(data, { clearHistory: true });
           onClose();
         }}
       >

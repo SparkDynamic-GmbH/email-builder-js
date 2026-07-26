@@ -7,6 +7,7 @@ import {
   ToggleButton,
   ToggleGroup,
   ToggleInspectorPanelButton,
+  UndoRedoButtons,
   useDocument,
   useEditorActions,
   useSelectedMainTab,
@@ -86,6 +87,7 @@ export default function TemplatePanel({ samplesDrawerOpen, onToggleSamplesDrawer
         <div className="flex w-full items-stretch justify-between gap-4 px-4">
           <MainTabsGroup />
           <div className="flex items-center gap-4">
+            <UndoRedoButtons className="flex items-center" />
             <DownloadJson />
             <ImportJson />
             <ToggleGroup value={selectedScreenSize} onValueChange={handleScreenSizeChange}>

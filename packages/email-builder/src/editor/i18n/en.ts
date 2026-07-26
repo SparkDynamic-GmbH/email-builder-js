@@ -13,6 +13,10 @@ const en = {
   'save.retry': 'Retry save',
   'save.failed': 'The last save failed.',
 
+  // Undo / redo
+  'history.undo': 'Undo',
+  'history.redo': 'Redo',
+
   // Inspector chrome
   'inspector.tab.styles': 'Styles',
   'inspector.tab.inspect': 'Inspect',

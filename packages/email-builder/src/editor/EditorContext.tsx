@@ -17,8 +17,29 @@ export type TSaveStatus = 'idle' | 'saving' | 'saved' | 'error';
 /** Long enough that a burst of typing is one save, short enough to not lose much. */
 export const DEFAULT_AUTOSAVE_DEBOUNCE_MS = 10_000;
 
+/**
+ * How long two edits of the same kind may be apart and still be one undo step.
+ * A slider drag and a colour-picker drag each write on every tick, and a user
+ * undoing that means "put the value back", not "step one pixel".
+ */
+const HISTORY_COALESCE_MS = 500;
+
+/** Snapshots are structurally shared, but a runaway session shouldn't grow forever. */
+const HISTORY_LIMIT = 100;
+
+/** What undo restores: the document *and* where the user was in it. */
+type THistoryEntry = {
+  document: TEditorConfiguration;
+  selectedBlockId: string | null;
+};
+
 type TEditorState = {
   document: TEditorConfiguration;
+
+  /** Older states, oldest first; the last one is what `undo()` goes back to. */
+  past: THistoryEntry[];
+  /** States undone away from, innermost last; `redo()` takes from the end. */
+  future: THistoryEntry[];
 
   selectedBlockId: string | null;
   selectedSidebarTab: 'block-configuration' | 'styles';
@@ -34,10 +55,18 @@ type TEditorState = {
 };
 
 export type TEditorActions = {
-  /** Merges the given blocks into the document. */
+  /** Merges the given blocks into the document. Undoable. */
   setDocument: (document: TEditorConfiguration) => void;
-  /** Replaces the whole document and clears the selection. */
-  resetDocument: (document: TEditorConfiguration) => void;
+  /**
+   * Replaces the whole document and clears the selection. Undoable, unless
+   * `clearHistory` is set — which is what loading a different template is: the
+   * states before it are not steps the user took in this one.
+   */
+  resetDocument: (document: TEditorConfiguration, options?: { clearHistory?: boolean }) => void;
+  /** Steps back to the document before the last edit. No-op with nothing to undo. */
+  undo: () => void;
+  /** Steps forward again after an `undo()`. Dropped by the next edit. */
+  redo: () => void;
   setSelectedBlockId: (selectedBlockId: string | null) => void;
   setSidebarTab: (selectedSidebarTab: TEditorState['selectedSidebarTab']) => void;
   setSelectedMainTab: (selectedMainTab: TEditorState['selectedMainTab']) => void;
@@ -63,6 +92,8 @@ type TEditorStore = ReturnType<typeof createEditorStore>;
 function createEditorStore(document: TEditorConfiguration) {
   return createStore<TEditorState>(() => ({
     document,
+    past: [],
+    future: [],
     selectedBlockId: null,
     selectedSidebarTab: 'styles',
     selectedMainTab: 'editor',
@@ -164,8 +195,25 @@ export type EmailBuilderProviderProps<T extends BaseZodDictionary> = {
    * Keep the object stable (module scope or `useMemo`).
    */
   imageLibrary?: TImageLibrary;
+  /**
+   * Bind Ctrl/Cmd+Z and Ctrl/Cmd+Shift+Z (and Ctrl+Y) on the window to undo and
+   * redo. **On by default.** Keystrokes made inside a field or an inline
+   * editable are left to the browser, whose own undo owns the caret there.
+   *
+   * Turn it off if the host binds those keys itself, or if two editors are
+   * mounted at once — both would answer the same keystroke.
+   */
+  undoRedoHotkeys?: boolean;
   children: React.ReactNode;
 };
+
+/** Whether a keystroke landed somewhere the browser already undoes for us. */
+function isTextEntry(target: EventTarget | null) {
+  if (!(target instanceof HTMLElement)) {
+    return false;
+  }
+  return target.isContentEditable || ['INPUT', 'TEXTAREA', 'SELECT'].includes(target.tagName);
+}
 
 /**
  * Owns one editor's state. Everything below it — canvas, inspector, add-block
@@ -182,6 +230,7 @@ export function EmailBuilderProvider<T extends BaseZodDictionary>({
   language = DEFAULT_LANGUAGE,
   translations,
   imageLibrary,
+  undoRedoHotkeys = true,
   children,
 }: EmailBuilderProviderProps<T>) {
   // The one place the block set is erased; see TEditorRegistry.
@@ -206,10 +255,77 @@ export function EmailBuilderProvider<T extends BaseZodDictionary>({
   // The save in flight, so a second caller joins it instead of racing it.
   const inFlightRef = useRef<Promise<void> | null>(null);
 
-  const actions = useMemo<TEditorActions>(
-    () => ({
-      setDocument: (document) => store.setState((state) => ({ document: { ...state.document, ...document } })),
-      resetDocument: (document) => store.setState({ document, selectedSidebarTab: 'styles', selectedBlockId: null }),
+  // What the last history push was, so a run of like edits collapses into one
+  // step. `key` is what makes two edits alike; null never coalesces.
+  const lastPushRef = useRef<{ key: string | null; at: number }>({ key: null, at: 0 });
+
+  const actions = useMemo<TEditorActions>(() => {
+    /**
+     * Records the state a mutation is about to leave behind. Called from inside
+     * a `setState` updater, so it returns the history fields to merge.
+     */
+    const pushHistory = (state: TEditorState, key: string | null) => {
+      const now = Date.now();
+      const last = lastPushRef.current;
+      lastPushRef.current = { key, at: now };
+
+      // Same kind of edit, moments apart: keep the older baseline, so undo
+      // lands before the whole drag rather than inside it.
+      if (key !== null && key === last.key && now - last.at < HISTORY_COALESCE_MS && state.past.length > 0) {
+        return { future: [] };
+      }
+
+      const entry: THistoryEntry = { document: state.document, selectedBlockId: state.selectedBlockId };
+      const past = [...state.past, entry];
+      return { past: past.length > HISTORY_LIMIT ? past.slice(past.length - HISTORY_LIMIT) : past, future: [] };
+    };
+
+    /** Moves one entry between the two stacks, in either direction. */
+    const step = (direction: 'undo' | 'redo') =>
+      store.setState((state) => {
+        const from = direction === 'undo' ? state.past : state.future;
+        if (from.length === 0) {
+          return {};
+        }
+        const entry = from[from.length - 1];
+        const rest = from.slice(0, -1);
+        const current: THistoryEntry = { document: state.document, selectedBlockId: state.selectedBlockId };
+        // The next edit starts a fresh step rather than coalescing into the one
+        // that was just undone.
+        lastPushRef.current = { key: null, at: 0 };
+
+        return {
+          document: entry.document,
+          selectedBlockId: entry.selectedBlockId,
+          selectedSidebarTab: entry.selectedBlockId === null ? 'styles' : 'block-configuration',
+          past: direction === 'undo' ? rest : [...state.past, current],
+          future: direction === 'undo' ? [...state.future, current] : rest,
+        };
+      });
+
+    return {
+      setDocument: (document) =>
+        store.setState((state) => ({
+          // Two panel edits to the same block are one step; edits to different
+          // blocks are not, however close together they land.
+          ...pushHistory(state, `set:${Object.keys(document).sort().join(',')}`),
+          document: { ...state.document, ...document },
+        })),
+      resetDocument: (document, options) =>
+        store.setState((state) => {
+          if (options?.clearHistory) {
+            lastPushRef.current = { key: null, at: 0 };
+            return { document, selectedSidebarTab: 'styles', selectedBlockId: null, past: [], future: [] };
+          }
+          return {
+            ...pushHistory(state, null),
+            document,
+            selectedSidebarTab: 'styles',
+            selectedBlockId: null,
+          };
+        }),
+      undo: () => step('undo'),
+      redo: () => step('redo'),
       setSelectedBlockId: (selectedBlockId) =>
         store.setState({
           selectedBlockId,
@@ -264,9 +380,36 @@ export function EmailBuilderProvider<T extends BaseZodDictionary>({
         inFlightRef.current = promise;
         return promise;
       },
-    }),
-    [store]
-  );
+    };
+  }, [store]);
+
+  useEffect(() => {
+    if (!undoRedoHotkeys) {
+      return;
+    }
+    const handleKeyDown = (ev: KeyboardEvent) => {
+      if (!(ev.metaKey || ev.ctrlKey) || ev.altKey) {
+        return;
+      }
+      const key = ev.key.toLowerCase();
+      if (key !== 'z' && key !== 'y') {
+        return;
+      }
+      // Inside a field or an inline editable the browser's own undo owns the
+      // caret, and the edit is not in the document yet — leave it alone.
+      if (isTextEntry(ev.target)) {
+        return;
+      }
+      ev.preventDefault();
+      if (key === 'y' || ev.shiftKey) {
+        actions.redo();
+      } else {
+        actions.undo();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [undoRedoHotkeys, actions]);
 
   useEffect(() => {
     // Fires on document changes only, not on selection or panel state.
@@ -344,6 +487,16 @@ export function useDocument() {
 
 export function useBlock(blockId: string): TEditorBlock | undefined {
   return useEditorState((s) => s.document[blockId]);
+}
+
+/** Whether there is an edit to step back from. */
+export function useCanUndo() {
+  return useEditorState((s) => s.past.length > 0);
+}
+
+/** Whether an undo can be stepped forward again. */
+export function useCanRedo() {
+  return useEditorState((s) => s.future.length > 0);
 }
 
 export function useSelectedBlockId() {

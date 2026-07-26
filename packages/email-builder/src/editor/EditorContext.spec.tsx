@@ -7,7 +7,16 @@ import { act, render, screen } from '@testing-library/react';
 import buildBlockRegistry from '../core/builders/buildBlockRegistry';
 import { BlockDefinitionDictionary } from '../core/registry';
 
-import { EmailBuilderProvider, useEditorActions, useIsDirty, useSaveStatus } from './EditorContext';
+import {
+  EmailBuilderProvider,
+  useCanRedo,
+  useCanUndo,
+  useDocument,
+  useEditorActions,
+  useIsDirty,
+  useSaveStatus,
+  useSelectedBlockId,
+} from './EditorContext';
 import SaveButton from './SaveButton';
 import { TEditorConfiguration } from './types';
 
@@ -34,6 +43,10 @@ function Probe() {
     <div>
       <span data-testid="status">{useSaveStatus()}</span>
       <span data-testid="dirty">{String(useIsDirty())}</span>
+      <span data-testid="doc">{JSON.stringify(useDocument())}</span>
+      <span data-testid="selected">{String(useSelectedBlockId())}</span>
+      <span data-testid="canUndo">{String(useCanUndo())}</span>
+      <span data-testid="canRedo">{String(useCanRedo())}</span>
     </div>
   );
 }
@@ -62,6 +75,10 @@ const settle = () => act(async () => {});
 
 const status = () => screen.getByTestId('status').textContent;
 const dirty = () => screen.getByTestId('dirty').textContent;
+const doc = () => JSON.parse(screen.getByTestId('doc').textContent ?? 'null');
+const selected = () => screen.getByTestId('selected').textContent;
+const canUndo = () => screen.getByTestId('canUndo').textContent;
+const canRedo = () => screen.getByTestId('canRedo').textContent;
 
 describe('EmailBuilderProvider onChange', () => {
   it('reports every document change, undebounced', () => {
@@ -305,5 +322,145 @@ describe('EmailBuilderProvider autosave', () => {
     expect(first).not.toHaveBeenCalled();
     expect(second).toHaveBeenCalledTimes(1);
     expect(second).toHaveBeenCalledWith(makeDocument('b'));
+  });
+});
+
+describe('EmailBuilderProvider undo/redo', () => {
+  const otherBlock = (text: string) => ({ other: { type: 'Text' as const, data: { text } } });
+
+  it('starts with nothing to undo or redo', () => {
+    renderProvider();
+    expect(canUndo()).toBe('false');
+    expect(canRedo()).toBe('false');
+  });
+
+  it('steps back to the document before an edit, and forward again', () => {
+    renderProvider();
+
+    act(() => {
+      actions.resetDocument(makeDocument('b'));
+    });
+    expect(canUndo()).toBe('true');
+
+    act(() => {
+      actions.undo();
+    });
+    expect(doc()).toEqual(INITIAL);
+    expect(canUndo()).toBe('false');
+    expect(canRedo()).toBe('true');
+
+    act(() => {
+      actions.redo();
+    });
+    expect(doc()).toEqual(makeDocument('b'));
+    expect(canRedo()).toBe('false');
+  });
+
+  it('does nothing at either end of the history', () => {
+    renderProvider();
+
+    act(() => {
+      actions.undo();
+      actions.redo();
+    });
+
+    expect(doc()).toEqual(INITIAL);
+    expect(canUndo()).toBe('false');
+    expect(canRedo()).toBe('false');
+  });
+
+  it('collapses a run of edits to the same block into one step', () => {
+    renderProvider();
+
+    // What a slider drag looks like: many writes, same block, no gap.
+    act(() => {
+      actions.setDocument(makeDocument('b'));
+      actions.setDocument(makeDocument('c'));
+      actions.setDocument(makeDocument('d'));
+    });
+
+    act(() => {
+      actions.undo();
+    });
+    expect(doc()).toEqual(INITIAL);
+    expect(canUndo()).toBe('false');
+  });
+
+  it('keeps edits to different blocks as separate steps', () => {
+    renderProvider();
+
+    act(() => {
+      actions.setDocument(makeDocument('b'));
+      actions.setDocument(otherBlock('x'));
+    });
+
+    act(() => {
+      actions.undo();
+    });
+    expect(doc()).toEqual(makeDocument('b'));
+
+    act(() => {
+      actions.undo();
+    });
+    expect(doc()).toEqual(INITIAL);
+  });
+
+  it('restores the selection along with the document', () => {
+    renderProvider();
+
+    act(() => {
+      actions.setSelectedBlockId('root');
+      actions.setDocument(makeDocument('b'));
+      actions.setSelectedBlockId(null);
+    });
+
+    act(() => {
+      actions.undo();
+    });
+    expect(selected()).toBe('root');
+  });
+
+  it('drops the redo stack on the next edit', () => {
+    renderProvider();
+
+    act(() => {
+      actions.resetDocument(makeDocument('b'));
+      actions.undo();
+    });
+    expect(canRedo()).toBe('true');
+
+    act(() => {
+      actions.resetDocument(makeDocument('c'));
+    });
+    expect(canRedo()).toBe('false');
+    expect(doc()).toEqual(makeDocument('c'));
+  });
+
+  it('clears the history when a reset asks for it', () => {
+    renderProvider();
+
+    act(() => {
+      actions.resetDocument(makeDocument('b'));
+    });
+    expect(canUndo()).toBe('true');
+
+    act(() => {
+      actions.resetDocument(makeDocument('c'), { clearHistory: true });
+    });
+    expect(canUndo()).toBe('false');
+    expect(canRedo()).toBe('false');
+  });
+
+  it('reports an undo as a document change', () => {
+    const onChange = jest.fn();
+    renderProvider({ onChange });
+
+    act(() => {
+      actions.resetDocument(makeDocument('b'));
+      actions.undo();
+    });
+
+    expect(onChange).toHaveBeenCalledTimes(2);
+    expect(onChange).toHaveBeenLastCalledWith(INITIAL);
   });
 });

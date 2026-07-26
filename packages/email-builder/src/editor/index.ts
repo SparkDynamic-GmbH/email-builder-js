@@ -17,7 +17,9 @@ export {
   TSaveStatus,
   //
   useBlock,
+  useCanRedo,
   useCanSave,
+  useCanUndo,
   useDocument,
   useEditorActions,
   useEditorRegistry,
@@ -73,6 +75,9 @@ export {
 
 /** Saves through the provider's `onSave`, and shows where that got to. */
 export { default as SaveButton } from './SaveButton';
+
+/** Steps the document through the provider's undo history. */
+export { default as UndoRedoButtons } from './UndoRedoButtons';
 
 export { TEditorBlock, TEditorConfiguration, TEditorRegistry } from './types';
 

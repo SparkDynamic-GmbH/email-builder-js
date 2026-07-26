@@ -12,7 +12,9 @@ export default function SidebarButton({ href, children }: { href: string; childr
   const { resetDocument } = useEditorActions();
 
   const handleClick = () => {
-    resetDocument(getConfiguration(href));
+    // A different template is a different session; undoing back into the last
+    // one is not a step the user took here.
+    resetDocument(getConfiguration(href), { clearHistory: true });
   };
 
   return (
