@@ -4,10 +4,12 @@
 
 ## Unreleased
 
-### Added
+### Added — saving
 
-- **`onChangeDebounceMs` on `EmailBuilderProvider`.** Debounces `onChange` on the trailing edge, so a run of keystrokes or slider ticks reports once with the latest document instead of once per edit — the thing every host autosaving to a backend had to build itself. A pending call is flushed on unmount. The default of `0` keeps the previous behaviour.
-- `onChange` is now read through a ref, so passing a new closure each render no longer resubscribes — and no longer restarts a pending debounce.
+- **`onSave` on `EmailBuilderProvider`**, with the state a host needs around it: a `save()` action, `useSaveStatus()`, `useSaveError()` and `useIsDirty()`. `save()` snapshots the document, so edits made while a save is in flight stay dirty; a second call joins the one in flight rather than racing it; a rejection is recorded and leaves the document dirty. `markSaved()` covers a host that persisted by some other route.
+- **`SaveButton`**, exported from `./editor` — save / saving / saved / retry, driven off that state. Renders nothing when the provider was given no `onSave`.
+- **Autosave, off by default.** `autosave` turns it on; `autosaveDebounceMs` sets the delay, default 10 000 ms, trailing edge, so a run of keystrokes or slider ticks saves once with the latest document. A pending autosave is flushed on unmount.
+- `onChange` is unchanged — every document change, undebounced — but is now read through a ref, so passing a new closure each render no longer resubscribes.
 
 ## 0.1.1 — 2026-07-26
 

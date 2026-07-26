@@ -1,3 +1,5 @@
+import { loadDraft } from '../persistence';
+
 import EMPTY_EMAIL_MESSAGE from './sample/empty-email-message';
 import ONE_TIME_PASSCODE from './sample/one-time-passcode';
 import ORDER_ECOMMERCE from './sample/order-ecommerce';
@@ -41,5 +43,6 @@ export default function getConfiguration(template: string) {
     }
   }
 
-  return EMPTY_EMAIL_MESSAGE;
+  // No template asked for by URL, so restore what was last saved.
+  return loadDraft() ?? EMPTY_EMAIL_MESSAGE;
 }

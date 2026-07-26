@@ -3,6 +3,7 @@ import React, { CSSProperties } from 'react';
 
 import {
   EditorBlock,
+  SaveButton,
   ToggleButton,
   ToggleGroup,
   ToggleInspectorPanelButton,
@@ -89,6 +90,7 @@ export default function TemplatePanel() {
               </ToggleButton>
             </ToggleGroup>
             <ShareButton />
+            <SaveButton size="small" />
           </div>
         </div>
         <ToggleInspectorPanelButton />

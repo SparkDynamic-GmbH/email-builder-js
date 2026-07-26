@@ -10,20 +10,29 @@
  */
 
 export {
+  DEFAULT_AUTOSAVE_DEBOUNCE_MS,
   EmailBuilderProvider,
   EmailBuilderProviderProps,
   TEditorActions,
+  TSaveStatus,
   //
   useBlock,
+  useCanSave,
   useDocument,
   useEditorActions,
   useEditorRegistry,
   useInspectorDrawerOpen,
+  useIsDirty,
+  useSaveError,
+  useSaveStatus,
   useSelectedBlockId,
   useSelectedMainTab,
   useSelectedScreenSize,
   useSelectedSidebarTab,
 } from './EditorContext';
+
+/** Saves through the provider's `onSave`, and shows where that got to. */
+export { default as SaveButton } from './SaveButton';
 
 export { TEditorBlock, TEditorConfiguration, TEditorRegistry } from './types';
 
