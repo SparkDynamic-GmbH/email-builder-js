@@ -1,4 +1,4 @@
-import { MoveHorizontal, Square } from 'lucide-react';
+import { MoveHorizontal, MoveVertical, Square } from 'lucide-react';
 import React, { useState } from 'react';
 import { ZodError } from 'zod';
 
@@ -87,6 +87,17 @@ export default function TableSidebarPanel({ data, setData }: TableSidebarPanelPr
         max={32}
         defaultValue={data.props?.cellPadding ?? TablePropsDefaults.cellPadding}
         onChange={(cellPadding) => updateProps({ cellPadding })}
+      />
+      {/* A floor, not a fixed height — taller content still wins, so the label says minimum. */}
+      <SliderInput
+        label={t('field.minRowHeight')}
+        iconLabel={<MoveVertical className="size-4 text-txt-secondary" />}
+        units="px"
+        step={4}
+        min={0}
+        max={120}
+        defaultValue={data.props?.minRowHeight ?? 0}
+        onChange={(minRowHeight) => updateProps({ minRowHeight })}
       />
       {Array.from({ length: columnCount }, (_, index) => (
         <TextAlignInput

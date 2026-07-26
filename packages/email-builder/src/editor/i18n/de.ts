@@ -79,6 +79,7 @@ const de: TTranslations = {
   'field.imageUrl': 'Bild-URL',
   'field.level': 'Ebene',
   'field.markdown': 'Markdown (GitHub-Variante)',
+  'field.minRowHeight': 'Mindesthöhe der Zeile',
   'field.numberOfColumns': 'Anzahl der Spalten',
   'field.padding': 'Innenabstand',
   'field.shape': 'Form',
@@ -119,6 +120,7 @@ const de: TTranslations = {
   'table.addColumn': 'Spalte',
   'table.deleteRow': 'Zeile löschen',
   'table.deleteColumn': 'Spalte löschen',
+  'table.resizeColumn': 'Spaltenbreite ändern',
 
   // Image library
   'imageLibrary.choose': 'Bild auswählen…',

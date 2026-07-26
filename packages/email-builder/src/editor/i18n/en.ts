@@ -83,6 +83,7 @@ const en = {
   'field.imageUrl': 'Image URL',
   'field.level': 'Level',
   'field.markdown': 'Markdown (GitHub flavored)',
+  'field.minRowHeight': 'Minimum row height',
   'field.numberOfColumns': 'Number of columns',
   'field.padding': 'Padding',
   'field.shape': 'Shape',
@@ -123,6 +124,7 @@ const en = {
   'table.addColumn': 'Column',
   'table.deleteRow': 'Delete row',
   'table.deleteColumn': 'Delete column',
+  'table.resizeColumn': 'Resize column',
 
   // Image library
   'imageLibrary.choose': 'Choose image…',

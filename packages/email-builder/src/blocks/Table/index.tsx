@@ -73,6 +73,14 @@ export const TablePropsSchema = z.object({
       headerRow: z.boolean().optional().nullable(),
       /** Per-column text alignment, indexed by column. Missing entries fall back to left. */
       columnAlignments: z.array(ALIGNMENT_SCHEMA).optional().nullable(),
+      /**
+       * Relative column widths, one per column. They are shares, not percentages — the
+       * renderer divides each by their total, so [2,1,1] and [50,25,25] are the same
+       * table and dragging one boundary never has to rebalance the rest.
+       */
+      columnWidths: z.array(z.number().min(0)).optional().nullable(),
+      /** A floor, not a fixed height: content taller than this still wins, in every client. */
+      minRowHeight: z.number().min(0).optional().nullable(),
       headerBackgroundColor: COLOR_SCHEMA,
       headerTextColor: COLOR_SCHEMA,
       /** Background for every other body row. Null turns striping off. */
@@ -134,6 +142,9 @@ export function Table({ props, style, renderCell }: Props) {
   const headerBackgroundColor = props?.headerBackgroundColor ?? undefined;
   const headerTextColor = props?.headerTextColor ?? undefined;
 
+  const columnWidths = getColumnWidths(props?.columnWidths, columnCount);
+  const minRowHeight = props?.minRowHeight ?? undefined;
+
   const backgroundColor = style?.backgroundColor ?? undefined;
   const color = style?.color ?? undefined;
   const fontFamily = getFontFamily(style?.fontFamily);
@@ -148,6 +159,7 @@ export function Table({ props, style, renderCell }: Props) {
     // Word inherits nothing reliably from the table, so every cell carries its own metrics.
     lineHeight: 1.5,
     verticalAlign: 'top',
+    height: minRowHeight === undefined ? undefined : `${minRowHeight}px`,
   };
 
   return (
@@ -169,7 +181,9 @@ export function Table({ props, style, renderCell }: Props) {
               cellPadding="0"
               cellSpacing="0"
               border={0}
-              style={{ width: '100%', borderCollapse: 'collapse' }}
+              // Auto layout lets the widest cell decide; the widths are only authoritative
+              // once the layout is fixed, and Word agrees.
+              style={{ width: '100%', borderCollapse: 'collapse', tableLayout: columnWidths ? 'fixed' : undefined }}
             >
               <tbody>
                 {rows.map((row, rowIndex) => {
@@ -186,12 +200,14 @@ export function Table({ props, style, renderCell }: Props) {
                     <tr key={rowIndex}>
                       {padRow(row, columnCount).map((text, columnIndex) => {
                         const textAlign = props?.columnAlignments?.[columnIndex] ?? 'left';
+                        const width = columnWidths?.[columnIndex];
                         const cellStyle: CSSProperties = {
                           ...baseCellStyle,
                           textAlign,
                           backgroundColor: rowBackgroundColor,
                           color: isHeader ? headerTextColor ?? color : color,
                           fontWeight: isHeader ? 'bold' : 'normal',
+                          width,
                         };
                         const content = renderCell
                           ? renderCell({ text, rowIndex, columnIndex, isHeader })
@@ -199,6 +215,10 @@ export function Table({ props, style, renderCell }: Props) {
                         const cellProps = {
                           align: textAlign,
                           bgcolor: rowBackgroundColor,
+                          // Width and height go out as attributes too: Word reads those where
+                          // it drops the properties.
+                          width,
+                          height: minRowHeight,
                           style: cellStyle,
                           children: content,
                         };
@@ -218,6 +238,27 @@ export function Table({ props, style, renderCell }: Props) {
       </tbody>
     </table>
   );
+}
+
+/**
+ * Turns the stored shares into percentage widths. Percentages rather than pixels because the
+ * table is 100% wide and has to stay proportional on a phone; dividing by the total rather
+ * than trusting it to be 100 is what lets a drag move one boundary and leave the rest alone.
+ */
+function getColumnWidths(widths: number[] | null | undefined, columnCount: number): string[] | undefined {
+  if (!widths || widths.length !== columnCount || columnCount === 0) {
+    return undefined;
+  }
+  const total = widths.reduce((sum, width) => sum + width, 0);
+  if (total <= 0) {
+    return undefined;
+  }
+  return widths.map((width) => `${round((width / total) * 100)}%`);
+}
+
+/** Two decimals: enough that a dragged boundary lands where it was dropped, short in the HTML. */
+function round(value: number) {
+  return Math.round(value * 100) / 100;
 }
 
 function getColumnCount(rows: string[][]) {
