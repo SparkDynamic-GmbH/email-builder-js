@@ -14,6 +14,8 @@ export default function getConfiguration(template: string) {
   if (template.startsWith('#sample/')) {
     const sampleName = template.replace('#sample/', '');
     switch (sampleName) {
+      case 'empty':
+        return EMPTY_EMAIL_MESSAGE;
       case 'welcome':
         return WELCOME;
       case 'one-time-password':

@@ -15,6 +15,7 @@ import {
 } from '@sparkdynamic/email-builder/editor';
 
 import { Reader, TEditorConfiguration } from '../../registry';
+import ToggleSamplesPanelButton from '../SamplesDrawer/ToggleSamplesPanelButton';
 
 import DownloadJson from './DownloadJson';
 import HtmlPanel from './HtmlPanel';
@@ -32,7 +33,9 @@ const MOBILE_FRAME: CSSProperties = {
     'rgba(33, 36, 67, 0.04) 0px 10px 20px, rgba(33, 36, 67, 0.04) 0px 2px 6px, rgba(33, 36, 67, 0.04) 0px 0px 1px',
 };
 
-export default function TemplatePanel() {
+type Props = { samplesDrawerOpen: boolean; onToggleSamplesDrawer: () => void };
+
+export default function TemplatePanel({ samplesDrawerOpen, onToggleSamplesDrawer }: Props) {
   const t = useTranslate();
   const { setSelectedScreenSize } = useEditorActions();
   // The editor works over any block set; this app knows it registered its own.
@@ -78,6 +81,7 @@ export default function TemplatePanel() {
   return (
     <>
       <div className="sticky top-0 z-20 flex h-[49px] items-center justify-between border-b border-divider bg-white px-2">
+        <ToggleSamplesPanelButton open={samplesDrawerOpen} onToggle={onToggleSamplesDrawer} />
         {/* items-stretch so the active tab's indicator sits on the toolbar's bottom edge, as MUI's did. */}
         <div className="flex w-full items-stretch justify-between gap-4 px-4">
           <MainTabsGroup />
