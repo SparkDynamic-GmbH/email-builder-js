@@ -74,6 +74,7 @@ const en = {
   'field.columnsGap': 'Columns gap',
   'field.content': 'Content',
   'field.fontFamily': 'Font family',
+  'field.format': 'Format',
   'field.fontSize': 'Font size',
   'field.fontWeight': 'Font weight',
   'field.headerBackgroundColor': 'Header background',
@@ -82,7 +83,6 @@ const en = {
   'field.height': 'Height',
   'field.imageUrl': 'Image URL',
   'field.level': 'Level',
-  'field.markdown': 'Markdown (GitHub flavored)',
   'field.minRowHeight': 'Minimum row height',
   'field.numberOfColumns': 'Number of columns',
   'field.padding': 'Padding',
@@ -118,6 +118,18 @@ const en = {
   'option.align.left': 'Align left',
   'option.align.center': 'Align center',
   'option.align.right': 'Align right',
+  'option.format.plain': 'Plain',
+  'option.format.html': 'Rich',
+  'option.format.markdown': 'Markdown',
+
+  // Rich text selection toolbar
+  'richText.toolbar': 'Text formatting',
+  'richText.bold': 'Bold',
+  'richText.italic': 'Italic',
+  'richText.underline': 'Underline',
+  'richText.strikethrough': 'Strikethrough',
+  'richText.color': 'Text color',
+  'richText.clearFormatting': 'Clear formatting',
 
   // Table canvas controls
   'table.addRow': 'Row',

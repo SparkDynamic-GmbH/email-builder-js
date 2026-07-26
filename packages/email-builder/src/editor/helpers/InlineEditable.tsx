@@ -3,6 +3,10 @@ import React, { Fragment, useEffect, useRef, useState } from 'react';
 import { useCurrentBlockId } from '../../editor/EditorBlock';
 import { useSelectedBlockId } from '../../editor/EditorContext';
 
+import { insertLineBreak } from './richText/commands';
+import normalizeRichText from './richText/normalize';
+import SelectionToolbar from './richText/SelectionToolbar';
+
 /**
  * `contentEditable="plaintext-only"` keeps the browser from injecting markup we cannot store —
  * the blocks hold a plain string. Firefox only shipped it in 136, so detect and fall back.
@@ -67,6 +71,11 @@ type Props = {
   onChange: (value: string) => void;
   /** Allow line breaks. Single-line hosts (heading, button label) commit on Enter instead. */
   multiline?: boolean;
+  /**
+   * Hold inline marks — bold, italic, colour — instead of a plain string, and show the selection
+   * toolbar that applies them. The value becomes a fragment of inline HTML.
+   */
+  rich?: boolean;
   disabled?: boolean;
   children: React.JSX.Element;
 };
@@ -76,9 +85,19 @@ type Props = {
  *
  * The rendered DOM *is* the editing surface, so no block styling is duplicated here. While editing,
  * nothing is written to the store — React must not re-render the subtree under the caret. The value
- * is read back with `innerText` and committed on blur or Enter; Escape discards.
+ * is read back on blur or Enter and committed then; Escape discards.
+ *
+ * In `rich` mode the value read back is normalized `innerHTML` rather than `innerText`, and the
+ * browser is allowed to build markup because there is now somewhere to put it.
  */
-export default function InlineEditable({ value, onChange, multiline = false, disabled = false, children }: Props) {
+export default function InlineEditable({
+  value,
+  onChange,
+  multiline = false,
+  rich = false,
+  disabled = false,
+  children,
+}: Props) {
   const blockId = useCurrentBlockId();
   const selectedBlockId = useSelectedBlockId();
   const isSelected = selectedBlockId === blockId;
@@ -107,9 +126,14 @@ export default function InlineEditable({ value, onChange, multiline = false, dis
     if (!el) {
       return;
     }
-    const raw = el.innerText;
-    // A trailing <br> is how browsers keep an editable line focusable; it is not content.
-    const next = multiline ? raw.replace(/\n+$/, '') : raw.replace(/\s+/g, ' ').trim();
+    let next: string;
+    if (rich) {
+      next = normalizeRichText(el.innerHTML);
+    } else {
+      const raw = el.innerText;
+      // A trailing <br> is how browsers keep an editable line focusable; it is not content.
+      next = multiline ? raw.replace(/\n+$/, '') : raw.replace(/\s+/g, ' ').trim();
+    }
     if (next !== value) {
       onChange(next);
     }
@@ -151,11 +175,19 @@ export default function InlineEditable({ value, onChange, multiline = false, dis
       ev.preventDefault();
       commit();
       stopEditing();
+      return;
+    }
+    // Chrome wraps each new line in a `<div>`, which the stored markup has no room for.
+    if (ev.key === 'Enter' && rich) {
+      ev.preventDefault();
+      insertLineBreak();
     }
   };
 
   const handlePaste = (ev: React.ClipboardEvent) => {
-    if (!editing || PLAINTEXT_ONLY_SUPPORTED) {
+    // Rich mode still takes plain text only: pasted markup would arrive with the source's own
+    // fonts and layout, and almost none of it survives the sanitizer anyway.
+    if (!editing || (PLAINTEXT_ONLY_SUPPORTED && !rich)) {
       return;
     }
     ev.preventDefault();
@@ -165,7 +197,7 @@ export default function InlineEditable({ value, onChange, multiline = false, dis
 
   const editableProps = editing
     ? ({
-        contentEditable: PLAINTEXT_ONLY_SUPPORTED ? 'plaintext-only' : true,
+        contentEditable: PLAINTEXT_ONLY_SUPPORTED && !rich ? 'plaintext-only' : true,
         suppressContentEditableWarning: true,
       } as const)
     : {};
@@ -178,28 +210,33 @@ export default function InlineEditable({ value, onChange, multiline = false, dis
   }
 
   return (
-    <div
-      ref={ref}
-      {...editableProps}
-      className={className}
-      onClick={(ev) => {
-        // First click selects the block (EditorBlockWrapper); clicking a selected block starts editing.
-        if (isSelected) {
-          startEditing(ev);
-        }
-      }}
-      onDoubleClick={startEditing}
-      onKeyDown={handleKeyDown}
-      onPaste={handlePaste}
-      onBlur={() => {
-        if (!editing) {
-          return;
-        }
-        commit();
-        stopEditing();
-      }}
-    >
-      <Fragment key={revision}>{children}</Fragment>
-    </div>
+    <>
+      <div
+        ref={ref}
+        {...editableProps}
+        className={className}
+        onClick={(ev) => {
+          // First click selects the block (EditorBlockWrapper); clicking a selected block starts editing.
+          if (isSelected) {
+            startEditing(ev);
+          }
+        }}
+        onDoubleClick={startEditing}
+        onKeyDown={handleKeyDown}
+        onPaste={handlePaste}
+        onBlur={() => {
+          if (!editing) {
+            return;
+          }
+          commit();
+          stopEditing();
+        }}
+      >
+        <Fragment key={revision}>{children}</Fragment>
+      </div>
+      {/* A sibling, not a child: the toolbar portals away, and nothing that is not content may
+          sit inside the element `commit` reads back. */}
+      {rich && <SelectionToolbar containerRef={ref} active={editing} />}
+    </>
   );
 }

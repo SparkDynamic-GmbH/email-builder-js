@@ -1,5 +1,49 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`block-text renders rich text marks 1`] = `
+<DocumentFragment>
+  <table
+    border="0"
+    cellpadding="0"
+    cellspacing="0"
+    role="presentation"
+    style="width: 100%;"
+    width="100%"
+  >
+    <tbody>
+      <tr>
+        <td>
+          <strong>
+            Bold
+          </strong>
+          , 
+          <em>
+            italic
+          </em>
+          , 
+          <u>
+            underlined
+          </u>
+          , 
+          <del>
+            struck
+          </del>
+           and 
+          <span
+            style="color: #FF0000"
+          >
+            colored
+          </span>
+          .
+          <br />
+          Second line.
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</DocumentFragment>
+`;
+
 exports[`block-text renders with default values 1`] = `
 <DocumentFragment>
   <table
@@ -260,6 +304,64 @@ exports[`block-text sanitizes HTML 1`] = `
           </div>
           
 
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</DocumentFragment>
+`;
+
+exports[`block-text sanitizes rich text 1`] = `
+<DocumentFragment>
+  <table
+    border="0"
+    cellpadding="0"
+    cellspacing="0"
+    role="presentation"
+    style="width: 100%;"
+    width="100%"
+  >
+    <tbody>
+      <tr>
+        <td>
+          
+
+
+
+          <span
+            style="color: #00FF00"
+          >
+            handler dropped, color kept
+          </span>
+          
+
+          <span>
+            url dropped
+          </span>
+          
+
+          <span>
+            rgb dropped
+          </span>
+          
+
+          <span
+            style="color: #0000FF"
+          >
+            only the color survives
+          </span>
+          
+
+          <a>
+            link 1
+          </a>
+          
+
+          <a
+            href="https://example.com"
+          >
+            link 2
+          </a>
         </td>
       </tr>
     </tbody>

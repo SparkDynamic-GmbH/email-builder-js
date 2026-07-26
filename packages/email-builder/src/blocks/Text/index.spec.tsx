@@ -15,7 +15,7 @@ describe('block-text', () => {
       render(
         <Text
           props={{
-            markdown: true,
+            format: 'markdown',
             text: `
 <script>alert(1)</script>
 <img src=x onerror=alert(1) />
@@ -64,7 +64,43 @@ describe('block-text', () => {
 - Three
 
 Powered by [Waypoint](https://usewaypoint.com)`,
-            markdown: true,
+            format: 'markdown',
+          }}
+        />
+      ).asFragment()
+    ).toMatchSnapshot();
+  });
+
+  it('renders rich text marks', () => {
+    expect(
+      render(
+        <Text
+          props={{
+            format: 'html',
+            text:
+              '<strong>Bold</strong>, <em>italic</em>, <u>underlined</u>, <del>struck</del> and ' +
+              '<span style="color: #FF0000">colored</span>.<br />Second line.',
+          }}
+        />
+      ).asFragment()
+    ).toMatchSnapshot();
+  });
+
+  it('sanitizes rich text', () => {
+    expect(
+      render(
+        <Text
+          props={{
+            format: 'html',
+            text: `<script>alert(1)</script>
+<img src=x onerror=alert(1) />
+<div style="position: fixed">block layout</div>
+<span onclick="alert(1)" style="color: #00FF00">handler dropped, color kept</span>
+<span style="background-image: url(javascript:alert(1))">url dropped</span>
+<span style="color: rgb(255, 0, 0)">rgb dropped</span>
+<span style="COLOR: #0000FF; position: absolute">only the color survives</span>
+<a href="javascript:alert('x')">link 1</a>
+<a href="https://example.com">link 2</a>`,
           }}
         />
       ).asFragment()

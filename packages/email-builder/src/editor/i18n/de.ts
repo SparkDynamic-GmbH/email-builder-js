@@ -70,6 +70,7 @@ const de: TTranslations = {
   'field.columnsGap': 'Spaltenabstand',
   'field.content': 'Inhalt',
   'field.fontFamily': 'Schriftart',
+  'field.format': 'Format',
   'field.fontSize': 'Schriftgröße',
   'field.fontWeight': 'Schriftschnitt',
   'field.headerBackgroundColor': 'Kopfzeilen-Hintergrund',
@@ -78,7 +79,6 @@ const de: TTranslations = {
   'field.height': 'Höhe',
   'field.imageUrl': 'Bild-URL',
   'field.level': 'Ebene',
-  'field.markdown': 'Markdown (GitHub-Variante)',
   'field.minRowHeight': 'Mindesthöhe der Zeile',
   'field.numberOfColumns': 'Anzahl der Spalten',
   'field.padding': 'Innenabstand',
@@ -114,6 +114,18 @@ const de: TTranslations = {
   'option.align.left': 'Linksbündig',
   'option.align.center': 'Zentriert',
   'option.align.right': 'Rechtsbündig',
+  'option.format.plain': 'Einfach',
+  'option.format.html': 'Formatiert',
+  'option.format.markdown': 'Markdown',
+
+  // Rich text selection toolbar
+  'richText.toolbar': 'Textformatierung',
+  'richText.bold': 'Fett',
+  'richText.italic': 'Kursiv',
+  'richText.underline': 'Unterstrichen',
+  'richText.strikethrough': 'Durchgestrichen',
+  'richText.color': 'Textfarbe',
+  'richText.clearFormatting': 'Formatierung entfernen',
 
   // Table canvas controls
   'table.addRow': 'Zeile',

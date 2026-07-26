@@ -2,6 +2,9 @@ import React, { CSSProperties } from 'react';
 import { z } from 'zod';
 
 import EmailMarkdown from './EmailMarkdown';
+import EmailRichText from './EmailRichText';
+
+export { RICH_TEXT_STYLE_PROPERTIES, RICH_TEXT_TAGS, sanitizeRichText } from './EmailRichText';
 
 const FONT_FAMILY_SCHEMA = z
   .enum([
@@ -76,7 +79,12 @@ export const TextPropsSchema = z.object({
     .nullable(),
   props: z
     .object({
-      markdown: z.boolean().optional().nullable(),
+      /**
+       * How `text` is to be read. The three are mutually exclusive by construction: `html` holds
+       * inline marks written by the canvas toolbar, `markdown` is the GitHub-flavored source the
+       * inspector's textarea takes, and `plain` is neither.
+       */
+      format: z.enum(['plain', 'markdown', 'html']).optional().nullable(),
       text: z.string().optional().nullable(),
     })
     .optional()
@@ -87,6 +95,7 @@ export type TextProps = z.infer<typeof TextPropsSchema>;
 
 export const TextPropsDefaults = {
   text: '',
+  format: 'plain' as const,
 };
 
 export function Text({ style, props }: TextProps) {
@@ -103,6 +112,23 @@ export function Text({ style, props }: TextProps) {
   };
 
   const text = props?.text ?? TextPropsDefaults.text;
+  const format = props?.format ?? TextPropsDefaults.format;
+
+  const renderCell = () => {
+    switch (format) {
+      case 'markdown':
+        return <EmailMarkdown style={cellStyle} align={textAlign} markdown={text} />;
+      case 'html':
+        return <EmailRichText style={cellStyle} align={textAlign} html={text} />;
+      default:
+        return (
+          <td align={textAlign} style={cellStyle}>
+            {text}
+          </td>
+        );
+    }
+  };
+
   return (
     <table
       role="presentation"
@@ -114,15 +140,7 @@ export function Text({ style, props }: TextProps) {
       style={{ width: '100%' }}
     >
       <tbody>
-        <tr>
-          {props?.markdown ? (
-            <EmailMarkdown style={cellStyle} align={textAlign} markdown={text} />
-          ) : (
-            <td align={textAlign} style={cellStyle}>
-              {text}
-            </td>
-          )}
-        </tr>
+        <tr>{renderCell()}</tr>
       </tbody>
     </table>
   );
