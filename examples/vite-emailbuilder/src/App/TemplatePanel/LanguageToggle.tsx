@@ -5,7 +5,12 @@ import { TLanguage, ToggleButton, ToggleGroup, useLanguage } from '@sparkdynamic
 import { useSetLanguage } from '../../Root';
 
 // Each language names itself, so the control reads the same whichever one is on.
-const LANGUAGE_LABELS: Record<TLanguage, string> = { en: 'English', de: 'Deutsch' };
+const LANGUAGE_LABELS: Record<TLanguage, string> = {
+  en: 'English',
+  de: 'Deutsch',
+  fr: 'Français',
+  it: 'Italiano',
+};
 
 /**
  * Switching language is the host's job — the editor only takes the code it is
@@ -22,6 +27,12 @@ export default function LanguageToggle() {
       </ToggleButton>
       <ToggleButton value="de" tooltip={LANGUAGE_LABELS.de}>
         <span className="px-1 text-body2">DE</span>
+      </ToggleButton>
+      <ToggleButton value="fr" tooltip={LANGUAGE_LABELS.fr}>
+        <span className="px-1 text-body2">FR</span>
+      </ToggleButton>
+      <ToggleButton value="it" tooltip={LANGUAGE_LABELS.it}>
+        <span className="px-1 text-body2">IT</span>
       </ToggleButton>
     </ToggleGroup>
   );
