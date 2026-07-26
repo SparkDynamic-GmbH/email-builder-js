@@ -110,6 +110,25 @@ const en = {
   'option.align.center': 'Align center',
   'option.align.right': 'Align right',
 
+  // Image library
+  'imageLibrary.choose': 'Choose image…',
+  'imageLibrary.title': 'Choose an image',
+  'imageLibrary.dropzone': 'Drop an image here, or click to choose a file',
+  'imageLibrary.uploading': 'Uploading…',
+  'imageLibrary.search': 'Search',
+  'imageLibrary.searchPlaceholder': 'Search the library…',
+  'imageLibrary.loading': 'Loading…',
+  'imageLibrary.loadMore': 'Load more',
+  'imageLibrary.empty': 'No images found.',
+  'imageLibrary.select': 'Select',
+  'imageLibrary.cancel': 'Cancel',
+  'imageLibrary.retry': 'Try again',
+  'imageLibrary.error.load': 'The image library could not be loaded.',
+  'imageLibrary.error.upload': 'The upload failed.',
+  'imageLibrary.error.pick': 'No image could be chosen.',
+  'imageLibrary.error.type': '{name} is not an accepted image type.',
+  'imageLibrary.error.tooLarge': '{name} is larger than the limit of {limit}.',
+
   // Inputs
   'input.auto': 'auto',
   'input.clear': 'Clear {label}',

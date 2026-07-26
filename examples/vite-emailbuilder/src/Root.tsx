@@ -5,6 +5,7 @@ import { EmailBuilderProvider, TLanguage, ToastProvider, TooltipProvider } from 
 import App from './App';
 import getConfiguration from './getConfiguration';
 import { appTranslations, getInitialLanguage, storeLanguage } from './i18n';
+import { imageLibrary } from './imageLibrary';
 import { saveDraft } from './persistence';
 import { EDITOR_REGISTRY } from './registry';
 
@@ -50,6 +51,7 @@ export default function Root() {
           onSave={saveDraft}
           language={language}
           translations={translations}
+          imageLibrary={imageLibrary}
         >
           <SetLanguageContext.Provider value={setAndStore}>
             <App />

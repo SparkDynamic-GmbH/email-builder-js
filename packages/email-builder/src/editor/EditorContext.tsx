@@ -4,6 +4,7 @@ import { createStore, useStore } from 'zustand';
 import { BaseZodDictionary, BlockConfiguration, BlockRegistry } from '../core';
 
 import { DEFAULT_LANGUAGE, I18nProvider, TLanguage, TTranslationOverrides } from './i18n';
+import { ImageLibraryProvider, TImageLibrary } from './imageLibrary';
 import { TEditorBlock, TEditorConfiguration, TEditorRegistry } from './types';
 
 /**
@@ -154,6 +155,15 @@ export type EmailBuilderProviderProps<T extends BaseZodDictionary> = {
    * render rebuilds the translate function.
    */
   translations?: TTranslationOverrides;
+  /**
+   * The host's image store, wired into the Image block's panel: `upload` and
+   * `list` drive the editor's own picker dialog, `pick` hands the whole
+   * interaction to the host instead. Left out, the Image panel is a URL field
+   * and nothing else.
+   *
+   * Keep the object stable (module scope or `useMemo`).
+   */
+  imageLibrary?: TImageLibrary;
   children: React.ReactNode;
 };
 
@@ -171,6 +181,7 @@ export function EmailBuilderProvider<T extends BaseZodDictionary>({
   autosaveDebounceMs = DEFAULT_AUTOSAVE_DEBOUNCE_MS,
   language = DEFAULT_LANGUAGE,
   translations,
+  imageLibrary,
   children,
 }: EmailBuilderProviderProps<T>) {
   // The one place the block set is erased; see TEditorRegistry.
@@ -311,7 +322,7 @@ export function EmailBuilderProvider<T extends BaseZodDictionary>({
   return (
     <EditorContext.Provider value={value}>
       <I18nProvider language={language} translations={translations}>
-        {children}
+        <ImageLibraryProvider library={imageLibrary}>{children}</ImageLibraryProvider>
       </I18nProvider>
     </EditorContext.Provider>
   );

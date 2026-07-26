@@ -52,6 +52,25 @@ export {
   useTranslate,
 } from './i18n';
 
+/**
+ * The image library. Give `EmailBuilderProvider` an `imageLibrary` and the
+ * Image block's panel grows an upload/browse picker over it; the pieces are
+ * exported so a host's own blocks can reuse the same store.
+ */
+export {
+  ImageLibraryDialog,
+  ImageLibraryProvider,
+  ImagePickerButton,
+  isImageLibraryUsable,
+  TImageLibrary,
+  TImageLibraryItem,
+  TImageLibraryListParams,
+  TImageLibraryListResult,
+  TImageLibraryUploadParams,
+  toImageLibraryItem,
+  useImageLibrary,
+} from './imageLibrary';
+
 /** Saves through the provider's `onSave`, and shows where that got to. */
 export { default as SaveButton } from './SaveButton';
 

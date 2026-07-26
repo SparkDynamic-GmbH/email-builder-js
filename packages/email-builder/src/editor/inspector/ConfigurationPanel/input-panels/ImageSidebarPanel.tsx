@@ -4,6 +4,7 @@ import { ZodError } from 'zod';
 
 import { ImageProps, ImagePropsSchema } from '../../../../exports/blocks';
 import { useTranslate } from '../../../i18n';
+import { ImagePickerButton, TImageLibraryItem, useImageLibrary } from '../../../imageLibrary';
 import { ToggleButton } from '../../../ui/ToggleGroup';
 
 import BaseSidebarPanel from './helpers/BaseSidebarPanel';
@@ -18,6 +19,7 @@ type ImageSidebarPanelProps = {
 };
 export default function ImageSidebarPanel({ data, setData }: ImageSidebarPanelProps) {
   const t = useTranslate();
+  const imageLibrary = useImageLibrary();
   const [, setErrors] = useState<ZodError | null>(null);
 
   const updateData = (d: unknown) => {
@@ -30,6 +32,14 @@ export default function ImageSidebarPanel({ data, setData }: ImageSidebarPanelPr
     }
   };
 
+  // The library's alt text fills a blank one, never replaces what was typed.
+  // Dimensions are deliberately left alone: the asset's intrinsic size is
+  // rarely the size it should render at in an email.
+  const applyLibraryItem = ({ url, alt }: TImageLibraryItem) => {
+    const hasAlt = (data.props?.alt ?? '').trim().length > 0;
+    updateData({ ...data, props: { ...data.props, url, ...(!hasAlt && alt ? { alt } : {}) } });
+  };
+
   return (
     <BaseSidebarPanel title={t('panel.Image')}>
       <TextInput
@@ -40,6 +50,9 @@ export default function ImageSidebarPanel({ data, setData }: ImageSidebarPanelPr
           updateData({ ...data, props: { ...data.props, url } });
         }}
       />
+      {imageLibrary && (
+        <ImagePickerButton library={imageLibrary} currentUrl={data.props?.url ?? null} onSelect={applyLibraryItem} />
+      )}
 
       <TextInput
         label={t('field.altText')}

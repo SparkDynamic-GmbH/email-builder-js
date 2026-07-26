@@ -106,6 +106,25 @@ const de: TTranslations = {
   'option.align.center': 'Zentriert',
   'option.align.right': 'Rechtsbündig',
 
+  // Image library
+  'imageLibrary.choose': 'Bild auswählen…',
+  'imageLibrary.title': 'Bild auswählen',
+  'imageLibrary.dropzone': 'Bild hierher ziehen oder klicken, um eine Datei zu wählen',
+  'imageLibrary.uploading': 'Wird hochgeladen…',
+  'imageLibrary.search': 'Suche',
+  'imageLibrary.searchPlaceholder': 'Mediathek durchsuchen…',
+  'imageLibrary.loading': 'Wird geladen…',
+  'imageLibrary.loadMore': 'Mehr laden',
+  'imageLibrary.empty': 'Keine Bilder gefunden.',
+  'imageLibrary.select': 'Übernehmen',
+  'imageLibrary.cancel': 'Abbrechen',
+  'imageLibrary.retry': 'Erneut versuchen',
+  'imageLibrary.error.load': 'Die Mediathek konnte nicht geladen werden.',
+  'imageLibrary.error.upload': 'Das Hochladen ist fehlgeschlagen.',
+  'imageLibrary.error.pick': 'Es konnte kein Bild ausgewählt werden.',
+  'imageLibrary.error.type': '{name} ist kein zulässiger Bildtyp.',
+  'imageLibrary.error.tooLarge': '{name} überschreitet das Limit von {limit}.',
+
   // Inputs
   'input.auto': 'auto',
   'input.clear': '{label} zurücksetzen',
