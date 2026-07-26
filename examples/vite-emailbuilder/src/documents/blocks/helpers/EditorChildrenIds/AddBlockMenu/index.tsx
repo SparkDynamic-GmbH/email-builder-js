@@ -1,7 +1,7 @@
 import { Popover as RadixPopover } from 'radix-ui';
 import React, { useState } from 'react';
 
-import { TEditorBlock } from '../../../../editor/core';
+import { TEditorBlock } from '../../../../editor/types';
 
 import BlocksMenu from './BlocksMenu';
 import DividerButton from './DividerButton';

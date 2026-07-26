@@ -1,4 +1,4 @@
-import { TEditorBlock, TEditorConfiguration } from '../../editor/core';
+import { TEditorBlock, TEditorConfiguration } from '../../editor/types';
 
 type TResult = {
   document: TEditorConfiguration;
@@ -19,15 +19,6 @@ function cloneBlock(document: TEditorConfiguration, blockId: string): TEditorBlo
   switch (clone.type) {
     case 'EmailLayout':
       throw new Error('Cloning EmailLayout blocks is not supported.');
-    case 'Avatar':
-    case 'Button':
-    case 'Divider':
-    case 'Heading':
-    case 'Html':
-    case 'Image':
-    case 'Spacer':
-    case 'Text':
-      return clone;
     case 'Container':
       if (clone.data?.props?.childrenIds) {
         clone.data.props.childrenIds = cloneChildrenIds(document, clone.data.props.childrenIds);
@@ -39,6 +30,10 @@ function cloneBlock(document: TEditorConfiguration, blockId: string): TEditorBlo
         clone.data.props.columns[1].childrenIds = cloneChildrenIds(document, clone.data.props.columns[1].childrenIds);
         clone.data.props.columns[2].childrenIds = cloneChildrenIds(document, clone.data.props.columns[2].childrenIds);
       }
+      return clone;
+    default:
+      // Leaf blocks, including a host's own, clone as they are. A custom
+      // container would need a case here to deep-clone its children.
       return clone;
   }
 }

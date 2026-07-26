@@ -1,10 +1,11 @@
 import React from 'react';
 
-import { setDocument, useDocument } from '../../documents/editor/EditorContext';
+import { useDocument, useEditorActions } from '../../documents/editor/EditorContext';
 
 import EmailLayoutSidebarPanel from './ConfigurationPanel/input-panels/EmailLayoutSidebarPanel';
 
 export default function StylesPanel() {
+  const { setDocument } = useEditorActions();
   const block = useDocument().root;
   if (!block) {
     return <p>Block not found</p>;

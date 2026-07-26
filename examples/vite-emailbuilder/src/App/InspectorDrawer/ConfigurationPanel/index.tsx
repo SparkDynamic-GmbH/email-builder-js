@@ -1,7 +1,11 @@
 import React from 'react';
 
-import { EDITOR_REGISTRY } from '../../../documents/editor/core';
-import { setDocument, useDocument, useSelectedBlockId } from '../../../documents/editor/EditorContext';
+import {
+  useDocument,
+  useEditorActions,
+  useEditorRegistry,
+  useSelectedBlockId,
+} from '../../../documents/editor/EditorContext';
 
 function renderMessage(val: string) {
   return (
@@ -12,6 +16,8 @@ function renderMessage(val: string) {
 }
 
 export default function ConfigurationPanel() {
+  const { setDocument } = useEditorActions();
+  const { definitions, SidebarPanel } = useEditorRegistry();
   const document = useDocument();
   const selectedBlockId = useSelectedBlockId();
 
@@ -23,15 +29,11 @@ export default function ConfigurationPanel() {
     return renderMessage(`Block with id ${selectedBlockId} was not found. Click on a block to reset.`);
   }
 
-  if (!EDITOR_REGISTRY.definitions[block.type]?.SidebarPanel) {
+  if (!definitions[block.type]?.SidebarPanel) {
     return <pre>{JSON.stringify(block, null, '  ')}</pre>;
   }
 
   return (
-    <EDITOR_REGISTRY.SidebarPanel
-      key={selectedBlockId}
-      block={block}
-      setBlock={(conf) => setDocument({ [selectedBlockId]: conf })}
-    />
+    <SidebarPanel key={selectedBlockId} block={block} setBlock={(conf) => setDocument({ [selectedBlockId]: conf })} />
   );
 }

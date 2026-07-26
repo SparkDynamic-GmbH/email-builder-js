@@ -3,10 +3,12 @@ import React from 'react';
 
 import IconButton from '../../../../ui/IconButton';
 import Tooltip from '../../../../ui/Tooltip';
-import { TEditorBlock, TEditorConfiguration } from '../../../editor/core';
-import { resetDocument, setSelectedBlockId, useDocument } from '../../../editor/EditorContext';
+import { useDocument, useEditorActions } from '../../../editor/EditorContext';
+import { TEditorBlock, TEditorConfiguration } from '../../../editor/types';
 import { ColumnsContainerProps } from '../../ColumnsContainer/ColumnsContainerPropsSchema';
 import cloneDocumentBlock from '../cloneDocumentBlock';
+
+type TColumn = { childrenIds: string[] };
 
 function findParentBlockId(blockId: string, document: TEditorConfiguration) {
   for (const [id, b] of Object.entries(document)) {
@@ -26,7 +28,7 @@ function findParentBlockId(blockId: string, document: TEditorConfiguration) {
         }
         break;
       case 'ColumnsContainer':
-        if (block.data.props?.columns?.some((col) => col.childrenIds?.includes(blockId))) {
+        if (block.data.props?.columns?.some((col: TColumn) => col.childrenIds?.includes(blockId))) {
           return id;
         }
         break;
@@ -39,6 +41,7 @@ type Props = {
   blockId: string;
 };
 export default function TuneMenu({ blockId }: Props) {
+  const { resetDocument, setSelectedBlockId } = useEditorActions();
   const document = useDocument();
 
   const handleDuplicateClick = () => {
@@ -130,7 +133,7 @@ export default function TuneMenu({ blockId }: Props) {
               style: block.data.style,
               props: {
                 ...block.data.props,
-                columns: block.data.props?.columns?.map((c) => ({
+                columns: block.data.props?.columns?.map((c: TColumn) => ({
                   childrenIds: filterChildrenIds(c.childrenIds),
                 })),
               },
@@ -200,7 +203,7 @@ export default function TuneMenu({ blockId }: Props) {
               style: block.data.style,
               props: {
                 ...block.data.props,
-                columns: block.data.props?.columns?.map((c) => ({
+                columns: block.data.props?.columns?.map((c: TColumn) => ({
                   childrenIds: moveChildrenIds(c.childrenIds),
                 })),
               },

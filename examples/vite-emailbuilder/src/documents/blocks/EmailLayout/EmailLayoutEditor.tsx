@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { useCurrentBlockId } from '../../editor/EditorBlock';
-import { setDocument, setSelectedBlockId, useDocument } from '../../editor/EditorContext';
+import { useDocument, useEditorActions } from '../../editor/EditorContext';
 import EditorChildrenIds from '../helpers/EditorChildrenIds';
 
 import { EmailLayoutProps } from './EmailLayoutPropsSchema';
@@ -31,6 +31,7 @@ function getFontFamily(fontFamily: EmailLayoutProps['fontFamily']) {
 }
 
 export default function EmailLayoutEditor(props: EmailLayoutProps) {
+  const { setDocument, setSelectedBlockId } = useEditorActions();
   const childrenIds = props.childrenIds ?? [];
   const document = useDocument();
   const currentBlockId = useCurrentBlockId();

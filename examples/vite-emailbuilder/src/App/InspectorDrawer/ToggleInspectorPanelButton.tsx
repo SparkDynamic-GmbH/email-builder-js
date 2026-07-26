@@ -1,10 +1,11 @@
 import { ChevronLast, PanelRight } from 'lucide-react';
 import React from 'react';
 
-import { toggleInspectorDrawerOpen, useInspectorDrawerOpen } from '../../documents/editor/EditorContext';
+import { useEditorActions, useInspectorDrawerOpen } from '../../documents/editor/EditorContext';
 import IconButton from '../../ui/IconButton';
 
 export default function ToggleInspectorPanelButton() {
+  const { toggleInspectorDrawerOpen } = useEditorActions();
   const inspectorDrawerOpen = useInspectorDrawerOpen();
 
   const handleClick = () => {

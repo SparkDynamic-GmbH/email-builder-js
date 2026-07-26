@@ -3,7 +3,7 @@ import React from 'react';
 import { ColumnsContainer as BaseColumnsContainer } from '@sparkdynamic/email-builder';
 
 import { useCurrentBlockId } from '../../editor/EditorBlock';
-import { setDocument, setSelectedBlockId } from '../../editor/EditorContext';
+import { useEditorActions } from '../../editor/EditorContext';
 import EditorChildrenIds, { EditorChildrenChange } from '../helpers/EditorChildrenIds';
 
 import ColumnsContainerPropsSchema, { ColumnsContainerProps } from './ColumnsContainerPropsSchema';
@@ -11,6 +11,7 @@ import ColumnsContainerPropsSchema, { ColumnsContainerProps } from './ColumnsCon
 const EMPTY_COLUMNS = [{ childrenIds: [] }, { childrenIds: [] }, { childrenIds: [] }];
 
 export default function ColumnsContainerEditor({ style, props }: ColumnsContainerProps) {
+  const { setDocument, setSelectedBlockId } = useEditorActions();
   const currentBlockId = useCurrentBlockId();
 
   const { columns, ...restProps } = props ?? {};

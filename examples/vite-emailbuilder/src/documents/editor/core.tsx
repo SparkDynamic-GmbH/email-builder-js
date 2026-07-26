@@ -7,12 +7,16 @@ import EditorBlockWrapper from '../blocks/helpers/block-wrappers/EditorBlockWrap
 
 export const EDITOR_REGISTRY = buildBlockRegistry(BLOCK_DEFINITIONS, { EditorBlockWrapper });
 
-export const EditorBlock = EDITOR_REGISTRY.EditorBlockComponent;
 export const EditorBlockSchema = EDITOR_REGISTRY.blockSchema;
 export const EditorConfigurationSchema = EDITOR_REGISTRY.documentSchema;
 
-export type TEditorBlock = z.infer<typeof EditorBlockSchema>;
-export type TEditorConfiguration = Record<string, TEditorBlock>;
+/**
+ * The strict union over *this* app's block set, for the sample documents and for
+ * validating imported JSON. The editor components themselves work over the
+ * looser `TEditorBlock`, because they run against whatever set they are given.
+ */
+export type TStrictEditorBlock = z.infer<typeof EditorBlockSchema>;
+export type TEditorConfiguration = Record<string, TStrictEditorBlock>;
 
 /**
  * Preview and HTML export, over the same block set as the canvas — a block

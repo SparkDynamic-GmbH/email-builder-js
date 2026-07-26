@@ -7,6 +7,9 @@ import { BaseZodDictionary, BlockConfiguration, DocumentBlocksDictionary } from 
 import buildBlockComponent from './buildBlockComponent';
 import buildBlockConfigurationSchema from './buildBlockConfigurationSchema';
 
+/** What {@link buildBlockRegistry} returns for a given block set. */
+export type BlockRegistry<T extends BaseZodDictionary> = ReturnType<typeof buildBlockRegistry<T>>;
+
 export type BlockRegistryOptions = {
   /**
    * Editor chrome applied to every canvas block that does not opt out with

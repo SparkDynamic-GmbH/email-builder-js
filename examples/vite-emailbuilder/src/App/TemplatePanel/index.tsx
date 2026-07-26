@@ -1,11 +1,11 @@
 import { Monitor, Smartphone } from 'lucide-react';
 import React, { CSSProperties } from 'react';
 
-import { Reader } from '../../documents/editor/core';
+import { Reader, TEditorConfiguration } from '../../documents/editor/core';
 import EditorBlock from '../../documents/editor/EditorBlock';
 import {
-  setSelectedScreenSize,
   useDocument,
+  useEditorActions,
   useSelectedMainTab,
   useSelectedScreenSize,
 } from '../../documents/editor/EditorContext';
@@ -28,7 +28,9 @@ const MOBILE_FRAME: CSSProperties = {
 };
 
 export default function TemplatePanel() {
-  const document = useDocument();
+  const { setSelectedScreenSize } = useEditorActions();
+  // The editor works over any block set; this app knows it registered its own.
+  const document = useDocument() as TEditorConfiguration;
   const selectedMainTab = useSelectedMainTab();
   const selectedScreenSize = useSelectedScreenSize();
 

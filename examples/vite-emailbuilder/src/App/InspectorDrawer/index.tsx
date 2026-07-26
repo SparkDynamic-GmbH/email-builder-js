@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { setSidebarTab, useInspectorDrawerOpen, useSelectedSidebarTab } from '../../documents/editor/EditorContext';
+import { useEditorActions, useInspectorDrawerOpen, useSelectedSidebarTab } from '../../documents/editor/EditorContext';
 import Drawer from '../../ui/Drawer';
 import Tabs, { Tab } from '../../ui/Tabs';
 
@@ -10,6 +10,7 @@ import StylesPanel from './StylesPanel';
 export const INSPECTOR_DRAWER_WIDTH = 320;
 
 export default function InspectorDrawer() {
+  const { setSidebarTab } = useEditorActions();
   const selectedSidebarTab = useSelectedSidebarTab();
   const inspectorDrawerOpen = useInspectorDrawerOpen();
 

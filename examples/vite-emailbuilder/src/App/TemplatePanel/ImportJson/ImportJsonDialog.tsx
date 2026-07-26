@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { resetDocument } from '../../../documents/editor/EditorContext';
+import { useEditorActions } from '../../../documents/editor/EditorContext';
 import Button from '../../../ui/Button';
 import Dialog, { DialogActions, DialogContent } from '../../../ui/Dialog';
 import TextField from '../../../ui/TextField';
@@ -11,6 +11,7 @@ type ImportJsonDialogProps = {
   onClose: () => void;
 };
 export default function ImportJsonDialog({ onClose }: ImportJsonDialogProps) {
+  const { resetDocument } = useEditorActions();
   const [value, setValue] = useState('');
   const [error, setError] = useState<string | null>(null);
 

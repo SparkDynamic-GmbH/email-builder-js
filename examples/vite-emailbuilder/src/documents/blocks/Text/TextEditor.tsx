@@ -3,7 +3,7 @@ import React from 'react';
 import { Text, TextProps } from '@sparkdynamic/email-builder';
 
 import { useCurrentBlockId } from '../../editor/EditorBlock';
-import { setDocument } from '../../editor/EditorContext';
+import { useEditorActions } from '../../editor/EditorContext';
 import InlineEditable from '../helpers/InlineEditable';
 
 /**
@@ -11,6 +11,7 @@ import InlineEditable from '../helpers/InlineEditable';
  * user would be typing into is not the string we store.
  */
 export default function TextEditor(props: TextProps) {
+  const { setDocument } = useEditorActions();
   const blockId = useCurrentBlockId();
   return (
     <InlineEditable

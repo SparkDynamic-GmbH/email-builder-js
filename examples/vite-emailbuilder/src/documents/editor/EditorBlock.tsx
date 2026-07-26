@@ -1,7 +1,6 @@
 import React, { createContext, useContext } from 'react';
 
-import { EditorBlock as CoreEditorBlock } from './core';
-import { useDocument } from './EditorContext';
+import { useBlock, useEditorRegistry } from './EditorContext';
 
 const EditorBlockContext = createContext<string | null>(null);
 export const useCurrentBlockId = () => useContext(EditorBlockContext)!;
@@ -13,17 +12,18 @@ type EditorBlockProps = {
 /**
  *
  * @param id - Block id
- * @returns EditorBlock component that loads data from the EditorDocumentContext
+ * @returns EditorBlock component that loads data from the editor store
  */
 export default function EditorBlock({ id }: EditorBlockProps) {
-  const document = useDocument();
-  const block = document[id];
+  const registry = useEditorRegistry();
+  const block = useBlock(id);
   if (!block) {
     throw new Error('Could not find block');
   }
+  const { EditorBlockComponent } = registry;
   return (
     <EditorBlockContext.Provider value={id}>
-      <CoreEditorBlock {...block} />
+      <EditorBlockComponent {...block} />
     </EditorBlockContext.Provider>
   );
 }

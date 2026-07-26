@@ -1,7 +1,7 @@
 import React, { CSSProperties, useState } from 'react';
 
 import { useCurrentBlockId } from '../../../editor/EditorBlock';
-import { setSelectedBlockId, useSelectedBlockId } from '../../../editor/EditorContext';
+import { useEditorActions, useSelectedBlockId } from '../../../editor/EditorContext';
 
 import TuneMenu from './TuneMenu';
 
@@ -10,6 +10,7 @@ type TEditorBlockWrapperProps = {
 };
 
 export default function EditorBlockWrapper({ children }: TEditorBlockWrapperProps) {
+  const { setSelectedBlockId } = useEditorActions();
   const selectedBlockId = useSelectedBlockId();
   const [mouseInside, setMouseInside] = useState(false);
   const blockId = useCurrentBlockId();
