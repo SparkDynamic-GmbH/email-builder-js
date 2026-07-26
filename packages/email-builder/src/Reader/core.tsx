@@ -13,6 +13,7 @@ import { Heading, HeadingPropsSchema } from '../blocks/Heading';
 import { Html, HtmlPropsSchema } from '../blocks/Html';
 import { Image, ImagePropsSchema } from '../blocks/Image';
 import { Spacer, SpacerPropsSchema } from '../blocks/Spacer';
+import { Table, TablePropsSchema } from '../blocks/Table';
 import { Text, TextPropsSchema } from '../blocks/Text';
 import { buildBlockConfigurationDictionary } from '../core';
 
@@ -59,6 +60,10 @@ export const READER_DICTIONARY = buildBlockConfigurationDictionary({
   Spacer: {
     schema: SpacerPropsSchema,
     Component: Spacer,
+  },
+  Table: {
+    schema: TablePropsSchema,
+    Component: Table,
   },
   Text: {
     schema: TextPropsSchema,

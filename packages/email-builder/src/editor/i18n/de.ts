@@ -1,4 +1,4 @@
-import type { TTranslations } from './types';
+﻿import type { TTranslations } from './types';
 
 /** German. Typed against the English key set, so a new key fails the build here. */
 const de: TTranslations = {
@@ -32,6 +32,7 @@ const de: TTranslations = {
   'block.Avatar': 'Avatar',
   'block.Divider': 'Trennlinie',
   'block.Spacer': 'Abstand',
+  'block.Table': 'Tabelle',
   'block.Html': 'HTML',
   'block.ColumnsContainer': 'Spalten',
   'block.Container': 'Container',
@@ -45,6 +46,7 @@ const de: TTranslations = {
   'panel.Avatar': 'Avatar-Block',
   'panel.Divider': 'Trennlinien-Block',
   'panel.Spacer': 'Abstands-Block',
+  'panel.Table': 'Tabellen-Block',
   'panel.Html': 'HTML-Block',
   'panel.ColumnsContainer': 'Spalten-Block',
   'panel.Container': 'Container-Block',
@@ -56,9 +58,11 @@ const de: TTranslations = {
   'field.backgroundColor': 'Hintergrundfarbe',
   'field.borderColor': 'Rahmenfarbe',
   'field.borderRadius': 'Eckenradius',
+  'field.borderWidth': 'Rahmenbreite',
   'field.buttonColor': 'Schaltflächenfarbe',
   'field.canvasBorderColor': 'Rahmenfarbe der Fläche',
   'field.canvasBorderRadius': 'Eckenradius der Fläche',
+  'field.cellPadding': 'Zellen-Innenabstand',
   'field.canvasColor': 'Farbe der Fläche',
   'field.clickThroughUrl': 'Ziel-URL',
   'field.color': 'Farbe',
@@ -68,6 +72,9 @@ const de: TTranslations = {
   'field.fontFamily': 'Schriftart',
   'field.fontSize': 'Schriftgröße',
   'field.fontWeight': 'Schriftschnitt',
+  'field.headerBackgroundColor': 'Kopfzeilen-Hintergrund',
+  'field.headerRow': 'Kopfzeile',
+  'field.headerTextColor': 'Kopfzeilen-Textfarbe',
   'field.height': 'Höhe',
   'field.imageUrl': 'Bild-URL',
   'field.level': 'Ebene',
@@ -77,6 +84,7 @@ const de: TTranslations = {
   'field.shape': 'Form',
   'field.size': 'Größe',
   'field.sourceUrl': 'Quell-URL',
+  'field.stripedRowColor': 'Zebrastreifen',
   'field.style': 'Stil',
   'field.text': 'Text',
   'field.textColor': 'Textfarbe',
@@ -105,6 +113,12 @@ const de: TTranslations = {
   'option.align.left': 'Linksbündig',
   'option.align.center': 'Zentriert',
   'option.align.right': 'Rechtsbündig',
+
+  // Table canvas controls
+  'table.addRow': 'Zeile',
+  'table.addColumn': 'Spalte',
+  'table.deleteRow': 'Zeile löschen',
+  'table.deleteColumn': 'Spalte löschen',
 
   // Image library
   'imageLibrary.choose': 'Bild auswählen…',

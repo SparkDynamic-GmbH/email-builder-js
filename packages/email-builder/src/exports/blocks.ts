@@ -10,6 +10,7 @@ export * from '../blocks/Heading';
 export * from '../blocks/Html';
 export * from '../blocks/Image';
 export * from '../blocks/Spacer';
+export * from '../blocks/Table';
 export * from '../blocks/Text';
 
 export * from '../blocks/ColumnsContainer';

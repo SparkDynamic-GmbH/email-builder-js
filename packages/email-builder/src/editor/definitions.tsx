@@ -8,6 +8,7 @@ import {
   RectangleHorizontal,
   SquareStack,
   StretchVertical,
+  Table as TableIcon,
   Text as TextIcon,
 } from 'lucide-react';
 import React from 'react';
@@ -38,6 +39,9 @@ import {
   ImagePropsSchema,
   Spacer,
   SpacerPropsSchema,
+  Table,
+  TableProps,
+  TablePropsSchema,
   Text,
   TextProps,
   TextPropsSchema,
@@ -49,6 +53,7 @@ import ContainerEditor from './blocks/Container/ContainerEditor';
 import EmailLayoutEditor from './blocks/EmailLayout/EmailLayoutEditor';
 import HeadingEditor from './blocks/Heading/HeadingEditor';
 import ImageEditor from './blocks/Image/ImageEditor';
+import TableEditor from './blocks/Table/TableEditor';
 import TextEditor from './blocks/Text/TextEditor';
 import AvatarSidebarPanel from './inspector/ConfigurationPanel/input-panels/AvatarSidebarPanel';
 import ButtonSidebarPanel from './inspector/ConfigurationPanel/input-panels/ButtonSidebarPanel';
@@ -60,6 +65,7 @@ import HeadingSidebarPanel from './inspector/ConfigurationPanel/input-panels/Hea
 import HtmlSidebarPanel from './inspector/ConfigurationPanel/input-panels/HtmlSidebarPanel';
 import ImageSidebarPanel from './inspector/ConfigurationPanel/input-panels/ImageSidebarPanel';
 import SpacerSidebarPanel from './inspector/ConfigurationPanel/input-panels/SpacerSidebarPanel';
+import TableSidebarPanel from './inspector/ConfigurationPanel/input-panels/TableSidebarPanel';
 import TextSidebarPanel from './inspector/ConfigurationPanel/input-panels/TextSidebarPanel';
 
 const DEFAULT_PADDING = { top: 16, bottom: 16, left: 24, right: 24 };
@@ -176,6 +182,28 @@ const BLOCK_DEFINITIONS = buildBlockDefinitionDictionary({
       label: 'Spacer',
       icon: <StretchVertical className={ICON_CLASS} />,
       defaults: () => ({}),
+    },
+  },
+  Table: {
+    schema: TablePropsSchema,
+    Reader: Table,
+    Editor: TableEditor,
+    SidebarPanel: TableSidebarPanel,
+    menu: {
+      label: 'Table',
+      icon: <TableIcon className={ICON_CLASS} />,
+      defaults: (): TableProps => ({
+        props: {
+          headerRow: true,
+          rows: [
+            ['Item', 'Qty', 'Price'],
+            ['', '', ''],
+            ['', '', ''],
+          ],
+          columnAlignments: ['left', 'center', 'right'],
+        },
+        style: { padding: DEFAULT_PADDING },
+      }),
     },
   },
   Html: {
