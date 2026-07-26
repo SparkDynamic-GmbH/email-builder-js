@@ -90,16 +90,44 @@ export const HeadingPropsDefaults = {
 export function Heading({ props, style }: HeadingProps) {
   const level = props?.level ?? HeadingPropsDefaults.level;
   const text = props?.text ?? HeadingPropsDefaults.text;
+  const backgroundColor = style?.backgroundColor ?? undefined;
+  const textAlign = style?.textAlign ?? undefined;
+  // Padding and background belong on the cell — Word ignores both on a heading element.
+  const cellStyle: CSSProperties = {
+    backgroundColor,
+    textAlign,
+    padding: getPadding(style?.padding),
+  };
   const hStyle: CSSProperties = {
     color: style?.color ?? undefined,
-    backgroundColor: style?.backgroundColor ?? undefined,
     fontWeight: style?.fontWeight ?? 'bold',
-    textAlign: style?.textAlign ?? undefined,
+    textAlign,
     margin: 0,
     fontFamily: getFontFamily(style?.fontFamily),
     fontSize: getFontSize(level),
-    padding: getPadding(style?.padding),
   };
+  return (
+    <table
+      role="presentation"
+      width="100%"
+      cellPadding="0"
+      cellSpacing="0"
+      border={0}
+      bgcolor={backgroundColor}
+      style={{ width: '100%' }}
+    >
+      <tbody>
+        <tr>
+          <td align={textAlign} style={cellStyle}>
+            {renderHeading(level, text, hStyle)}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  );
+}
+
+function renderHeading(level: 'h1' | 'h2' | 'h3', text: string, hStyle: CSSProperties) {
   switch (level) {
     case 'h1':
       return <h1 style={hStyle}>{text}</h1>;

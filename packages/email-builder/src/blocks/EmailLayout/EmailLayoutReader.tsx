@@ -37,47 +37,64 @@ function getBorder({ borderColor }: EmailLayoutProps) {
 
 export default function EmailLayoutReader(props: EmailLayoutProps) {
   const childrenIds = props.childrenIds ?? [];
+  const backdropColor = props.backdropColor ?? '#F5F5F5';
   return (
-    <div
+    <table
+      role="presentation"
+      width="100%"
+      cellPadding="0"
+      cellSpacing="0"
+      border={0}
+      bgcolor={backdropColor}
       style={{
-        backgroundColor: props.backdropColor ?? '#F5F5F5',
-        color: props.textColor ?? '#262626',
-        fontFamily: getFontFamily(props.fontFamily),
-        fontSize: '16px',
-        fontWeight: '400',
-        letterSpacing: '0.15008px',
-        lineHeight: '1.5',
-        margin: '0',
-        padding: '32px 0',
+        backgroundColor: backdropColor,
         minHeight: '100%',
         width: '100%',
       }}
     >
-      <table
-        align="center"
-        width="100%"
-        style={{
-          margin: '0 auto',
-          maxWidth: '600px',
-          backgroundColor: props.canvasColor ?? '#FFFFFF',
-          borderRadius: props.borderRadius ?? undefined,
-          border: getBorder(props),
-        }}
-        role="presentation"
-        cellSpacing="0"
-        cellPadding="0"
-        border={0}
-      >
-        <tbody>
-          <tr style={{ width: '100%' }}>
-            <td>
-              {childrenIds.map((childId) => (
-                <ReaderBlock key={childId} id={childId} />
-              ))}
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+      <tbody>
+        <tr>
+          <td
+            align="center"
+            style={{
+              color: props.textColor ?? '#262626',
+              fontFamily: getFontFamily(props.fontFamily),
+              fontSize: '16px',
+              fontWeight: '400',
+              letterSpacing: '0.15008px',
+              lineHeight: '1.5',
+              padding: '32px 0',
+            }}
+          >
+            <table
+              align="center"
+              width="100%"
+              style={{
+                margin: '0 auto',
+                maxWidth: '600px',
+                backgroundColor: props.canvasColor ?? '#FFFFFF',
+                borderRadius: props.borderRadius ?? undefined,
+                border: getBorder(props),
+              }}
+              bgcolor={props.canvasColor ?? '#FFFFFF'}
+              role="presentation"
+              cellSpacing="0"
+              cellPadding="0"
+              border={0}
+            >
+              <tbody>
+                <tr style={{ width: '100%' }}>
+                  <td>
+                    {childrenIds.map((childId) => (
+                      <ReaderBlock key={childId} id={childId} />
+                    ))}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   );
 }

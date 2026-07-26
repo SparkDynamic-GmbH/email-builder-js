@@ -17,8 +17,23 @@ export const SpacerPropsDefaults = {
 };
 
 export function Spacer({ props }: SpacerProps) {
+  const height = props?.height ?? SpacerPropsDefaults.height;
+  // An empty cell collapses in Outlook, so the height is held by a non-breaking space with the
+  // line-height set to match and the font shrunk so the glyph itself cannot make the row taller.
   const style: CSSProperties = {
-    height: props?.height ?? SpacerPropsDefaults.height,
+    height,
+    lineHeight: `${height}px`,
+    fontSize: '1px',
   };
-  return <div style={style} />;
+  return (
+    <table role="presentation" width="100%" cellPadding="0" cellSpacing="0" border={0} style={{ width: '100%' }}>
+      <tbody>
+        <tr>
+          <td height={height} style={style}>
+            &nbsp;
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  );
 }

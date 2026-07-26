@@ -45,22 +45,53 @@ export const DividerPropsDefaults = {
 };
 
 export function Divider({ style, props }: DividerProps) {
-  const st: CSSProperties = {
+  const backgroundColor = style?.backgroundColor ?? undefined;
+  const cellStyle: CSSProperties = {
     padding: getPadding(style?.padding),
-    backgroundColor: style?.backgroundColor ?? undefined,
+    backgroundColor,
   };
   const borderTopWidth = props?.lineHeight ?? DividerPropsDefaults.lineHeight;
   const borderTopColor = props?.lineColor ?? DividerPropsDefaults.lineColor;
   return (
-    <div style={st}>
-      <hr
-        style={{
-          width: '100%',
-          border: 'none',
-          borderTop: `${borderTopWidth}px solid ${borderTopColor}`,
-          margin: 0,
-        }}
-      />
-    </div>
+    <table
+      role="presentation"
+      width="100%"
+      cellPadding="0"
+      cellSpacing="0"
+      border={0}
+      bgcolor={backgroundColor}
+      style={{ width: '100%' }}
+    >
+      <tbody>
+        <tr>
+          <td style={cellStyle}>
+            {/* The rule is a cell's top border, not an <hr>: Outlook's Word engine renders its own
+                default hr and ignores the width and colour set on it. */}
+            <table
+              role="presentation"
+              width="100%"
+              cellPadding="0"
+              cellSpacing="0"
+              border={0}
+              style={{ width: '100%' }}
+            >
+              <tbody>
+                <tr>
+                  <td
+                    style={{
+                      borderTop: `${borderTopWidth}px solid ${borderTopColor}`,
+                      fontSize: '1px',
+                      lineHeight: '1px',
+                    }}
+                  >
+                    &nbsp;
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   );
 }

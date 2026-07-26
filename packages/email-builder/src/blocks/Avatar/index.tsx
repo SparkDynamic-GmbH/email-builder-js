@@ -60,31 +60,38 @@ export function Avatar({ style, props }: AvatarProps) {
   const alt = props?.alt ?? AvatarPropsDefaults.alt;
   const shape = props?.shape ?? AvatarPropsDefaults.shape;
 
-  const sectionStyle: CSSProperties = {
-    textAlign: style?.textAlign ?? undefined,
+  const textAlign = style?.textAlign ?? undefined;
+  const cellStyle: CSSProperties = {
+    textAlign,
     padding: getPadding(style?.padding),
   };
   return (
-    <div style={sectionStyle}>
-      <img
-        alt={alt}
-        src={imageUrl}
-        height={size}
-        width={size}
-        style={{
-          outline: 'none',
-          border: 'none',
-          textDecoration: 'none',
-          objectFit: 'cover',
-          height: size,
-          width: size,
-          maxWidth: '100%',
-          display: 'inline-block',
-          verticalAlign: 'middle',
-          textAlign: 'center',
-          borderRadius: getBorderRadius(shape, size),
-        }}
-      />
-    </div>
+    <table role="presentation" width="100%" cellPadding="0" cellSpacing="0" border={0} style={{ width: '100%' }}>
+      <tbody>
+        <tr>
+          <td align={textAlign} style={cellStyle}>
+            <img
+              alt={alt}
+              src={imageUrl}
+              height={size}
+              width={size}
+              style={{
+                outline: 'none',
+                border: 'none',
+                textDecoration: 'none',
+                objectFit: 'cover',
+                height: size,
+                width: size,
+                maxWidth: '100%',
+                display: 'inline-block',
+                verticalAlign: 'middle',
+                textAlign: 'center',
+                borderRadius: getBorderRadius(shape, size),
+              }}
+            />
+          </td>
+        </tr>
+      </tbody>
+    </table>
   );
 }

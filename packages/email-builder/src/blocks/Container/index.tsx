@@ -45,14 +45,28 @@ function getBorder(style: ContainerProps['style']) {
 }
 
 export function Container({ style, children }: ContainerProps) {
-  const wStyle: CSSProperties = {
-    backgroundColor: style?.backgroundColor ?? undefined,
+  const backgroundColor = style?.backgroundColor ?? undefined;
+  const tStyle: CSSProperties = {
+    width: '100%',
+    backgroundColor,
     border: getBorder(style),
     borderRadius: style?.borderRadius ?? undefined,
-    padding: getPadding(style?.padding),
   };
-  if (!children) {
-    return <div style={wStyle} />;
-  }
-  return <div style={wStyle}>{children}</div>;
+  return (
+    <table
+      role="presentation"
+      width="100%"
+      cellPadding="0"
+      cellSpacing="0"
+      border={0}
+      bgcolor={backgroundColor}
+      style={tStyle}
+    >
+      <tbody>
+        <tr>
+          <td style={{ padding: getPadding(style?.padding) }}>{children}</td>
+        </tr>
+      </tbody>
+    </table>
+  );
 }

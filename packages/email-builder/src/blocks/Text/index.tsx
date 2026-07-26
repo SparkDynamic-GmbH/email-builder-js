@@ -90,19 +90,40 @@ export const TextPropsDefaults = {
 };
 
 export function Text({ style, props }: TextProps) {
-  const wStyle: CSSProperties = {
+  const backgroundColor = style?.backgroundColor ?? undefined;
+  const textAlign = style?.textAlign ?? undefined;
+  const cellStyle: CSSProperties = {
     color: style?.color ?? undefined,
-    backgroundColor: style?.backgroundColor ?? undefined,
+    backgroundColor,
     fontSize: style?.fontSize ?? undefined,
     fontFamily: getFontFamily(style?.fontFamily),
     fontWeight: style?.fontWeight ?? undefined,
-    textAlign: style?.textAlign ?? undefined,
+    textAlign,
     padding: getPadding(style?.padding),
   };
 
   const text = props?.text ?? TextPropsDefaults.text;
-  if (props?.markdown) {
-    return <EmailMarkdown style={wStyle} markdown={text} />;
-  }
-  return <div style={wStyle}>{text}</div>;
+  return (
+    <table
+      role="presentation"
+      width="100%"
+      cellPadding="0"
+      cellSpacing="0"
+      border={0}
+      bgcolor={backgroundColor}
+      style={{ width: '100%' }}
+    >
+      <tbody>
+        <tr>
+          {props?.markdown ? (
+            <EmailMarkdown style={cellStyle} align={textAlign} markdown={text} />
+          ) : (
+            <td align={textAlign} style={cellStyle}>
+              {text}
+            </td>
+          )}
+        </tr>
+      </tbody>
+    </table>
+  );
 }

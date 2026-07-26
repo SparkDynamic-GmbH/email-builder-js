@@ -59,8 +59,9 @@ const ColumnsContainerPropsDefaults = {
 } as const;
 
 export function ColumnsContainer({ style, columns, props }: ColumnsContainerProps) {
-  const wStyle: CSSProperties = {
-    backgroundColor: style?.backgroundColor ?? undefined,
+  const backgroundColor = style?.backgroundColor ?? undefined;
+  const cellStyle: CSSProperties = {
+    backgroundColor,
     padding: getPadding(style?.padding),
   };
 
@@ -72,23 +73,39 @@ export function ColumnsContainer({ style, columns, props }: ColumnsContainerProp
   };
 
   return (
-    <div style={wStyle}>
-      <table
-        align="center"
-        width="100%"
-        cellPadding="0"
-        border={0}
-        style={{ tableLayout: 'fixed', borderCollapse: 'collapse' }}
-      >
-        <tbody style={{ width: '100%' }}>
-          <tr style={{ width: '100%' }}>
-            <TableCell index={0} props={blockProps} columns={columns} />
-            <TableCell index={1} props={blockProps} columns={columns} />
-            <TableCell index={2} props={blockProps} columns={columns} />
-          </tr>
-        </tbody>
-      </table>
-    </div>
+    <table
+      role="presentation"
+      width="100%"
+      cellPadding="0"
+      cellSpacing="0"
+      border={0}
+      bgcolor={backgroundColor}
+      style={{ width: '100%' }}
+    >
+      <tbody>
+        <tr>
+          <td style={cellStyle}>
+            <table
+              role="presentation"
+              align="center"
+              width="100%"
+              cellPadding="0"
+              cellSpacing="0"
+              border={0}
+              style={{ tableLayout: 'fixed', borderCollapse: 'collapse' }}
+            >
+              <tbody style={{ width: '100%' }}>
+                <tr style={{ width: '100%' }}>
+                  <TableCell index={0} props={blockProps} columns={columns} />
+                  <TableCell index={1} props={blockProps} columns={columns} />
+                  <TableCell index={2} props={blockProps} columns={columns} />
+                </tr>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   );
 }
 

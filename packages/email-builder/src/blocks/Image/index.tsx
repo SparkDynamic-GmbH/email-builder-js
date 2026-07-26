@@ -43,10 +43,12 @@ export const ImagePropsSchema = z.object({
 export type ImageProps = z.infer<typeof ImagePropsSchema>;
 
 export function Image({ style, props }: ImageProps) {
-  const sectionStyle: CSSProperties = {
+  const backgroundColor = style?.backgroundColor ?? undefined;
+  const textAlign = style?.textAlign ?? undefined;
+  const cellStyle: CSSProperties = {
     padding: getPadding(style?.padding),
-    backgroundColor: style?.backgroundColor ?? undefined,
-    textAlign: style?.textAlign ?? undefined,
+    backgroundColor,
+    textAlign,
   };
 
   const linkHref = props?.linkHref ?? null;
@@ -72,15 +74,29 @@ export function Image({ style, props }: ImageProps) {
     />
   );
 
-  if (!linkHref) {
-    return <div style={sectionStyle}>{imageElement}</div>;
-  }
-
   return (
-    <div style={sectionStyle}>
-      <a href={linkHref} style={{ textDecoration: 'none' }} target="_blank">
-        {imageElement}
-      </a>
-    </div>
+    <table
+      role="presentation"
+      width="100%"
+      cellPadding="0"
+      cellSpacing="0"
+      border={0}
+      bgcolor={backgroundColor}
+      style={{ width: '100%' }}
+    >
+      <tbody>
+        <tr>
+          <td align={textAlign} style={cellStyle}>
+            {linkHref ? (
+              <a href={linkHref} style={{ textDecoration: 'none' }} target="_blank">
+                {imageElement}
+              </a>
+            ) : (
+              imageElement
+            )}
+          </td>
+        </tr>
+      </tbody>
+    </table>
   );
 }

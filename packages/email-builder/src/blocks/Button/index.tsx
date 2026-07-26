@@ -135,9 +135,11 @@ export function Button({ style, props }: ButtonProps) {
 
   const padding = getButtonSizePadding(props);
   const textRaise = (padding[1] * 2 * 3) / 4;
-  const wrapperStyle: CSSProperties = {
-    backgroundColor: style?.backgroundColor ?? undefined,
-    textAlign: style?.textAlign ?? undefined,
+  const backgroundColor = style?.backgroundColor ?? undefined;
+  const textAlign = style?.textAlign ?? undefined;
+  const cellStyle: CSSProperties = {
+    backgroundColor,
+    textAlign,
     padding: getPadding(style?.padding),
   };
   const linkStyle: CSSProperties = {
@@ -153,20 +155,34 @@ export function Button({ style, props }: ButtonProps) {
   };
 
   return (
-    <div style={wrapperStyle}>
-      <a href={url} style={linkStyle} target="_blank">
-        <span
-          dangerouslySetInnerHTML={{
-            __html: `<!--[if mso]><i style="letter-spacing: ${padding[1]}px;mso-font-width:-100%;mso-text-raise:${textRaise}" hidden>&nbsp;</i><![endif]-->`,
-          }}
-        />
-        <span>{text}</span>
-        <span
-          dangerouslySetInnerHTML={{
-            __html: `<!--[if mso]><i style="letter-spacing: ${padding[1]}px;mso-font-width:-100%" hidden>&nbsp;</i><![endif]-->`,
-          }}
-        />
-      </a>
-    </div>
+    <table
+      role="presentation"
+      width="100%"
+      cellPadding="0"
+      cellSpacing="0"
+      border={0}
+      bgcolor={backgroundColor}
+      style={{ width: '100%' }}
+    >
+      <tbody>
+        <tr>
+          <td align={textAlign} style={cellStyle}>
+            <a href={url} style={linkStyle} target="_blank">
+              <span
+                dangerouslySetInnerHTML={{
+                  __html: `<!--[if mso]><i style="letter-spacing: ${padding[1]}px;mso-font-width:-100%;mso-text-raise:${textRaise}" hidden>&nbsp;</i><![endif]-->`,
+                }}
+              />
+              <span>{text}</span>
+              <span
+                dangerouslySetInnerHTML={{
+                  __html: `<!--[if mso]><i style="letter-spacing: ${padding[1]}px;mso-font-width:-100%" hidden>&nbsp;</i><![endif]-->`,
+                }}
+              />
+            </a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   );
 }

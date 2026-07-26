@@ -2,22 +2,79 @@
 
 exports[`Divider renders with default values 1`] = `
 <DocumentFragment>
-  <div>
-    <hr
-      style="width: 100%; border-top: 1px solid #333333; margin: 0px;"
-    />
-  </div>
+  <table
+    border="0"
+    cellpadding="0"
+    cellspacing="0"
+    role="presentation"
+    style="width: 100%;"
+    width="100%"
+  >
+    <tbody>
+      <tr>
+        <td>
+          <table
+            border="0"
+            cellpadding="0"
+            cellspacing="0"
+            role="presentation"
+            style="width: 100%;"
+            width="100%"
+          >
+            <tbody>
+              <tr>
+                <td
+                  style="border-top: 1px solid #333333; font-size: 1px; line-height: 1px;"
+                >
+                   
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </DocumentFragment>
 `;
 
 exports[`Divider renders with props 1`] = `
 <DocumentFragment>
-  <div
-    style="padding: 1px 4px 3px 2px; background-color: rgb(255, 240, 0);"
+  <table
+    bgcolor="#fff000"
+    border="0"
+    cellpadding="0"
+    cellspacing="0"
+    role="presentation"
+    style="width: 100%;"
+    width="100%"
   >
-    <hr
-      style="width: 100%; border-top: 10px solid #444222; margin: 0px;"
-    />
-  </div>
+    <tbody>
+      <tr>
+        <td
+          style="padding: 1px 4px 3px 2px; background-color: rgb(255, 240, 0);"
+        >
+          <table
+            border="0"
+            cellpadding="0"
+            cellspacing="0"
+            role="presentation"
+            style="width: 100%;"
+            width="100%"
+          >
+            <tbody>
+              <tr>
+                <td
+                  style="border-top: 10px solid #444222; font-size: 1px; line-height: 1px;"
+                >
+                   
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </DocumentFragment>
 `;

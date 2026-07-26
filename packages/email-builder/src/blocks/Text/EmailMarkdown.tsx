@@ -111,9 +111,11 @@ function renderMarkdownString(str: string): string {
 
 type Props = {
   style: CSSProperties;
+  align?: 'left' | 'center' | 'right';
   markdown: string;
 };
+/** Renders the cell itself, so the sanitized HTML lands directly in the table Text builds. */
 export default function EmailMarkdown({ markdown, ...props }: Props) {
   const data = useMemo(() => renderMarkdownString(markdown), [markdown]);
-  return <div {...props} dangerouslySetInnerHTML={{ __html: data }} />;
+  return <td {...props} dangerouslySetInnerHTML={{ __html: data }} />;
 }

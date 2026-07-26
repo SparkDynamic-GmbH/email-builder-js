@@ -83,16 +83,35 @@ export type HtmlProps = z.infer<typeof HtmlPropsSchema>;
 
 export function Html({ style, props }: HtmlProps) {
   const children = props?.contents;
-  const cssStyle: CSSProperties = {
+  const backgroundColor = style?.backgroundColor ?? undefined;
+  const textAlign = style?.textAlign ?? undefined;
+  const cellStyle: CSSProperties = {
     color: style?.color ?? undefined,
-    backgroundColor: style?.backgroundColor ?? undefined,
+    backgroundColor,
     fontFamily: getFontFamily(style?.fontFamily),
     fontSize: style?.fontSize ?? undefined,
-    textAlign: style?.textAlign ?? undefined,
+    textAlign,
     padding: getPadding(style?.padding),
   };
-  if (!children) {
-    return <div style={cssStyle} />;
-  }
-  return <div style={cssStyle} dangerouslySetInnerHTML={{ __html: children }} />;
+  return (
+    <table
+      role="presentation"
+      width="100%"
+      cellPadding="0"
+      cellSpacing="0"
+      border={0}
+      bgcolor={backgroundColor}
+      style={{ width: '100%' }}
+    >
+      <tbody>
+        <tr>
+          {children ? (
+            <td align={textAlign} style={cellStyle} dangerouslySetInnerHTML={{ __html: children }} />
+          ) : (
+            <td align={textAlign} style={cellStyle} />
+          )}
+        </tr>
+      </tbody>
+    </table>
+  );
 }
