@@ -48,14 +48,18 @@ jobs:
             exit 1
           fi
 
+      # Before the gate, not after: the editor app imports the built package, so
+      # `tsc --noEmit` cannot resolve @sparkdynamic/email-builder/editor until
+      # dist exists. A working tree that has been built already hides this, which
+      # is exactly how it reached CI.
+      - run: npm run build --workspace packages/email-builder
+
       - name: Gate
         run: |
           npx prettier . --check
           npx eslint .
           npx tsc --noEmit
           npm test
-
-      - run: npm run build --workspaces
 
       # Logs exactly what the tarball contains, so a bad `files` entry is
       # visible in the run rather than discovered by a consumer.

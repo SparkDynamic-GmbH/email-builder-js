@@ -182,6 +182,12 @@ There is no CI, so the gate is local and it is not optional. **Nothing is commit
 npx prettier . --write && npx eslint . && npx tsc --noEmit && npm test
 ```
 
+**On a fresh clone, build the package first.** The editor app imports the built package, so `tsc --noEmit` cannot resolve `@sparkdynamic/email-builder/editor` until `dist/` exists — and a tree you have already built hides that, so the failure only shows up in CI or on someone else's machine:
+
+```bash
+npm run build --workspace packages/email-builder
+```
+
 For changes that touch `packages/*`, add `npm run build --workspaces` — `tsup` + `--dts` catches type errors that `tsc --noEmit` at the root does not, and the editor app imports the built package, not its source.
 
 ### Autocommit — the default
