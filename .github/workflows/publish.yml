@@ -70,6 +70,21 @@ jobs:
       - run: npm pack --dry-run
         working-directory: packages/email-builder
 
+      # Trusted publishing fails as an uninformative 404, so record what the
+      # handshake had to work with. Cheap, and this workflow runs rarely.
+      - name: OIDC diagnostics
+        run: |
+          echo "npm  $(npm --version)   (trusted publishing needs >= 11.5.1)"
+          echo "node $(node --version)"
+          if [ -n "$ACTIONS_ID_TOKEN_REQUEST_URL" ]; then
+            echo "OIDC token endpoint: available"
+          else
+            echo "OIDC token endpoint: MISSING — check permissions.id-token"
+          fi
+          echo "registry: $(npm config get registry)"
+          echo "--- ~/.npmrc"
+          sed 's/_authToken=.*/_authToken=<redacted>/' ~/.npmrc 2>/dev/null || echo "(none)"
+
       # Plain `npm publish` from the package directory rather than --workspace
       # from the root: the OIDC exchange is what npm documents and tests, and
       # there is no reason to hand it an untested code path on a release.
@@ -78,3 +93,6 @@ jobs:
       # Access comes from publishConfig.access in package.json.
       - run: npm publish
         working-directory: packages/email-builder
+        env:
+          # Verbose so a failed handshake leaves evidence behind.
+          NPM_CONFIG_LOGLEVEL: verbose
