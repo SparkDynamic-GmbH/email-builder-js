@@ -5,7 +5,7 @@
       "label": "build: packages",
       "detail": "tsup build for every packages/* workspace. The editor imports them through dist/, so this has to run at least once before the dev server will resolve them.",
       "type": "shell",
-      "command": "npm run build --workspaces",
+      "command": "npm run build --workspace packages/email-builder",
       "options": { "cwd": "${workspaceFolder}" },
       "problemMatcher": ["$tsc"],
       "presentation": {
@@ -19,7 +19,7 @@
       "label": "dev: editor",
       "detail": "Vite dev server for examples/vite-emailbuilder at http://localhost:5173/email-builder-js/",
       "type": "shell",
-      "command": "npm run dev --workspace @usewaypoint/vite-emailbuilder -- --strictPort",
+      "command": "npm run dev --workspace @sparkdynamic/vite-emailbuilder -- --strictPort",
       "options": { "cwd": "${workspaceFolder}" },
       "dependsOn": "build: packages",
       "isBackground": true,
