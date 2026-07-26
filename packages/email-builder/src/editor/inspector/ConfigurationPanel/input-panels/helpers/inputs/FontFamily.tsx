@@ -4,14 +4,14 @@ import { FONT_FAMILIES } from '../../../../../helpers/fontFamily';
 import { TTranslate, useTranslate } from '../../../../../i18n';
 import Select, { SelectOption } from '../../../../../ui/Select';
 
-// The font names are translated under `fontFamily.<key>`; `option.label` is the
-// English wording the list itself carries, kept as the fallback.
+// The typefaces name themselves — they are not UI copy, so only the
+// inherit option is translated.
 function buildOptions(t: TTranslate): SelectOption[] {
   return [
     { value: 'inherit', label: t('option.fontFamily.inherit') },
     ...FONT_FAMILIES.map((option) => ({
       value: option.key,
-      label: t(`fontFamily.${option.key}`),
+      label: option.label,
       fontFamily: option.value,
     })),
   ];
