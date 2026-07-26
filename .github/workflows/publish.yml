@@ -28,10 +28,14 @@ jobs:
       - uses: actions/setup-node@v6
         with:
           node-version: 24
-          # Deliberately no registry-url: it writes an .npmrc with an
-          # ${NODE_AUTH_TOKEN} placeholder, and with no token set npm sends an
-          # empty credential and the registry answers 404 instead of falling
-          # through to OIDC. The default registry is registry.npmjs.org anyway.
+          # Required, despite writing an .npmrc with an ${NODE_AUTH_TOKEN}
+          # placeholder that looks like it would get in the way. It is what
+          # points npm at the registry; without it npm finds no registry
+          # configuration and fails with ENEEDAUTH before it ever attempts the
+          # OIDC exchange. npm's own documented example includes it.
+          registry-url: 'https://registry.npmjs.org'
+          # npm's docs: never cache in a release build.
+          package-manager-cache: false
 
       # Trusted publishing needs npm >= 11.5.1. Node 24 ships a new enough npm,
       # but pin the floor explicitly rather than depend on the runner image.
@@ -63,8 +67,14 @@ jobs:
 
       # Logs exactly what the tarball contains, so a bad `files` entry is
       # visible in the run rather than discovered by a consumer.
-      - run: npm pack --dry-run --workspace packages/email-builder
+      - run: npm pack --dry-run
+        working-directory: packages/email-builder
 
+      # Plain `npm publish` from the package directory rather than --workspace
+      # from the root: the OIDC exchange is what npm documents and tests, and
+      # there is no reason to hand it an untested code path on a release.
+      #
       # No --provenance flag: trusted publishing attaches provenance itself.
       # Access comes from publishConfig.access in package.json.
-      - run: npm publish --workspace packages/email-builder
+      - run: npm publish
+        working-directory: packages/email-builder
