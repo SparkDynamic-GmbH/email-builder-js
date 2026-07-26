@@ -1,8 +1,7 @@
 import { Monitor, Smartphone } from 'lucide-react';
 import React, { CSSProperties } from 'react';
 
-import { Reader } from '@usewaypoint/email-builder';
-
+import { Reader } from '../../documents/editor/core';
 import EditorBlock from '../../documents/editor/EditorBlock';
 import {
   setSelectedScreenSize,
