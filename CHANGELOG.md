@@ -4,6 +4,16 @@
 
 ## Unreleased
 
+### Changed — rich text in the Text block
+
+- **Select text on the canvas and a toolbar follows it**, with bold, italic, underline, strikethrough, colour and clear-formatting. It needs no setup: every Text block is rich, so the toolbar is always one drag away.
+- **BREAKING — `props.markdown` is gone, and so is plain text.** `props.text` is now always a fragment of inline HTML. Text written by hand — in a host's fixtures or a seeded document — must arrive **HTML-escaped**; a literal `<` or `&` will otherwise be read as markup. Plain words are still valid rich text, so nothing else changes for content that has none.
+- The markdown renderer (`EmailMarkdown.tsx`, `marked`) is **removed**, and `marked` is dropped from the dependencies. `insane` stays: it now sanitizes the inline marks instead. An `Html` block remains the escape hatch for markup the toolbar cannot write.
+- **The Text panel has no content field.** A textarea could only show the marks as raw markup and let them be hand-edited into something the sanitizer rewrites; the canvas is where a Text block is written now. The panel still owns colour, background, font, size, weight, alignment and padding.
+- Marks are stored and exported as **semantic tags** — `<strong>`, `<em>`, `<u>`, `<del>` — with `<span style>` reserved for colour, because Word renders those tags reliably but is patchy on `text-decoration` written as CSS. Padding stays on the `td` and the table wrapper is unchanged.
+- Whatever a browser produced is reconciled on commit: Chrome's `<b>` and per-line `<div>`, Firefox's spans, and `rgb()` colours all become one vocabulary. Rendering sanitizes again, allowing inline tags only plus a style-property allowlist.
+- The catalogs gain `richText.*` and lose `field.markdown`, en and de.
+
 ### Added — Table block
 
 - **A `Table` block**, for order summaries, pricing lines and event schedules — previously only reachable by hand-writing markup in an `Html` block. Cells hold plain strings, so it is a leaf block: no `childrenIds`, and nothing for a host's `cloneDocumentBlock` to learn.
