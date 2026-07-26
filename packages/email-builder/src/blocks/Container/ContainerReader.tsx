@@ -1,9 +1,8 @@
 import React from 'react';
 
-import { Container as BaseContainer } from '@usewaypoint/block-container';
-
 import { ReaderBlock } from '../../Reader/ReaderBlock';
 
+import { Container as BaseContainer } from '.';
 import { ContainerProps } from './ContainerPropsSchema';
 
 export default function ContainerReader({ style, props }: ContainerProps) {

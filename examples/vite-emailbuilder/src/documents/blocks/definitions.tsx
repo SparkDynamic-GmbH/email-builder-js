@@ -12,19 +12,30 @@ import {
 } from 'lucide-react';
 import React from 'react';
 
-import { Avatar, AvatarProps, AvatarPropsSchema } from '@usewaypoint/block-avatar';
-import { Button, ButtonPropsSchema } from '@usewaypoint/block-button';
-import { Divider, DividerPropsSchema } from '@usewaypoint/block-divider';
-import { Heading, HeadingPropsSchema } from '@usewaypoint/block-heading';
-import { Html, HtmlPropsSchema } from '@usewaypoint/block-html';
-import { Image, ImageProps, ImagePropsSchema } from '@usewaypoint/block-image';
-import { Spacer, SpacerPropsSchema } from '@usewaypoint/block-spacer';
-import { Text, TextProps, TextPropsSchema } from '@usewaypoint/block-text';
 import {
+  Avatar,
+  AvatarProps,
+  AvatarPropsSchema,
   buildBlockDefinitionDictionary,
+  Button,
+  ButtonPropsSchema,
   ColumnsContainerReader,
   ContainerReader,
+  Divider,
+  DividerPropsSchema,
   EmailLayoutReader,
+  Heading,
+  HeadingPropsSchema,
+  Html,
+  HtmlPropsSchema,
+  Image,
+  ImageProps,
+  ImagePropsSchema,
+  Spacer,
+  SpacerPropsSchema,
+  Text,
+  TextProps,
+  TextPropsSchema,
 } from '@usewaypoint/email-builder';
 
 import AvatarSidebarPanel from '../../App/InspectorDrawer/ConfigurationPanel/input-panels/AvatarSidebarPanel';

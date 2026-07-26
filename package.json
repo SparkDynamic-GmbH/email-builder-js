@@ -7,16 +7,6 @@
   "private": true,
   "packageManager": "npm@10.4.0",
   "workspaces": [
-    "packages/block-avatar",
-    "packages/block-button",
-    "packages/block-columns-container",
-    "packages/block-container",
-    "packages/block-divider",
-    "packages/block-heading",
-    "packages/block-html",
-    "packages/block-image",
-    "packages/block-spacer",
-    "packages/block-text",
     "packages/email-builder",
     "examples/*"
   ],

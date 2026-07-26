@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Image, ImageProps } from '@usewaypoint/block-image';
+import { Image, ImageProps } from '@usewaypoint/email-builder';
 
 const PLACEHOLDER_URL = 'https://placehold.co/600x400@2x/F8F8F8/CCC?text=Your%20image';
 

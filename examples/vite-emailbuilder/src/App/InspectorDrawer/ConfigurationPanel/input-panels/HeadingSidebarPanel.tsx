@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { ZodError } from 'zod';
 
-import { HeadingProps, HeadingPropsDefaults, HeadingPropsSchema } from '@usewaypoint/block-heading';
+import { HeadingProps, HeadingPropsDefaults, HeadingPropsSchema } from '@usewaypoint/email-builder';
 
 import { ToggleButton } from '../../../../ui/ToggleGroup';
 

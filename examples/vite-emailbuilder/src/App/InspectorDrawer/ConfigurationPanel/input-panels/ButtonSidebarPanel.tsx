@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { ZodError } from 'zod';
 
-import { ButtonProps, ButtonPropsDefaults, ButtonPropsSchema } from '@usewaypoint/block-button';
+import { ButtonProps, ButtonPropsDefaults, ButtonPropsSchema } from '@usewaypoint/email-builder';
 
 import { ToggleButton } from '../../../../ui/ToggleGroup';
 

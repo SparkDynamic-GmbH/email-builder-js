@@ -1,9 +1,8 @@
 import React from 'react';
 
-import { ColumnsContainer as BaseColumnsContainer } from '@usewaypoint/block-columns-container';
-
 import { ReaderBlock } from '../../Reader/ReaderBlock';
 
+import { ColumnsContainer as BaseColumnsContainer } from '.';
 import { ColumnsContainerProps } from './ColumnsContainerPropsSchema';
 
 export default function ColumnsContainerReader({ style, props }: ColumnsContainerProps) {

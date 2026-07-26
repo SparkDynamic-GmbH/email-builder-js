@@ -2,7 +2,7 @@ import { MoveVertical } from 'lucide-react';
 import React, { useState } from 'react';
 import { ZodError } from 'zod';
 
-import { SpacerProps, SpacerPropsDefaults, SpacerPropsSchema } from '@usewaypoint/block-spacer';
+import { SpacerProps, SpacerPropsDefaults, SpacerPropsSchema } from '@usewaypoint/email-builder';
 
 import BaseSidebarPanel from './helpers/BaseSidebarPanel';
 import SliderInput from './helpers/inputs/SliderInput';

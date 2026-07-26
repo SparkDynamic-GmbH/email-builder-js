@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Heading, HeadingProps } from '@usewaypoint/block-heading';
+import { Heading, HeadingProps } from '@usewaypoint/email-builder';
 
 import { useCurrentBlockId } from '../../editor/EditorBlock';
 import { setDocument } from '../../editor/EditorContext';

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { ZodError } from 'zod';
 
-import { TextProps, TextPropsSchema } from '@usewaypoint/block-text';
+import { TextProps, TextPropsSchema } from '@usewaypoint/email-builder';
 
 import BaseSidebarPanel from './helpers/BaseSidebarPanel';
 import BooleanInput from './helpers/inputs/BooleanInput';

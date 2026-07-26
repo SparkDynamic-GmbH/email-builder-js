@@ -1,20 +1,19 @@
 import { z } from 'zod';
 
-import { Avatar, AvatarPropsSchema } from '@usewaypoint/block-avatar';
-import { Button, ButtonPropsSchema } from '@usewaypoint/block-button';
-import { Divider, DividerPropsSchema } from '@usewaypoint/block-divider';
-import { Heading, HeadingPropsSchema } from '@usewaypoint/block-heading';
-import { Html, HtmlPropsSchema } from '@usewaypoint/block-html';
-import { Image, ImagePropsSchema } from '@usewaypoint/block-image';
-import { Spacer, SpacerPropsSchema } from '@usewaypoint/block-spacer';
-import { Text, TextPropsSchema } from '@usewaypoint/block-text';
-
+import { Avatar, AvatarPropsSchema } from '../blocks/Avatar';
+import { Button, ButtonPropsSchema } from '../blocks/Button';
 import ColumnsContainerPropsSchema from '../blocks/ColumnsContainer/ColumnsContainerPropsSchema';
 import ColumnsContainerReader from '../blocks/ColumnsContainer/ColumnsContainerReader';
 import { ContainerPropsSchema } from '../blocks/Container/ContainerPropsSchema';
 import ContainerReader from '../blocks/Container/ContainerReader';
+import { Divider, DividerPropsSchema } from '../blocks/Divider';
 import { EmailLayoutPropsSchema } from '../blocks/EmailLayout/EmailLayoutPropsSchema';
 import EmailLayoutReader from '../blocks/EmailLayout/EmailLayoutReader';
+import { Heading, HeadingPropsSchema } from '../blocks/Heading';
+import { Html, HtmlPropsSchema } from '../blocks/Html';
+import { Image, ImagePropsSchema } from '../blocks/Image';
+import { Spacer, SpacerPropsSchema } from '../blocks/Spacer';
+import { Text, TextPropsSchema } from '../blocks/Text';
 import { buildBlockConfigurationDictionary } from '../core';
 
 import createReader from './createReader';

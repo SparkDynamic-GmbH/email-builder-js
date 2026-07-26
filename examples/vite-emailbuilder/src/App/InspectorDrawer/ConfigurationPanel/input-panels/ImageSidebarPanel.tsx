@@ -2,7 +2,7 @@ import { AlignVerticalJustifyCenter, AlignVerticalJustifyEnd, AlignVerticalJusti
 import React, { useState } from 'react';
 import { ZodError } from 'zod';
 
-import { ImageProps, ImagePropsSchema } from '@usewaypoint/block-image';
+import { ImageProps, ImagePropsSchema } from '@usewaypoint/email-builder';
 
 import { ToggleButton } from '../../../../ui/ToggleGroup';
 

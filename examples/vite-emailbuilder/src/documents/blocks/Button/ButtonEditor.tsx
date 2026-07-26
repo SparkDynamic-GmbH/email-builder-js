@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Button, ButtonProps } from '@usewaypoint/block-button';
+import { Button, ButtonProps } from '@usewaypoint/email-builder';
 
 import { useCurrentBlockId } from '../../editor/EditorBlock';
 import { setDocument } from '../../editor/EditorContext';
