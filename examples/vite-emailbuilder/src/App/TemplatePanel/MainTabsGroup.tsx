@@ -1,9 +1,10 @@
 import { Braces, Code, Eye, Pencil } from 'lucide-react';
 import React from 'react';
 
-import { Tab, Tabs, useEditorActions, useSelectedMainTab } from '@sparkdynamic/email-builder/editor';
+import { Tab, Tabs, useEditorActions, useSelectedMainTab, useTranslate } from '@sparkdynamic/email-builder/editor';
 
 export default function MainTabsGroup() {
+  const t = useTranslate();
   const { setSelectedMainTab } = useEditorActions();
   const selectedMainTab = useSelectedMainTab();
   const handleChange = (v: string) => {
@@ -21,16 +22,16 @@ export default function MainTabsGroup() {
 
   return (
     <Tabs value={selectedMainTab} onValueChange={handleChange} className="h-full">
-      <Tab value="editor" tooltip="Edit">
+      <Tab value="editor" tooltip={t('app.tab.edit')}>
         <Pencil className="size-5" />
       </Tab>
-      <Tab value="preview" tooltip="Preview">
+      <Tab value="preview" tooltip={t('app.tab.preview')}>
         <Eye className="size-5" />
       </Tab>
-      <Tab value="html" tooltip="HTML output">
+      <Tab value="html" tooltip={t('app.tab.html')}>
         <Code className="size-5" />
       </Tab>
-      <Tab value="json" tooltip="JSON output">
+      <Tab value="json" tooltip={t('app.tab.json')}>
         <Braces className="size-5" />
       </Tab>
     </Tabs>

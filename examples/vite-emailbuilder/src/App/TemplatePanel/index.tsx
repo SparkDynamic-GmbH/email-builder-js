@@ -11,6 +11,7 @@ import {
   useEditorActions,
   useSelectedMainTab,
   useSelectedScreenSize,
+  useTranslate,
 } from '@sparkdynamic/email-builder/editor';
 
 import { Reader, TEditorConfiguration } from '../../registry';
@@ -19,6 +20,7 @@ import DownloadJson from './DownloadJson';
 import HtmlPanel from './HtmlPanel';
 import ImportJson from './ImportJson';
 import JsonPanel from './JsonPanel';
+import LanguageToggle from './LanguageToggle';
 import MainTabsGroup from './MainTabsGroup';
 import ShareButton from './ShareButton';
 
@@ -31,6 +33,7 @@ const MOBILE_FRAME: CSSProperties = {
 };
 
 export default function TemplatePanel() {
+  const t = useTranslate();
   const { setSelectedScreenSize } = useEditorActions();
   // The editor works over any block set; this app knows it registered its own.
   const document = useDocument() as TEditorConfiguration;
@@ -82,13 +85,14 @@ export default function TemplatePanel() {
             <DownloadJson />
             <ImportJson />
             <ToggleGroup value={selectedScreenSize} onValueChange={handleScreenSizeChange}>
-              <ToggleButton value="desktop" tooltip="Desktop view">
+              <ToggleButton value="desktop" tooltip={t('app.view.desktop')}>
                 <Monitor className="size-5" />
               </ToggleButton>
-              <ToggleButton value="mobile" tooltip="Mobile view">
+              <ToggleButton value="mobile" tooltip={t('app.view.mobile')}>
                 <Smartphone className="size-5" />
               </ToggleButton>
             </ToggleGroup>
+            <LanguageToggle />
             <ShareButton />
             <SaveButton size="small" />
           </div>
