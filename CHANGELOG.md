@@ -4,7 +4,11 @@
 
 ## Unreleased
 
-Nothing published yet. Everything below is the divergence from upstream `ce3e610` that the first release will carry.
+## 0.1.1 — 2026-07-26
+
+The first release built and published by CI, with provenance. Everything below is the divergence from upstream `ce3e610`.
+
+Also fixed here: `dist` is cleaned before each build, so stale chunks from earlier builds no longer end up in the tarball (0.1.0 shipped six of them).
 
 ### Changed — packaging
 
@@ -28,6 +32,10 @@ Nothing published yet. Everything below is the divergence from upstream `ce3e610
 ### Removed
 
 - GitHub Actions CI. The gate is local and mandatory; the only workflow here publishes on a tag.
+
+## 0.1.0 — 2026-07-26
+
+Published by hand, only to create the package so a trusted publisher could be configured on it — npm cannot do a package's first publish over OIDC. Same content as 0.1.1 apart from six stale build chunks, but built locally and **without provenance**. Prefer 0.1.1.
 
 ---
 
