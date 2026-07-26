@@ -70,7 +70,6 @@ const de: TTranslations = {
   'field.columnsGap': 'Spaltenabstand',
   'field.content': 'Inhalt',
   'field.fontFamily': 'Schriftart',
-  'field.format': 'Format',
   'field.fontSize': 'Schriftgröße',
   'field.fontWeight': 'Schriftschnitt',
   'field.headerBackgroundColor': 'Kopfzeilen-Hintergrund',
@@ -114,9 +113,6 @@ const de: TTranslations = {
   'option.align.left': 'Linksbündig',
   'option.align.center': 'Zentriert',
   'option.align.right': 'Rechtsbündig',
-  'option.format.plain': 'Einfach',
-  'option.format.html': 'Formatiert',
-  'option.format.markdown': 'Markdown',
 
   // Rich text selection toolbar
   'richText.toolbar': 'Textformatierung',

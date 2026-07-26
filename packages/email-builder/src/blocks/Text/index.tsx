@@ -1,7 +1,6 @@
 import React, { CSSProperties } from 'react';
 import { z } from 'zod';
 
-import EmailMarkdown from './EmailMarkdown';
 import EmailRichText from './EmailRichText';
 
 export { RICH_TEXT_STYLE_PROPERTIES, RICH_TEXT_TAGS, sanitizeRichText } from './EmailRichText';
@@ -80,11 +79,10 @@ export const TextPropsSchema = z.object({
   props: z
     .object({
       /**
-       * How `text` is to be read. The three are mutually exclusive by construction: `html` holds
-       * inline marks written by the canvas toolbar, `markdown` is the GitHub-flavored source the
-       * inspector's textarea takes, and `plain` is neither.
+       * A fragment of inline HTML, written by the canvas selection toolbar and read back through
+       * `sanitizeRichText`. Plain words are valid rich text, so there is no second mode — but a
+       * literal `<` or `&` has to arrive escaped.
        */
-      format: z.enum(['plain', 'markdown', 'html']).optional().nullable(),
       text: z.string().optional().nullable(),
     })
     .optional()
@@ -95,7 +93,6 @@ export type TextProps = z.infer<typeof TextPropsSchema>;
 
 export const TextPropsDefaults = {
   text: '',
-  format: 'plain' as const,
 };
 
 export function Text({ style, props }: TextProps) {
@@ -112,22 +109,6 @@ export function Text({ style, props }: TextProps) {
   };
 
   const text = props?.text ?? TextPropsDefaults.text;
-  const format = props?.format ?? TextPropsDefaults.format;
-
-  const renderCell = () => {
-    switch (format) {
-      case 'markdown':
-        return <EmailMarkdown style={cellStyle} align={textAlign} markdown={text} />;
-      case 'html':
-        return <EmailRichText style={cellStyle} align={textAlign} html={text} />;
-      default:
-        return (
-          <td align={textAlign} style={cellStyle}>
-            {text}
-          </td>
-        );
-    }
-  };
 
   return (
     <table
@@ -140,7 +121,9 @@ export function Text({ style, props }: TextProps) {
       style={{ width: '100%' }}
     >
       <tbody>
-        <tr>{renderCell()}</tr>
+        <tr>
+          <EmailRichText style={cellStyle} align={textAlign} html={text} />
+        </tr>
       </tbody>
     </table>
   );

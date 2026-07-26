@@ -10,65 +10,8 @@ describe('block-text', () => {
     expect(render(<Text />).asFragment()).toMatchSnapshot();
   });
 
-  it('sanitizes HTML', () => {
-    expect(
-      render(
-        <Text
-          props={{
-            format: 'markdown',
-            text: `
-<script>alert(1)</script>
-<img src=x onerror=alert(1) />
-
-[a](javascript:prompt(document.cookie))
-[Basic](javascript:alert('Basic'))
-[Local Storage](javascript:alert(JSON.stringify(localStorage)))
-[CaseInsensitive](JaVaScRiPt:alert('CaseInsensitive'))
-[URL](javascript://www.google.com%0Aalert('URL'))
-
-[In Quotes]('javascript:alert("InQuotes")')
-[a](j a v a s c r i p t:prompt(document.cookie))
-[a](data:text/html;base64,PHNjcmlwdD5hbGVydCgnWFNTJyk8L3NjcmlwdD4K)
-[a](javascript:window.onerror=alert;throw%201)
-![Uh oh...]("onerror="alert('XSS'))
-![Uh oh...](https://www.example.com/image.png"onload="alert('XSS'))
-![Escape SRC - onload](https://www.example.com/image.png"onload="alert('ImageOnLoad'))
-![Escape SRC - onerror]("onerror="alert('ImageOnError'))
-
-<div>
-<img src />
-<a>link 1</a>
-<a href>link 2</a>
-<a href="">link 3</a>
-<a title>link 4</a>
-<a title="">link 5</a>
-<a href="ftp://domain.name">link 6</a>
-<a href="javascript:alert('hello world')">link 7</a>
-</div>
-`,
-          }}
-        />
-      ).asFragment()
-    ).toMatchSnapshot();
-  });
-
-  it('renders with safe markdown', () => {
-    expect(
-      render(
-        <Text
-          props={{
-            text: `This <span onClick="alert('!')">text</span> block has the **Markdown** option *turned on*.
-
-- One
-- Two
-- Three
-
-Powered by [Waypoint](https://usewaypoint.com)`,
-            format: 'markdown',
-          }}
-        />
-      ).asFragment()
-    ).toMatchSnapshot();
+  it('renders plain words untouched', () => {
+    expect(render(<Text props={{ text: 'Just some words.' }} />).asFragment()).toMatchSnapshot();
   });
 
   it('renders rich text marks', () => {
@@ -76,7 +19,6 @@ Powered by [Waypoint](https://usewaypoint.com)`,
       render(
         <Text
           props={{
-            format: 'html',
             text:
               '<strong>Bold</strong>, <em>italic</em>, <u>underlined</u>, <del>struck</del> and ' +
               '<span style="color: #FF0000">colored</span>.<br />Second line.',
@@ -91,7 +33,6 @@ Powered by [Waypoint](https://usewaypoint.com)`,
       render(
         <Text
           props={{
-            format: 'html',
             text: `<script>alert(1)</script>
 <img src=x onerror=alert(1) />
 <div style="position: fixed">block layout</div>
@@ -107,12 +48,20 @@ Powered by [Waypoint](https://usewaypoint.com)`,
     ).toMatchSnapshot();
   });
 
-  it('renders without markdown', () => {
+  it('drops the markup an untrusted document could carry', () => {
     expect(
       render(
         <Text
           props={{
-            text: `## This is not <span>markdown</span>`,
+            text: `<script>alert(1)</script>
+<img src=x onerror=alert(1) />
+<iframe src="https://evil.example"></iframe>
+<a href="javascript:prompt(document.cookie)">a</a>
+<a href="JaVaScRiPt:alert('CaseInsensitive')">b</a>
+<a href="data:text/html;base64,PHNjcmlwdD5hbGVydCgnWFNTJyk8L3NjcmlwdD4K">c</a>
+<a href="ftp://domain.name">d</a>
+<a href="https://example.com" onclick="alert(1)">e</a>
+<style>body { display: none }</style>`,
           }}
         />
       ).asFragment()

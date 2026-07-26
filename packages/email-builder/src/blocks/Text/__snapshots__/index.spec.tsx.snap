@@ -1,5 +1,77 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`block-text drops the markup an untrusted document could carry 1`] = `
+<DocumentFragment>
+  <table
+    border="0"
+    cellpadding="0"
+    cellspacing="0"
+    role="presentation"
+    style="width: 100%;"
+    width="100%"
+  >
+    <tbody>
+      <tr>
+        <td>
+          
+
+
+
+          <a>
+            a
+          </a>
+          
+
+          <a>
+            b
+          </a>
+          
+
+          <a>
+            c
+          </a>
+          
+
+          <a>
+            d
+          </a>
+          
+
+          <a
+            href="https://example.com"
+          >
+            e
+          </a>
+          
+
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</DocumentFragment>
+`;
+
+exports[`block-text renders plain words untouched 1`] = `
+<DocumentFragment>
+  <table
+    border="0"
+    cellpadding="0"
+    cellspacing="0"
+    role="presentation"
+    style="width: 100%;"
+    width="100%"
+  >
+    <tbody>
+      <tr>
+        <td>
+          Just some words.
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</DocumentFragment>
+`;
+
 exports[`block-text renders rich text marks 1`] = `
 <DocumentFragment>
   <table
@@ -57,254 +129,6 @@ exports[`block-text renders with default values 1`] = `
     <tbody>
       <tr>
         <td />
-      </tr>
-    </tbody>
-  </table>
-</DocumentFragment>
-`;
-
-exports[`block-text renders with safe markdown 1`] = `
-<DocumentFragment>
-  <table
-    border="0"
-    cellpadding="0"
-    cellspacing="0"
-    role="presentation"
-    style="width: 100%;"
-    width="100%"
-  >
-    <tbody>
-      <tr>
-        <td>
-          <p>
-            This 
-            <span>
-              text
-            </span>
-             block has the 
-            <strong>
-              Markdown
-            </strong>
-             option 
-            <em>
-              turned on
-            </em>
-            .
-          </p>
-          
-
-          <ul>
-            
-
-            <li>
-              One
-            </li>
-            
-
-            <li>
-              Two
-            </li>
-            
-
-            <li>
-              Three
-            </li>
-            
-
-          </ul>
-          
-
-          <p>
-            Powered by 
-            <a
-              href="https://usewaypoint.com"
-              target="_blank"
-            >
-              Waypoint
-            </a>
-          </p>
-          
-
-        </td>
-      </tr>
-    </tbody>
-  </table>
-</DocumentFragment>
-`;
-
-exports[`block-text renders without markdown 1`] = `
-<DocumentFragment>
-  <table
-    border="0"
-    cellpadding="0"
-    cellspacing="0"
-    role="presentation"
-    style="width: 100%;"
-    width="100%"
-  >
-    <tbody>
-      <tr>
-        <td>
-          ## This is not &lt;span&gt;markdown&lt;/span&gt;
-        </td>
-      </tr>
-    </tbody>
-  </table>
-</DocumentFragment>
-`;
-
-exports[`block-text sanitizes HTML 1`] = `
-<DocumentFragment>
-  <table
-    border="0"
-    cellpadding="0"
-    cellspacing="0"
-    role="presentation"
-    style="width: 100%;"
-    width="100%"
-  >
-    <tbody>
-      <tr>
-        <td>
-          
-
-          <img
-            src="x"
-          />
-          
-
-
-          <p>
-            <a
-              target="_blank"
-            >
-              a
-            </a>
-            <br />
-            <a
-              target="_blank"
-            >
-              Basic
-            </a>
-            <br />
-            <a
-              target="_blank"
-            >
-              Local Storage
-            </a>
-            <br />
-            <a
-              target="_blank"
-            >
-              CaseInsensitive
-            </a>
-            <br />
-            <a
-              target="_blank"
-            >
-              URL
-            </a>
-          </p>
-          
-
-          <p>
-            <a
-              target="_blank"
-            >
-              In Quotes
-            </a>
-            <br />
-            [a](j a v a s c r i p t:prompt(document.cookie))
-            <br />
-            <a
-              target="_blank"
-            >
-              a
-            </a>
-            <br />
-            <a
-              target="_blank"
-            >
-              a
-            </a>
-            <br />
-            <img
-              alt="Uh oh..."
-              src="%22onerror=%22alert('XSS')"
-            />
-            <br />
-            <img
-              alt="Uh oh..."
-              src="https://www.example.com/image.png%22onload=%22alert('XSS')"
-            />
-            <br />
-            <img
-              alt="Escape SRC - onload"
-              src="https://www.example.com/image.png%22onload=%22alert('ImageOnLoad')"
-            />
-            <br />
-            <img
-              alt="Escape SRC - onerror"
-              src="%22onerror=%22alert('ImageOnError')"
-            />
-          </p>
-          
-
-          <div>
-            
-
-            <img
-              src=""
-            />
-            
-
-            <a>
-              link 1
-            </a>
-            
-
-            <a
-              href=""
-            >
-              link 2
-            </a>
-            
-
-            <a
-              href=""
-            >
-              link 3
-            </a>
-            
-
-            <a
-              title=""
-            >
-              link 4
-            </a>
-            
-
-            <a
-              title=""
-            >
-              link 5
-            </a>
-            
-
-            <a>
-              link 6
-            </a>
-            
-
-            <a>
-              link 7
-            </a>
-            
-
-          </div>
-          
-
-        </td>
       </tr>
     </tbody>
   </table>

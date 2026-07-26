@@ -69,7 +69,7 @@ const WELCOME: TEditorConfiguration = {
         },
       },
       props: {
-        text: 'Welcome to Marketbase! Marketbase is how teams within fast growing marketplaces effortlessly monitor conversations to prevent disintermediation, identify problematic users, and increase trust & safety within their community.',
+        text: 'Welcome to Marketbase! Marketbase is how teams within fast growing marketplaces effortlessly monitor conversations to prevent disintermediation, identify problematic users, and increase trust &amp; safety within their community.',
       },
     },
   },
