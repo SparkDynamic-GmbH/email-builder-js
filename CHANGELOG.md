@@ -4,6 +4,15 @@
 
 ## Unreleased
 
+### Added — Table block
+
+- **A `Table` block**, for order summaries, pricing lines and event schedules — previously only reachable by hand-writing markup in an `Html` block. Cells hold plain strings, so it is a leaf block: no `childrenIds`, and nothing for a host's `cloneDocumentBlock` to learn.
+- **Cells are edited on the canvas**, one `InlineEditable` each. The canvas variant passes a `renderCell` prop into the renderer rather than duplicating the markup, so the cell you type in is the cell the email ships. Add-row/add-column and delete-row/delete-column controls appear under the table while it is selected and act on the cell the caret was last in.
+- Editable from the inspector: header row on/off with its own background and text colour, striped row colour, border colour and width, cell padding, per-column alignment, plus the usual text colour, background, font family, font size and padding.
+- Table-first markup from the start: borders on the cells, background as both CSS and `bgcolor`, alignment as both `text-align` and `align`, and a non-breaking space in empty cells, which otherwise collapse and lose their borders in Word. The inner grid keeps `th`/`scope` semantics; only the wrapper table is `role="presentation"`.
+- Registered in the built-in reader dictionary too, so a consumer that only renders email gets it without registering anything.
+- The catalogs gain `block.Table`, `panel.Table`, the new field labels and `table.*`, en and de.
+
 ### Added — image library
 
 - **`imageLibrary` on `EmailBuilderProvider`**, so a host can wire its own asset store into the Image block. Three callbacks, all optional, and the editor adapts to whichever it is given: `upload(file, {signal})` stores a file and returns where it now lives, `list({query, cursor, signal})` returns one page of the library, `pick({url})` takes over the whole interaction for a host that already has an asset manager. `accept` and `maxFileSizeBytes` are enforced before `upload` is called.

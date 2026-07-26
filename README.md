@@ -62,7 +62,7 @@ Upstream shipped each block as its own npm package. Here they are directories in
 [`@sparkdynamic/email-builder`](packages/email-builder) package, under
 [`src/blocks/`](packages/email-builder/src/blocks):
 
-Avatar, Button, Columns, Container, Divider, Heading, HTML, Image, Spacer, Text.
+Avatar, Button, Columns, Container, Divider, Heading, HTML, Image, Spacer, Table, Text.
 
 Registering your own is one `BlockDefinition` — see the
 [package README](packages/email-builder/README.md#registering-your-own-block).
