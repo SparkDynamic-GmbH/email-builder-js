@@ -163,12 +163,28 @@ npx prettier . --write && npx eslint . && npx tsc --noEmit && npm test
 
 For changes that touch `packages/*`, add `npm run build --workspaces` — `tsup` + `--dts` catches type errors that `tsc --noEmit` at the root does not, and the editor app imports the built package, not its source.
 
-### Commit without asking when
+### Autocommit — the default
 
-- The gate passes **and** the change is a complete, coherent unit — one work-queue item, one bug fix, one panel ported.
-- Docs, config, or tooling only (`CLAUDE.md`, `README.md`, eslint/prettier/tsconfig, workflow removal). The gate still applies where it's meaningful.
+**Commit as you go, without asking.** Do not park finished work in the working tree waiting for approval, and do not batch a session's work into one commit at the end. The rule is:
+
+> Green gate + coherent unit → commit immediately, then carry on.
+
+A **coherent unit** is one thing a reader would want to bisect to: one work-queue item, one bug fix, one package folded, one panel ported, one doc brought back in line with the code. If you finish part of a larger job and the tree is green, that part is a unit — commit it and continue rather than growing the diff.
+
+What this means in practice, in order:
+
+1. Run the gate. For `packages/*` changes that includes `npm run build --workspaces`.
+2. For anything that changes editor behaviour or styling, **also drive the app** — the type checker does not catch a broken cascade layer or a provider that throws on mount. Report what you verified in the commit message.
+3. Commit, with the `Refs` trailer when it implements an issue item.
+4. Move to the next unit.
+
+Autocommit covers docs, config and tooling too (`CLAUDE.md`, `README.md`, eslint/prettier/tsconfig, workflows). Keep those in their own commit rather than folding them into a code change, unless the doc change _is_ the code change's other half.
+
+Autocommit is **not** autopush. `git push` still needs asking, every time.
 
 ### Never commit without asking
+
+These override autocommit:
 
 - **The gate is red** — failing tests, type errors, lint errors. Report the failure instead. A broken commit is worse than an uncommitted change, because there is no CI to catch it later.
 - **The package `version`** in `packages/email-builder/package.json` — publish-affecting.
