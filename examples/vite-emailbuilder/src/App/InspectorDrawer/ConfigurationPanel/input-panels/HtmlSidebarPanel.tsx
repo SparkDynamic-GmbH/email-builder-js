@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { ZodError } from 'zod';
 
-import { HtmlProps, HtmlPropsSchema } from '@usewaypoint/email-builder';
+import { HtmlProps, HtmlPropsSchema } from '@sparkdynamic/email-builder';
 
 import BaseSidebarPanel from './helpers/BaseSidebarPanel';
 import TextInput from './helpers/inputs/TextInput';

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { ColumnsContainer as BaseColumnsContainer } from '@usewaypoint/email-builder';
+import { ColumnsContainer as BaseColumnsContainer } from '@sparkdynamic/email-builder';
 
 import { useCurrentBlockId } from '../../editor/EditorBlock';
 import { setDocument, setSelectedBlockId } from '../../editor/EditorContext';

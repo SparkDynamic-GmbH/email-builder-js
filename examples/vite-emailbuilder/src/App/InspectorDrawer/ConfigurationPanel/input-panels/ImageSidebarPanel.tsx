@@ -2,7 +2,7 @@ import { AlignVerticalJustifyCenter, AlignVerticalJustifyEnd, AlignVerticalJusti
 import React, { useState } from 'react';
 import { ZodError } from 'zod';
 
-import { ImageProps, ImagePropsSchema } from '@usewaypoint/email-builder';
+import { ImageProps, ImagePropsSchema } from '@sparkdynamic/email-builder';
 
 import { ToggleButton } from '../../../../ui/ToggleGroup';
 

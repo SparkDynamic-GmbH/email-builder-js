@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-import { buildBlockRegistry, createReader } from '@usewaypoint/email-builder';
+import { buildBlockRegistry, createReader } from '@sparkdynamic/email-builder';
 
 import BLOCK_DEFINITIONS from '../blocks/definitions';
 import EditorBlockWrapper from '../blocks/helpers/block-wrappers/EditorBlockWrapper';

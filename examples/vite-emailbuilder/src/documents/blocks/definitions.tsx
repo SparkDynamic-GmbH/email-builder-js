@@ -36,7 +36,7 @@ import {
   Text,
   TextProps,
   TextPropsSchema,
-} from '@usewaypoint/email-builder';
+} from '@sparkdynamic/email-builder';
 
 import AvatarSidebarPanel from '../../App/InspectorDrawer/ConfigurationPanel/input-panels/AvatarSidebarPanel';
 import ButtonSidebarPanel from '../../App/InspectorDrawer/ConfigurationPanel/input-panels/ButtonSidebarPanel';

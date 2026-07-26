@@ -1,5 +1,5 @@
 {
-  "name": "@usewaypoint/vite-emailbuilder",
+  "name": "@sparkdynamic/vite-emailbuilder",
   "version": "1.0.0",
   "type": "module",
   "scripts": {
@@ -9,7 +9,7 @@
   },
   "private": true,
   "dependencies": {
-    "@usewaypoint/email-builder": "^0.0.10",
+    "@sparkdynamic/email-builder": "*",
     "clsx": "^2.1.1",
     "highlight.js": "^11.9.0",
     "lucide-react": "^1.26.0",

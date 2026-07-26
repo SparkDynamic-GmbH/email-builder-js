@@ -2,7 +2,7 @@ import { MoveVertical } from 'lucide-react';
 import React, { useState } from 'react';
 import { ZodError } from 'zod';
 
-import { DividerProps, DividerPropsDefaults, DividerPropsSchema } from '@usewaypoint/email-builder';
+import { DividerProps, DividerPropsDefaults, DividerPropsSchema } from '@sparkdynamic/email-builder';
 
 import BaseSidebarPanel from './helpers/BaseSidebarPanel';
 import ColorInput from './helpers/inputs/ColorInput';

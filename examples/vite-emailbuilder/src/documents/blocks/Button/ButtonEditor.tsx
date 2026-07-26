@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Button, ButtonProps } from '@usewaypoint/email-builder';
+import { Button, ButtonProps } from '@sparkdynamic/email-builder';
 
 import { useCurrentBlockId } from '../../editor/EditorBlock';
 import { setDocument } from '../../editor/EditorContext';

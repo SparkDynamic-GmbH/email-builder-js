@@ -2,7 +2,7 @@ import { Scaling } from 'lucide-react';
 import React, { useState } from 'react';
 import { ZodError } from 'zod';
 
-import { AvatarProps, AvatarPropsDefaults, AvatarPropsSchema } from '@usewaypoint/email-builder';
+import { AvatarProps, AvatarPropsDefaults, AvatarPropsSchema } from '@sparkdynamic/email-builder';
 
 import { ToggleButton } from '../../../../ui/ToggleGroup';
 

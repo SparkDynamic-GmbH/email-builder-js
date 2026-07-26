@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { ZodError } from 'zod';
 
-import { HeadingProps, HeadingPropsDefaults, HeadingPropsSchema } from '@usewaypoint/email-builder';
+import { HeadingProps, HeadingPropsDefaults, HeadingPropsSchema } from '@sparkdynamic/email-builder';
 
 import { ToggleButton } from '../../../../ui/ToggleGroup';
 

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Container as BaseContainer } from '@usewaypoint/email-builder';
+import { Container as BaseContainer } from '@sparkdynamic/email-builder';
 
 import { useCurrentBlockId } from '../../editor/EditorBlock';
 import { setDocument, setSelectedBlockId, useDocument } from '../../editor/EditorContext';

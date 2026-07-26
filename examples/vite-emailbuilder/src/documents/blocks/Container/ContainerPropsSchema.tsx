@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-import { ContainerPropsSchema as BaseContainerPropsSchema } from '@usewaypoint/email-builder';
+import { ContainerPropsSchema as BaseContainerPropsSchema } from '@sparkdynamic/email-builder';
 
 const ContainerPropsSchema = z.object({
   style: BaseContainerPropsSchema.shape.style,
