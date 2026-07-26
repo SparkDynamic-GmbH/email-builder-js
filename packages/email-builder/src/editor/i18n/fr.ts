@@ -1,0 +1,163 @@
+import type { TTranslations } from './types';
+
+/** French. Typed against the English key set, so a new key fails the build here. */
+const fr: TTranslations = {
+  // Saving
+  'save.save': 'Enregistrer',
+  'save.saving': 'Enregistrement…',
+  'save.saved': 'Enregistré',
+  'save.retry': 'Réessayer',
+  'save.failed': 'Le dernier enregistrement a échoué.',
+
+  // Inspector chrome
+  'inspector.tab.styles': 'Styles',
+  'inspector.tab.inspect': 'Détails',
+  'inspector.toggle': 'Afficher/masquer le panneau latéral',
+  'inspector.empty': 'Cliquez sur un bloc pour le modifier.',
+  'inspector.blockNotFound':
+    'Le bloc portant l’identifiant {id} est introuvable. Cliquez sur un bloc pour réinitialiser.',
+  'inspector.rootNotFound': 'Bloc introuvable',
+
+  // Canvas chrome
+  'canvas.addBlock': 'Ajouter un bloc',
+  'canvas.moveUp': 'Déplacer vers le haut',
+  'canvas.moveDown': 'Déplacer vers le bas',
+  'canvas.duplicate': 'Dupliquer',
+  'canvas.delete': 'Supprimer',
+
+  // Add-block menu
+  'block.Heading': 'Titre',
+  'block.Text': 'Texte',
+  'block.Button': 'Bouton',
+  'block.Image': 'Image',
+  'block.Avatar': 'Avatar',
+  'block.Divider': 'Séparateur',
+  'block.Spacer': 'Espacement',
+  'block.Table': 'Tableau',
+  'block.Html': 'HTML',
+  'block.ColumnsContainer': 'Colonnes',
+  'block.Container': 'Conteneur',
+
+  // Inspector panel titles
+  'panel.EmailLayout': 'Général',
+  'panel.Heading': 'Bloc titre',
+  'panel.Text': 'Bloc texte',
+  'panel.Button': 'Bloc bouton',
+  'panel.Image': 'Bloc image',
+  'panel.Avatar': 'Bloc avatar',
+  'panel.Divider': 'Bloc séparateur',
+  'panel.Spacer': 'Bloc espacement',
+  'panel.Table': 'Bloc tableau',
+  'panel.Html': 'Bloc HTML',
+  'panel.ColumnsContainer': 'Bloc colonnes',
+  'panel.Container': 'Bloc conteneur',
+
+  // Field labels
+  'field.alignment': 'Alignement',
+  'field.altText': 'Texte alternatif',
+  'field.backdropColor': 'Couleur d’arrière-plan (extérieur)',
+  'field.backgroundColor': 'Couleur de fond',
+  'field.borderColor': 'Couleur de la bordure',
+  'field.borderRadius': 'Rayon des angles',
+  'field.borderWidth': 'Épaisseur de la bordure',
+  'field.buttonColor': 'Couleur du bouton',
+  'field.canvasBorderColor': 'Couleur de bordure de la zone',
+  'field.canvasBorderRadius': 'Rayon des angles de la zone',
+  'field.cellPadding': 'Marge intérieure des cellules',
+  'field.canvasColor': 'Couleur de la zone',
+  'field.clickThroughUrl': 'URL de destination',
+  'field.color': 'Couleur',
+  'field.column': 'Colonne {number}',
+  'field.columnsGap': 'Écart entre les colonnes',
+  'field.content': 'Contenu',
+  'field.fontFamily': 'Police',
+  'field.fontSize': 'Taille de police',
+  'field.fontWeight': 'Graisse',
+  'field.headerBackgroundColor': 'Fond de l’en-tête',
+  'field.headerRow': 'Ligne d’en-tête',
+  'field.headerTextColor': 'Couleur du texte de l’en-tête',
+  'field.height': 'Hauteur',
+  'field.imageUrl': 'URL de l’image',
+  'field.level': 'Niveau',
+  'field.minRowHeight': 'Hauteur minimale de la ligne',
+  'field.numberOfColumns': 'Nombre de colonnes',
+  'field.padding': 'Marge intérieure',
+  'field.preheader': 'Texte d’aperçu',
+  'field.shape': 'Forme',
+  'field.size': 'Taille',
+  'field.sourceUrl': 'URL source',
+  'field.stripedRowColor': 'Lignes alternées',
+  'field.style': 'Style',
+  'field.text': 'Texte',
+  'field.textColor': 'Couleur du texte',
+  'field.url': 'URL',
+  'field.width': 'Largeur',
+
+  // Helper text
+  'helper.preheader': 'S’affiche dans la boîte de réception à côté de l’objet. Invisible dans l’e-mail lui-même.',
+
+  // Option labels
+  'option.shape.circle': 'Rond',
+  'option.shape.square': 'Carré',
+  'option.shape.rounded': 'Arrondi',
+  'option.width.full': 'Pleine largeur',
+  'option.width.auto': 'Auto',
+  'option.size.xSmall': 'XS',
+  'option.size.small': 'S',
+  'option.size.medium': 'M',
+  'option.size.large': 'L',
+  'option.buttonStyle.rectangle': 'Rectangulaire',
+  'option.buttonStyle.rounded': 'Arrondi',
+  'option.buttonStyle.pill': 'Pilule',
+  'option.fontWeight.regular': 'Normal',
+  'option.fontWeight.bold': 'Gras',
+  'option.fontFamily.inherit': 'Comme le réglage de l’e-mail',
+  'option.align.top': 'Aligner en haut',
+  'option.align.middle': 'Aligner au milieu',
+  'option.align.bottom': 'Aligner en bas',
+  'option.align.left': 'Aligner à gauche',
+  'option.align.center': 'Centrer',
+  'option.align.right': 'Aligner à droite',
+
+  // Rich text selection toolbar
+  'richText.toolbar': 'Mise en forme du texte',
+  'richText.bold': 'Gras',
+  'richText.italic': 'Italique',
+  'richText.underline': 'Souligné',
+  'richText.strikethrough': 'Barré',
+  'richText.color': 'Couleur du texte',
+  'richText.clearFormatting': 'Effacer la mise en forme',
+
+  // Table canvas controls
+  'table.addRow': 'Ligne',
+  'table.addColumn': 'Colonne',
+  'table.deleteRow': 'Supprimer la ligne',
+  'table.deleteColumn': 'Supprimer la colonne',
+  'table.resizeColumn': 'Redimensionner la colonne',
+
+  // Image library
+  'imageLibrary.choose': 'Choisir une image…',
+  'imageLibrary.title': 'Choisir une image',
+  'imageLibrary.dropzone': 'Glissez une image ici ou cliquez pour choisir un fichier',
+  'imageLibrary.uploading': 'Téléversement…',
+  'imageLibrary.search': 'Rechercher',
+  'imageLibrary.searchPlaceholder': 'Rechercher dans la médiathèque…',
+  'imageLibrary.loading': 'Chargement…',
+  'imageLibrary.loadMore': 'Charger plus',
+  'imageLibrary.empty': 'Aucune image trouvée.',
+  'imageLibrary.select': 'Utiliser',
+  'imageLibrary.cancel': 'Annuler',
+  'imageLibrary.retry': 'Réessayer',
+  'imageLibrary.error.load': 'La médiathèque n’a pas pu être chargée.',
+  'imageLibrary.error.upload': 'Le téléversement a échoué.',
+  'imageLibrary.error.pick': 'Aucune image n’a pu être sélectionnée.',
+  'imageLibrary.error.type': '{name} n’est pas un type d’image autorisé.',
+  'imageLibrary.error.tooLarge': '{name} dépasse la limite de {limit}.',
+
+  // Inputs
+  'input.auto': 'auto',
+  'input.clear': 'Réinitialiser {label}',
+  'input.value': 'Valeur',
+};
+
+export default fr;

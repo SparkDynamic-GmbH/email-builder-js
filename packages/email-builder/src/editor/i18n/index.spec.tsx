@@ -9,8 +9,7 @@ import { BlockDefinitionDictionary } from '../../core/registry';
 import { EmailBuilderProvider } from '../EditorContext';
 import SaveButton from '../SaveButton';
 
-import { createTranslate, useTranslate } from '.';
-import de from './de';
+import { CATALOGS, createTranslate, useTranslate } from '.';
 import en from './en';
 
 describe('createTranslate', () => {
@@ -44,8 +43,8 @@ describe('createTranslate', () => {
 });
 
 describe('catalogs', () => {
-  it('cover the same keys', () => {
-    expect(Object.keys(de).sort()).toEqual(Object.keys(en).sort());
+  it.each(Object.keys(CATALOGS))('%s covers the same keys as English', (language) => {
+    expect(Object.keys(CATALOGS[language as keyof typeof CATALOGS]).sort()).toEqual(Object.keys(en).sort());
   });
 });
 

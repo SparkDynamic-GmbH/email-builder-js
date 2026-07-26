@@ -1,7 +1,7 @@
 import type en from './en';
 
 /** ISO 639-1 codes the editor ships translations for. */
-export const LANGUAGES = ['en', 'de'] as const;
+export const LANGUAGES = ['en', 'de', 'fr', 'it'] as const;
 
 export type TLanguage = (typeof LANGUAGES)[number];
 

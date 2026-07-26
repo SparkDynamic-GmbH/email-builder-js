@@ -12,7 +12,7 @@
 - **The Text panel has no content field.** A textarea could only show the marks as raw markup and let them be hand-edited into something the sanitizer rewrites; the canvas is where a Text block is written now. The panel still owns colour, background, font, size, weight, alignment and padding.
 - Marks are stored and exported as **semantic tags** — `<strong>`, `<em>`, `<u>`, `<del>` — with `<span style>` reserved for colour, background and size, because Word renders those tags reliably but is patchy on `text-decoration` written as CSS. Weight, slant and decoration are never stored as CSS: a span declaring one outranks an enclosing tag, which would stop a block from being bolded as a whole. Padding stays on the `td` and the table wrapper is unchanged.
 - Whatever a browser produced is reconciled on commit: Chrome's `<b>` and per-line `<div>`, Firefox's spans, and `rgb()` colours all become one vocabulary. Rendering sanitizes again, allowing inline tags only plus a style-property allowlist.
-- The catalogs gain `richText.*` and lose `field.markdown`, en and de.
+- The catalogs gain `richText.*` and lose `field.markdown`, in every language.
 
 ### Added — Table block
 
@@ -23,7 +23,7 @@
 - Editable from the inspector: header row on/off with its own background and text colour, striped row colour, border colour and width, cell padding, minimum row height, per-column alignment, plus the usual text colour, background, font family, font size and padding.
 - Table-first markup from the start: borders on the cells, background as both CSS and `bgcolor`, alignment as both `text-align` and `align`, and a non-breaking space in empty cells, which otherwise collapse and lose their borders in Word. The inner grid keeps `th`/`scope` semantics; only the wrapper table is `role="presentation"`.
 - Registered in the built-in reader dictionary too, so a consumer that only renders email gets it without registering anything.
-- The catalogs gain `block.Table`, `panel.Table`, the new field labels and `table.*`, en and de.
+- The catalogs gain `block.Table`, `panel.Table`, the new field labels and `table.*`, in every language.
 
 ### Added — image library
 
@@ -32,14 +32,14 @@
 - The Image panel is unchanged for a host that passes no `imageLibrary`: a URL field and nothing else.
 - A chosen image writes `url`, and fills `alt` only when the block has none. Width and height are deliberately left alone — an asset's intrinsic size is rarely the size it should render at in an email.
 - **`useImageLibrary()`, `ImagePickerButton`, `ImageLibraryDialog`, `ImageLibraryProvider`** and the `TImageLibrary*` types are exported from `./editor`, so a host's own blocks can reuse the same store.
-- The catalogs gain `imageLibrary.*`, en and de.
+- The catalogs gain `imageLibrary.*`, in every language.
 
 ### Added — i18n
 
-- **`language` on `EmailBuilderProvider`**, an ISO 639-1 code; `en` (default) and `de` ship. It covers the editor's chrome — panels, labels, menus, tooltips, the save button — not the document, which is the user's own content.
+- **`language` on `EmailBuilderProvider`**, an ISO 639-1 code; `en` (default), `de`, `fr` and `it` ship. It covers the editor's chrome — panels, labels, menus, tooltips, the save button — not the document, which is the user's own content.
 - **`translations`**, a partial override map for rewording a built-in string, adding keys for a host's own blocks, or supplying a language we do not ship. Lookup order is override → language → English → the key.
 - **`useTranslate()`, `useLanguage()`, `createTranslate()` and `I18nProvider`** exported from `./editor`, so a host's chrome reads from the same catalog as the editor. `t(key, params)` fills `{name}` placeholders.
-- English is the source of truth for the key set: `de.ts` is typed against it, so a new key does not compile until it is translated.
+- English is the source of truth for the key set: every other catalog is typed against it, so a new key does not compile until it is translated, and a test asserts each catalog covers the English key set exactly.
 - Add-block labels resolve under `block.<type>` and fall back to the label the definition gave, so a block a host registered keeps working untranslated.
 
 ### Added — saving

@@ -2,12 +2,14 @@ import React, { createContext, useContext, useMemo } from 'react';
 
 import de from './de';
 import en from './en';
+import fr from './fr';
+import it from './it';
 import { TKey, TLanguage, TTranslate, TTranslationOverrides, TTranslations } from './types';
 
 export { LANGUAGES } from './types';
 export type { TKey, TLanguage, TTranslate, TTranslationKey, TTranslationOverrides, TTranslations } from './types';
 
-export const CATALOGS: Record<TLanguage, TTranslations> = { en, de };
+export const CATALOGS: Record<TLanguage, TTranslations> = { en, de, fr, it };
 
 export const DEFAULT_LANGUAGE: TLanguage = 'en';
 
