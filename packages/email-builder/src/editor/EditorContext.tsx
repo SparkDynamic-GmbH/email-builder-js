@@ -71,8 +71,24 @@ export type EmailBuilderProviderProps<T extends BaseZodDictionary> = {
   registry: BlockRegistry<T>;
   /** The document to start from. Later changes to this prop are ignored. */
   initialDocument: Record<string, BlockConfiguration<T>>;
-  /** Called whenever the document changes — the hook for autosave. */
+  /**
+   * Called whenever the document changes — the hook for autosave. Its identity
+   * may change freely; it is read fresh on every call, so an inline arrow is
+   * fine and does not restart a pending debounce.
+   */
   onChange?: (document: TEditorConfiguration) => void;
+  /**
+   * Debounce `onChange` by this many milliseconds, trailing edge. Every edit
+   * restarts the timer, so a run of keystrokes or slider ticks reports once,
+   * with the latest document. `0` (the default) reports every change
+   * synchronously.
+   *
+   * A pending call is flushed when the provider unmounts, so switching away
+   * from the editor does not lose the last edit. It is not flushed when the
+   * page itself goes away — a host that autosaves over the network still wants
+   * its own `beforeunload`/`visibilitychange` handling for that.
+   */
+  onChangeDebounceMs?: number;
   children: React.ReactNode;
 };
 
@@ -85,6 +101,7 @@ export function EmailBuilderProvider<T extends BaseZodDictionary>({
   registry,
   initialDocument,
   onChange,
+  onChangeDebounceMs = 0,
   children,
 }: EmailBuilderProviderProps<T>) {
   // The one place the block set is erased; see TEditorRegistry.
@@ -114,20 +131,57 @@ export function EmailBuilderProvider<T extends BaseZodDictionary>({
     [store]
   );
 
+  // Read through a ref so the subscription below survives a host that passes a
+  // new closure every render — otherwise each render would tear down the
+  // subscription and with it any pending debounce.
+  const onChangeRef = useRef(onChange);
   useEffect(() => {
-    if (!onChange) {
-      return;
-    }
+    onChangeRef.current = onChange;
+  });
+
+  useEffect(() => {
     // Fires on document changes only, not on selection or panel state.
     let previous = store.getState().document;
-    return store.subscribe(() => {
-      const { document } = store.getState();
-      if (document !== previous) {
-        previous = document;
-        onChange(document);
+    let timeout: ReturnType<typeof setTimeout> | null = null;
+    let pending: TEditorConfiguration | null = null;
+
+    const flush = () => {
+      if (timeout !== null) {
+        clearTimeout(timeout);
+        timeout = null;
       }
+      if (pending === null) {
+        return;
+      }
+      const document = pending;
+      pending = null;
+      onChangeRef.current?.(document);
+    };
+
+    const unsubscribe = store.subscribe(() => {
+      const { document } = store.getState();
+      if (document === previous) {
+        return;
+      }
+      previous = document;
+
+      if (onChangeDebounceMs <= 0) {
+        onChangeRef.current?.(document);
+        return;
+      }
+      pending = document;
+      if (timeout !== null) {
+        clearTimeout(timeout);
+      }
+      timeout = setTimeout(flush, onChangeDebounceMs);
     });
-  }, [store, onChange]);
+
+    return () => {
+      unsubscribe();
+      // Don't drop the last edit on unmount, or on a change of delay.
+      flush();
+    };
+  }, [store, onChangeDebounceMs]);
 
   const value = useMemo<TEditorContextValue>(
     () => ({ store, actions, registry: erasedRegistry }),

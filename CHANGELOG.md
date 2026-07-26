@@ -4,6 +4,11 @@
 
 ## Unreleased
 
+### Added
+
+- **`onChangeDebounceMs` on `EmailBuilderProvider`.** Debounces `onChange` on the trailing edge, so a run of keystrokes or slider ticks reports once with the latest document instead of once per edit — the thing every host autosaving to a backend had to build itself. A pending call is flushed on unmount. The default of `0` keeps the previous behaviour.
+- `onChange` is now read through a ref, so passing a new closure each render no longer resubscribes — and no longer restarts a pending debounce.
+
 ## 0.1.1 — 2026-07-26
 
 The first release built and published by CI, with provenance. Everything below is the divergence from upstream `ce3e610`.
