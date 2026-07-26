@@ -1,5 +1,7 @@
 export { default as buildBlockComponent } from './builders/buildBlockComponent';
 export { default as buildBlockConfigurationSchema } from './builders/buildBlockConfigurationSchema';
 export { default as buildBlockConfigurationDictionary } from './builders/buildBlockConfigurationDictionary';
+export { default as buildBlockRegistry, BlockRegistryOptions } from './builders/buildBlockRegistry';
 
+export { BlockDefinition, BlockDefinitionDictionary, BlockMenuEntry, SidebarPanelProps } from './registry';
 export { BlockConfiguration, DocumentBlocksDictionary } from './utils';
