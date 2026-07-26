@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 
-import { useDocument } from '../../documents/editor/EditorContext';
+import { useDocument } from '@sparkdynamic/email-builder/editor';
 
 import HighlightedCodePanel from './helper/HighlightedCodePanel';
 

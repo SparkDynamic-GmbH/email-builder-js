@@ -21,7 +21,9 @@ Take only what you need:
 | `@sparkdynamic/email-builder/extensions` | the block-definition and registry API — declare a block type, derive everything from it |
 | `@sparkdynamic/email-builder/blocks`     | the built-in block renderers with their zod schemas, props types and defaults           |
 | `@sparkdynamic/email-builder/reader`     | `Reader`, `createReader`, `renderToStaticMarkup` — a document to email HTML             |
+| `@sparkdynamic/email-builder/editor`     | the provider, canvas, inspector, ui primitives and built-in block definitions           |
 | `@sparkdynamic/email-builder`            | all of the above                                                                        |
+| `@sparkdynamic/email-builder/styles.css` | the editor's compiled stylesheet; `./theme.css` is the raw design-token file            |
 
 ESM only, with `.d.mts` types, sourcemaps and `src/` in the published tarball, so you can step into real source rather than a bundle.
 
@@ -35,16 +37,43 @@ const html = renderToStaticMarkup(document, { rootBlockId: 'root' });
 
 `document` is flat — `Record<blockId, { type, data }>` — and nesting is by id reference, so containers hold `childrenIds`. `ReaderDocumentSchema` validates arbitrary JSON into a typed document.
 
+## Mounting the editor
+
+```tsx
+import '@sparkdynamic/email-builder/styles.css';
+
+import { buildBlockRegistry } from '@sparkdynamic/email-builder/extensions';
+import {
+  BUILT_IN_BLOCK_DEFINITIONS,
+  EditorBlock,
+  EditorBlockWrapper,
+  EmailBuilderProvider,
+  InspectorDrawer,
+} from '@sparkdynamic/email-builder/editor';
+
+const registry = buildBlockRegistry(BUILT_IN_BLOCK_DEFINITIONS, { EditorBlockWrapper });
+
+<EmailBuilderProvider registry={registry} initialDocument={doc} onChange={save}>
+  <EditorBlock id="root" />
+  <InspectorDrawer />
+</EmailBuilderProvider>;
+```
+
+The provider owns one editor's state, so two of them on a page are two independent editors. Everything around the canvas and the inspector — toolbar, view tabs, loading, saving — is yours; `examples/vite-emailbuilder` is a worked example of exactly that.
+
+Import `styles.css` **before** your own stylesheet. It ships no preflight, and its first line fixes the cascade-layer order so your reset cannot outrank the editor's utilities.
+
 ## Registering your own block
 
 A block is declared once, as a `BlockDefinition`: its schema, how it renders in email, how it renders on the canvas, its inspector panel, and its add-block menu entry. `buildBlockRegistry` derives the reader dictionary, the canvas dictionary, the document schema, the inspector dispatch and the menu from a dictionary of them.
 
 ```tsx
 import { buildBlockDefinitionDictionary, buildBlockRegistry } from '@sparkdynamic/email-builder/extensions';
+import { BUILT_IN_BLOCK_DEFINITIONS, EditorBlockWrapper } from '@sparkdynamic/email-builder/editor';
 import { createReader } from '@sparkdynamic/email-builder/reader';
 
 const blocks = buildBlockDefinitionDictionary({
-  ...BUILT_IN_DEFINITIONS,
+  ...BUILT_IN_BLOCK_DEFINITIONS,
   ProductPicker: {
     schema: ProductPickerPropsSchema,
     Reader: ProductPicker,

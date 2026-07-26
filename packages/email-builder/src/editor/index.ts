@@ -1,0 +1,63 @@
+/**
+ * The editor: an interactive canvas over a document, and an inspector for the
+ * selected block. Both work over whatever block set the provider is given, so a
+ * host can register blocks of its own.
+ *
+ * The chrome around them — toolbar, view tabs, loading and saving — is the
+ * host's, as `examples/vite-emailbuilder` shows.
+ *
+ * Bring in `@sparkdynamic/email-builder/styles.css` for the styling.
+ */
+
+export {
+  EmailBuilderProvider,
+  EmailBuilderProviderProps,
+  TEditorActions,
+  //
+  useBlock,
+  useDocument,
+  useEditorActions,
+  useEditorRegistry,
+  useInspectorDrawerOpen,
+  useSelectedBlockId,
+  useSelectedMainTab,
+  useSelectedScreenSize,
+  useSelectedSidebarTab,
+} from './EditorContext';
+
+export { TEditorBlock, TEditorConfiguration, TEditorRegistry } from './types';
+
+/** The canvas. Render it at the document's root block id. */
+export { default as EditorBlock, useCurrentBlockId } from './EditorBlock';
+
+/**
+ * The built-in block set. Spread it into your own dictionary, then pass the
+ * result through `buildBlockRegistry` from `../extensions`.
+ */
+export { default as BUILT_IN_BLOCK_DEFINITIONS } from './definitions';
+
+/** Editor chrome for a canvas block: selection outline and the block menu. */
+export { default as EditorBlockWrapper } from './helpers/block-wrappers/EditorBlockWrapper';
+
+export { default as InspectorDrawer, INSPECTOR_DRAWER_WIDTH } from './inspector/InspectorDrawer';
+export { default as ToggleInspectorPanelButton } from './inspector/ToggleInspectorPanelButton';
+export { default as ConfigurationPanel } from './inspector/ConfigurationPanel';
+export { default as StylesPanel } from './inspector/StylesPanel';
+
+// Radix + Tailwind primitives the panels are built on, exported so a host's own
+// blocks and chrome can match them.
+export { default as Button, LinkButton } from './ui/Button';
+export { default as cn } from './ui/cn';
+export { default as Dialog, DialogActions, DialogContent } from './ui/Dialog';
+export { default as Drawer } from './ui/Drawer';
+export { default as IconButton, IconLinkButton } from './ui/IconButton';
+export { default as Label } from './ui/Label';
+export { default as Popover } from './ui/Popover';
+export { default as Select, SelectOption } from './ui/Select';
+export { default as Slider } from './ui/Slider';
+export { default as Switch } from './ui/Switch';
+export { default as Tabs, Tab } from './ui/Tabs';
+export { default as TextField } from './ui/TextField';
+export { default as Toast, ToastProvider } from './ui/Toast';
+export { default as ToggleGroup, ToggleButton } from './ui/ToggleGroup';
+export { default as Tooltip, TooltipProvider } from './ui/Tooltip';

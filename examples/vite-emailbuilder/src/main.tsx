@@ -1,14 +1,14 @@
+import '@sparkdynamic/email-builder/styles.css';
 import './styles.css';
 
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 
+import { EmailBuilderProvider, ToastProvider, TooltipProvider } from '@sparkdynamic/email-builder/editor';
+
 import App from './App';
-import { EDITOR_REGISTRY } from './documents/editor/core';
-import { EmailBuilderProvider } from './documents/editor/EditorContext';
 import getConfiguration from './getConfiguration';
-import { ToastProvider } from './ui/Toast';
-import { TooltipProvider } from './ui/Tooltip';
+import { EDITOR_REGISTRY } from './registry';
 
 // Where the document comes from is the host's business: this app reads it out of
 // the URL hash, a real host would load it from its API.

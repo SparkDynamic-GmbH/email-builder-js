@@ -34,7 +34,7 @@ Built and run locally; there is no CI (workflows were removed deliberately — t
 
 ```bash
 npm ci                                  # root, installs all workspaces
-npm run build --workspaces              # tsup build; the editor app resolves dist, so run this first
+npm run build --workspaces              # tsup + tailwind; the app resolves dist, so run this first
 npm test                                # jest (ts-jest + jsdom)
 npx tsc --noEmit                        # typecheck
 npx eslint . && npx prettier . --check  # what CI used to enforce; still the bar
@@ -55,14 +55,36 @@ packages/
     src/blocks/<Name>/     one dir per block — renderer, spec, snapshots; containers also
                            carry their narrowed schema and their *Reader
     src/Reader/            createReader + the built-in reader
-    src/exports/           one file per subpath export: extensions, blocks, reader
+    src/editor/            the editor library — provider, canvas, inspector, ui primitives
+      definitions.tsx      the built-in block set, BUILT_IN_BLOCK_DEFINITIONS
+      blocks/<Name>/       canvas variants of the blocks that need one
+      helpers/             wrappers, TuneMenu, EditorChildrenIds, InlineEditable
+      inspector/           InspectorDrawer, StylesPanel, ConfigurationPanel + input-panels
+      ui/                  Radix + Tailwind primitives
+      theme.css            design tokens, exported raw as ./theme.css
+      styles.css           compiled to dist/styles.css, exported as ./styles.css
+    src/exports/           one file per subpath export: extensions, blocks, reader, editor
 examples/
-  vite-emailbuilder/       the editor SPA (React 19 + Tailwind 4 + Radix + zustand + vite)
+  vite-emailbuilder/       a host app: toolbar, view tabs, hash loading, import/export/share
 ```
 
-Upstream shipped twelve packages — `document-core`, ten `block-*`, and `email-builder` — for its own reuse story. We have one consumer, so they are **one package** now; see [#1](https://github.com/SparkDynamic-GmbH/email-builder-js/issues/1). Subpath exports (`./extensions`, `./blocks`, `./reader`) are how a consumer takes only what it needs.
+Upstream shipped twelve packages — `document-core`, ten `block-*`, and `email-builder` — for its own reuse story. We have one consumer, so they are **one package** now; see [#1](https://github.com/SparkDynamic-GmbH/email-builder-js/issues/1). Subpath exports are how a consumer takes only what it needs:
 
-The editor still lives in `examples/`, so it is not yet importable — moving it into the package behind a `./editor` export is the remaining consolidation step.
+| Subpath        | Contents                                                              |
+| -------------- | --------------------------------------------------------------------- |
+| `./extensions` | declare a block, build a registry                                     |
+| `./blocks`     | the built-in renderers, schemas, props types, defaults                |
+| `./reader`     | `Reader`, `createReader`, `renderToStaticMarkup`                      |
+| `./editor`     | provider, canvas, inspector, ui primitives, built-in definitions      |
+| `./styles.css` | the editor's compiled stylesheet; `./theme.css` is the raw token file |
+
+### The line between the package and the host app
+
+The package owns the editor; `examples/vite-emailbuilder` is a **host app**, the same shape `Cloudwawi.Web` will be, and it consumes the built package rather than its source. That split is the point — if something the app does can't be done through the public entry points, the entry points are wrong.
+
+The app keeps: the toolbar, the editor/preview/HTML/JSON tab switcher, `registry.ts` (its own `buildBlockRegistry` call plus the strict types it derives for its sample documents), hash-based loading in `getConfiguration/`, import/download/share.
+
+**Styling.** The package ships `dist/styles.css` — its tokens and only the utilities its own components use, built by the Tailwind CLI over `src/editor/` — with **no preflight**, so it doesn't fight a host's reset. Its first line declares `@layer theme, base, components, utilities` on purpose: cascade-layer order is fixed by first appearance, and without it a host's own preflight is seen after our utilities and beats them, which silently strips the padding and borders off every panel. Import the package stylesheet before the host's.
 
 ### The central idea: a block dictionary
 
@@ -102,24 +124,25 @@ The shared `style` shape (color / fontSize / fontFamily / fontWeight / textAlign
 
 Output is old-school email HTML: `<table role="presentation" cellSpacing="0">`, inline styles, MSO conditional comments injected via `dangerouslySetInnerHTML` (`blocks/Button/index.tsx:157`). `blocks/Text` sanitizes markdown through `marked` + `insane` — keep that sanitization when touching text rendering.
 
-### Editor app (`examples/vite-emailbuilder`)
+### The editor (`packages/email-builder/src/editor`)
 
-- **State**: one zustand store, `documents/editor/EditorContext.tsx` — document, `selectedBlockId`, main tab, screen size, drawer flags. `useX()` hooks + free `setX()` functions; no reducer, **no undo** (undo/redo is a work-queue item; the onchainsuite fork has an implementation to lift).
-- **Shell**: `App/index.tsx` = TemplatePanel + InspectorDrawer (right). The upstream samples drawer is gone; the sample documents themselves are kept in `getConfiguration/sample/` and still load via the `#sample/<name>` hash.
-- **TemplatePanel** switches between `<EditorBlock id="root"/>`, `<Reader/>` preview, HTML and JSON views.
-- **InspectorDrawer** → `ConfigurationPanel` renders the registry's `SidebarPanel` for the selected block; the panels themselves live in `input-panels/`, all built on `BaseSidebarPanel` + reusable inputs under `input-panels/helpers/inputs/`. The panels are highly repetitive by design — they compose `PaddingInput`, `ColorInput`, `RadioGroupInput` etc., which in turn sit on the shared primitives in `src/ui/`.
-- **UI primitives** (`src/ui/`): thin Radix + Tailwind wrappers — `Button`, `IconButton`, `Drawer`, `Tabs`, `ToggleGroup`, `Slider`, `Switch`, `Select`, `TextField`, `Label`, `Dialog`, `Popover`, `Toast`, `Tooltip`. Design tokens live in `src/styles.css` under `@theme`, carried over verbatim from the deleted MUI theme. **Style selected states off ARIA (`aria-selected:`, `aria-checked:`), not `data-state`** — wrapping a Radix trigger in a Radix `Tooltip` overwrites `data-state` with the tooltip's own open/closed value.
-- **Mutation**: `TuneMenu.tsx` implements move/duplicate/delete by walking every block to find the parent (`findParentBlockId:26`); the same three-case container switch repeats in each handler.
-- **Persistence**: none. Documents load from `window.location.hash` — `#sample/<name>` or `#code/<base64>` (`getConfiguration/index.tsx:11`); `ShareButton` encodes back. Autosave/persistence is a work-queue item.
+- **State**: one zustand store per `EmailBuilderProvider`, in `EditorContext.tsx` — document, `selectedBlockId`, main tab, screen size, drawer flags. `useX()` hooks read it from context; mutations go through `useEditorActions()`, whose object is stable for the provider's lifetime. An `onChange` prop reports document changes. No reducer, **no undo** (undo/redo is a work-queue item; the onchainsuite fork has an implementation to lift).
+- **Erasure boundary**: the provider is generic in the block set and erases it once (`registry as TEditorRegistry`), so every component below is written against the loose `TEditorBlock` (`type: string; data: any`) rather than being generic throughout. A host that wants the strict discriminated union derives it from `registry.blockSchema`, as `examples/…/registry.ts` does. Don't thread generics through the components to "fix" this.
+- **Canvas**: `EditorBlock({id})` reads the block from the store and publishes its own id via `EditorBlockContext` so `EditorBlockWrapper` and `TuneMenu` know who they are.
+- **Inspector**: `ConfigurationPanel` renders the registry's `SidebarPanel` for the selected block; the panels live in `inspector/ConfigurationPanel/input-panels/`, all built on `BaseSidebarPanel` + reusable inputs under `input-panels/helpers/inputs/`. They are highly repetitive by design — they compose `PaddingInput`, `ColorInput`, `RadioGroupInput` etc., which sit on the primitives in `editor/ui/`.
+- **UI primitives** (`editor/ui/`): thin Radix + Tailwind wrappers — `Button`, `IconButton`, `Drawer`, `Tabs`, `ToggleGroup`, `Slider`, `Switch`, `Select`, `TextField`, `Label`, `Dialog`, `Popover`, `Toast`, `Tooltip`. **Style selected states off ARIA (`aria-selected:`, `aria-checked:`), not `data-state`** — wrapping a Radix trigger in a Radix `Tooltip` overwrites `data-state` with the tooltip's own open/closed value.
+- **Mutation**: `TuneMenu.tsx` implements move/duplicate/delete by walking every block to find the parent (`findParentBlockId`); the same three-case container switch repeats in each handler. `cloneDocumentBlock` clones unknown block types as-is, so a host's own leaf block works; a host's own _container_ would need a case.
+- **Persistence**: none in the package — `onChange` is the hook for it. The host app loads from `window.location.hash` (`#sample/<name>` or `#code/<base64>`, `getConfiguration/index.tsx`) and `ShareButton` encodes back. Autosave is a work-queue item.
 
 ## Where to touch what
 
-| Task                       | Files                                                                                                                                                                                                                                                                             |
-| -------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **New block**              | new `packages/email-builder/src/blocks/<Name>/`, a `XSidebarPanel`, then one `BlockDefinition` in `examples/…/documents/blocks/definitions.tsx` — canvas, inspector, menu and export all follow. Add it to `src/Reader/core.tsx` too only if the standalone reader should know it |
-| Change email HTML output   | the block's `index.tsx`, or `*Reader.tsx` for containers                                                                                                                                                                                                                          |
-| Editor behaviour only      | `documents/blocks/helpers/` (wrappers, `TuneMenu`, `EditorChildrenIds`)                                                                                                                                                                                                           |
-| A block's editable options | `input-panels/*SidebarPanel.tsx` + the block's zod schema                                                                                                                                                                                                                         |
+| Task                       | Files                                                                                                                                                                                                                                                                                  |
+| -------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **New block**              | new `src/blocks/<Name>/`, a `XSidebarPanel` under `src/editor/inspector/…/input-panels/`, then one `BlockDefinition` in `src/editor/definitions.tsx` — canvas, inspector, menu and export all follow. Add it to `src/Reader/core.tsx` too only if the standalone reader should know it |
+| Change email HTML output   | the block's `index.tsx`, or `*Reader.tsx` for containers                                                                                                                                                                                                                               |
+| Editor behaviour only      | `src/editor/helpers/` (wrappers, `TuneMenu`, `EditorChildrenIds`)                                                                                                                                                                                                                      |
+| A block's editable options | `src/editor/inspector/…/input-panels/*SidebarPanel.tsx` + the block's zod schema                                                                                                                                                                                                       |
+| The editor's styling       | `src/editor/theme.css` for tokens, `src/editor/styles.css` for the build; rebuild with `npm run build:css -w packages/email-builder`                                                                                                                                                   |
 
 ## Conventions
 
@@ -148,9 +171,9 @@ For changes that touch `packages/*`, add `npm run build --workspaces` — `tsup`
 ### Never commit without asking
 
 - **The gate is red** — failing tests, type errors, lint errors. Report the failure instead. A broken commit is worse than an uncommitted change, because there is no CI to catch it later.
-- **Package `version` bumps** in any `packages/*/package.json` — these are publish-affecting, and `email-builder` pins the blocks by caret range.
+- **The package `version`** in `packages/email-builder/package.json` — publish-affecting.
 - **Bulk snapshot updates** (`jest -u`). Renderer changes churn snapshots by design; the diff _is_ the review of the email HTML. Show it, don't absorb it.
-- **Mid-refactor states** in the de-MUI + React 19 work — a half-ported panel set that happens to compile is not a coherent unit.
+- **Mid-refactor states** — a half-moved module set that happens to compile is not a coherent unit. Finish the unit, then commit.
 - **Anything you were told to do differently** in the current session. Session instructions outrank this file.
 
 ### Branching and history

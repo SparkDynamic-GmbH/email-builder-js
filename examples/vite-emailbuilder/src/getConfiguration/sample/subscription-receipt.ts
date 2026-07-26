@@ -1,4 +1,4 @@
-import { TEditorConfiguration } from '../../documents/editor/core';
+import { TEditorConfiguration } from '../../registry';
 
 const SUBSCRIPTION_RECEIPT: TEditorConfiguration = {
   root: {

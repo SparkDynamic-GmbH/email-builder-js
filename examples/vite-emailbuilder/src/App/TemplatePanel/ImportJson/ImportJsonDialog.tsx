@@ -1,9 +1,13 @@
 import React, { useState } from 'react';
 
-import { useEditorActions } from '../../../documents/editor/EditorContext';
-import Button from '../../../ui/Button';
-import Dialog, { DialogActions, DialogContent } from '../../../ui/Dialog';
-import TextField from '../../../ui/TextField';
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  TextField,
+  useEditorActions,
+} from '@sparkdynamic/email-builder/editor';
 
 import validateJsonStringValue from './validateJsonStringValue';
 

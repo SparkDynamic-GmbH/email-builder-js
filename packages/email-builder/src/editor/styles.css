@@ -1,0 +1,77 @@
+/**
+ * The editor's stylesheet, compiled to dist/styles.css and exported as
+ * `@sparkdynamic/email-builder/styles.css`.
+ *
+ * Deliberately no preflight: a host importing this already has its own reset,
+ * and shipping a second one would fight it. Only the tokens and the utilities
+ * the editor's own components use end up here, which is why `@source` points at
+ * this directory rather than at the consumer's tree.
+ */
+/**
+ * Declare the canonical layer order up front. Without this the host's own
+ * `@layer base` — its preflight — is first seen after our utilities layer and so
+ * wins the cascade against it, which strips the padding and borders off every
+ * panel. Layer order is fixed by first appearance across the document, and this
+ * stylesheet is imported first.
+ */
+@layer theme, base, components, utilities;
+
+@import 'tailwindcss/theme.css' layer(theme);
+@import './theme.css';
+@import 'tailwindcss/utilities.css' layer(utilities);
+
+@source '.';
+
+/**
+ * The editor's own element defaults. Scoped to what the panels rely on rather
+ * than set on html/body, so a host page keeps its own typography.
+ */
+@layer components {
+  address {
+    font-style: normal;
+  }
+
+  fieldset {
+    border: none;
+    padding: 0;
+  }
+}
+
+/**
+ * react-colorful renders its own internals, so they can only be reached with
+ * descendant selectors. These rules are the former MUI `sx` block from
+ * ColorInput/Picker.tsx, translated one-for-one.
+ */
+@layer components {
+  .color-picker .react-colorful__pointer {
+    width: 16px;
+    height: 16px;
+  }
+
+  .color-picker .react-colorful__saturation {
+    margin-bottom: 8px;
+    border-radius: 4px;
+  }
+
+  .color-picker .react-colorful__last-control {
+    border-radius: 4px;
+  }
+
+  .color-picker .react-colorful__hue-pointer {
+    width: 4px;
+    height: 24px;
+    border-radius: 4px;
+    cursor: col-resize;
+  }
+
+  .color-picker .react-colorful__saturation-pointer {
+    cursor: all-scroll;
+  }
+
+  .color-picker input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid var(--color-grey-300);
+    border-radius: 4px;
+  }
+}

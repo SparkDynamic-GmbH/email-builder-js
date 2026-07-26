@@ -1,8 +1,7 @@
 import { Braces, Code, Eye, Pencil } from 'lucide-react';
 import React from 'react';
 
-import { useEditorActions, useSelectedMainTab } from '../../documents/editor/EditorContext';
-import Tabs, { Tab } from '../../ui/Tabs';
+import { Tab, Tabs, useEditorActions, useSelectedMainTab } from '@sparkdynamic/email-builder/editor';
 
 export default function MainTabsGroup() {
   const { setSelectedMainTab } = useEditorActions();

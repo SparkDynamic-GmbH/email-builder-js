@@ -1,16 +1,18 @@
 import { Monitor, Smartphone } from 'lucide-react';
 import React, { CSSProperties } from 'react';
 
-import { Reader, TEditorConfiguration } from '../../documents/editor/core';
-import EditorBlock from '../../documents/editor/EditorBlock';
 import {
+  EditorBlock,
+  ToggleButton,
+  ToggleGroup,
+  ToggleInspectorPanelButton,
   useDocument,
   useEditorActions,
   useSelectedMainTab,
   useSelectedScreenSize,
-} from '../../documents/editor/EditorContext';
-import ToggleGroup, { ToggleButton } from '../../ui/ToggleGroup';
-import ToggleInspectorPanelButton from '../InspectorDrawer/ToggleInspectorPanelButton';
+} from '@sparkdynamic/email-builder/editor';
+
+import { Reader, TEditorConfiguration } from '../../registry';
 
 import DownloadJson from './DownloadJson';
 import HtmlPanel from './HtmlPanel';

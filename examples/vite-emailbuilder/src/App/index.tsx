@@ -1,8 +1,7 @@
 import React from 'react';
 
-import { useInspectorDrawerOpen } from '../documents/editor/EditorContext';
+import { INSPECTOR_DRAWER_WIDTH, InspectorDrawer, useInspectorDrawerOpen } from '@sparkdynamic/email-builder/editor';
 
-import InspectorDrawer, { INSPECTOR_DRAWER_WIDTH } from './InspectorDrawer';
 import TemplatePanel from './TemplatePanel';
 
 /**

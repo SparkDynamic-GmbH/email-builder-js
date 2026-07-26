@@ -1,9 +1,7 @@
 import { Download } from 'lucide-react';
 import React, { useMemo } from 'react';
 
-import { useDocument } from '../../../documents/editor/EditorContext';
-import { IconLinkButton } from '../../../ui/IconButton';
-import Tooltip from '../../../ui/Tooltip';
+import { IconLinkButton, Tooltip, useDocument } from '@sparkdynamic/email-builder/editor';
 
 export default function DownloadJson() {
   const doc = useDocument();

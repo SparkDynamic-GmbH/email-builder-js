@@ -1,10 +1,7 @@
 import { Share } from 'lucide-react';
 import React, { useState } from 'react';
 
-import { useDocument } from '../../documents/editor/EditorContext';
-import IconButton from '../../ui/IconButton';
-import Toast from '../../ui/Toast';
-import Tooltip from '../../ui/Tooltip';
+import { IconButton, Toast, Tooltip, useDocument } from '@sparkdynamic/email-builder/editor';
 
 export default function ShareButton() {
   const document = useDocument();

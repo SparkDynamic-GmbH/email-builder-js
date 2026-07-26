@@ -1,8 +1,7 @@
 import { Upload } from 'lucide-react';
 import React, { useState } from 'react';
 
-import IconButton from '../../../ui/IconButton';
-import Tooltip from '../../../ui/Tooltip';
+import { IconButton, Tooltip } from '@sparkdynamic/email-builder/editor';
 
 import ImportJsonDialog from './ImportJsonDialog';
 
