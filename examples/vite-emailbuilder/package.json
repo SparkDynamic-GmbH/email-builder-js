@@ -19,7 +19,6 @@
     "@usewaypoint/block-image": "^0.0.6",
     "@usewaypoint/block-spacer": "^0.0.4",
     "@usewaypoint/block-text": "^0.0.8",
-    "@usewaypoint/document-core": "^0.0.7",
     "@usewaypoint/email-builder": "^0.0.10",
     "clsx": "^2.1.1",
     "highlight.js": "^11.9.0",

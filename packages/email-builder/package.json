@@ -35,7 +35,6 @@
     "@usewaypoint/block-html": "^0.0.4",
     "@usewaypoint/block-image": "^0.0.6",
     "@usewaypoint/block-spacer": "^0.0.4",
-    "@usewaypoint/block-text": "^0.0.8",
-    "@usewaypoint/document-core": "^0.0.7"
+    "@usewaypoint/block-text": "^0.0.8"
   }
 }

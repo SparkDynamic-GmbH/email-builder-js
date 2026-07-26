@@ -3,7 +3,7 @@ import { z } from 'zod';
 
 import { describe, expect, it } from '@jest/globals';
 
-import buildBlockConfigurationSchema from '../../src/builders/buildBlockConfigurationSchema';
+import buildBlockConfigurationSchema from './buildBlockConfigurationSchema';
 
 describe('builders/buildBlockConfigurationSchema', () => {
   it('builds a BlockConfiguration schema with an id, data, and type', () => {

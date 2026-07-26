@@ -17,7 +17,6 @@
     "packages/block-image",
     "packages/block-spacer",
     "packages/block-text",
-    "packages/document-core",
     "packages/email-builder",
     "examples/*"
   ],

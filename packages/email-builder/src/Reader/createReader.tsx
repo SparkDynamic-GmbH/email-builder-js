@@ -8,7 +8,7 @@ import {
   buildBlockComponent,
   buildBlockConfigurationSchema,
   DocumentBlocksDictionary,
-} from '@usewaypoint/document-core';
+} from '../core';
 
 import { ReaderBlock, ReaderContext } from './ReaderBlock';
 

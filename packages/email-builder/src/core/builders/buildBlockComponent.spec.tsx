@@ -4,7 +4,7 @@ import { z } from 'zod';
 import { describe, expect, it } from '@jest/globals';
 import { render } from '@testing-library/react';
 
-import buildBlockComponent from '../../src/builders/buildBlockComponent';
+import buildBlockComponent from './buildBlockComponent';
 
 describe('builders/buildBlockComponent', () => {
   it('renders the specified component', () => {

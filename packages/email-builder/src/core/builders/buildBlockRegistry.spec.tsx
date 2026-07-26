@@ -4,8 +4,9 @@ import { z } from 'zod';
 import { describe, expect, it, jest } from '@jest/globals';
 import { render, screen } from '@testing-library/react';
 
-import buildBlockRegistry from '../../src/builders/buildBlockRegistry';
-import { BlockDefinitionDictionary } from '../../src/registry';
+import { BlockDefinitionDictionary } from '../registry';
+
+import buildBlockRegistry from './buildBlockRegistry';
 
 const TextSchema = z.object({ text: z.string() });
 const SpacerSchema = z.object({ height: z.number() });

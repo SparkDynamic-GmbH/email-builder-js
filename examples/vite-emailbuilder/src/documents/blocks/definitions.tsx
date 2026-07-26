@@ -20,8 +20,12 @@ import { Html, HtmlPropsSchema } from '@usewaypoint/block-html';
 import { Image, ImageProps, ImagePropsSchema } from '@usewaypoint/block-image';
 import { Spacer, SpacerPropsSchema } from '@usewaypoint/block-spacer';
 import { Text, TextProps, TextPropsSchema } from '@usewaypoint/block-text';
-import { buildBlockDefinitionDictionary } from '@usewaypoint/document-core';
-import { ColumnsContainerReader, ContainerReader, EmailLayoutReader } from '@usewaypoint/email-builder';
+import {
+  buildBlockDefinitionDictionary,
+  ColumnsContainerReader,
+  ContainerReader,
+  EmailLayoutReader,
+} from '@usewaypoint/email-builder';
 
 import AvatarSidebarPanel from '../../App/InspectorDrawer/ConfigurationPanel/input-panels/AvatarSidebarPanel';
 import ButtonSidebarPanel from '../../App/InspectorDrawer/ConfigurationPanel/input-panels/ButtonSidebarPanel';
