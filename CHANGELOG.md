@@ -4,6 +4,15 @@
 
 ## Unreleased
 
+### Added — image library
+
+- **`imageLibrary` on `EmailBuilderProvider`**, so a host can wire its own asset store into the Image block. Three callbacks, all optional, and the editor adapts to whichever it is given: `upload(file, {signal})` stores a file and returns where it now lives, `list({query, cursor, signal})` returns one page of the library, `pick({url})` takes over the whole interaction for a host that already has an asset manager. `accept` and `maxFileSizeBytes` are enforced before `upload` is called.
+- **A picker dialog in the package**, driven by `upload`/`list` — a dropzone with drag-and-drop, a debounced search box, a cursor-paged grid, and per-request cancellation on close. `pick` takes precedence over it when both are given.
+- The Image panel is unchanged for a host that passes no `imageLibrary`: a URL field and nothing else.
+- A chosen image writes `url`, and fills `alt` only when the block has none. Width and height are deliberately left alone — an asset's intrinsic size is rarely the size it should render at in an email.
+- **`useImageLibrary()`, `ImagePickerButton`, `ImageLibraryDialog`, `ImageLibraryProvider`** and the `TImageLibrary*` types are exported from `./editor`, so a host's own blocks can reuse the same store.
+- The catalogs gain `imageLibrary.*`, en and de.
+
 ### Added — i18n
 
 - **`language` on `EmailBuilderProvider`**, an ISO 639-1 code; `en` (default) and `de` ship. It covers the editor's chrome — panels, labels, menus, tooltips, the save button — not the document, which is the user's own content.

@@ -63,6 +63,49 @@ The provider owns one editor's state, so two of them on a page are two independe
 
 Import `styles.css` **before** your own stylesheet. It ships no preflight, and its first line fixes the cascade-layer order so your reset cannot outrank the editor's utilities.
 
+## Wiring up your image library
+
+Give the provider an `imageLibrary` and the Image block's panel grows a picker over your own asset store. Every member is optional and the editor adapts to what it gets.
+
+```tsx
+<EmailBuilderProvider
+  registry={registry}
+  initialDocument={doc}
+  imageLibrary={{
+    // One page of the library. `cursor` is null on the first call, and
+    // whatever you last returned as `nextCursor` after that.
+    list: async ({ query, cursor, signal }) => {
+      const res = await fetch(`/api/media?q=${query}&cursor=${cursor ?? ''}`, { signal });
+      const { items, next } = await res.json();
+      return { items, nextCursor: next };
+    },
+    // Store a file and say where it now lives. A bare URL string is fine too.
+    upload: async (file, { signal }) => {
+      const body = new FormData();
+      body.append('file', file);
+      const res = await fetch('/api/media', { method: 'POST', body, signal });
+      if (!res.ok) {
+        // The message is what the user sees in the dialog.
+        throw new Error('The upload was rejected.');
+      }
+      return res.json(); // { url, alt?, name?, thumbnailUrl?, id? }
+    },
+    accept: 'image/png,image/jpeg,image/webp',
+    maxFileSizeBytes: 5 * 1024 * 1024,
+  }}
+>
+```
+
+That gets you the built-in dialog: a dropzone, a search box and a paged grid. If you already have an asset manager, skip both and hand off the whole interaction instead — `pick` takes precedence, and the editor renders no dialog of its own:
+
+```tsx
+imageLibrary={{ pick: ({ url }) => openMyAssetManager({ selected: url }) }}
+```
+
+Resolve with `null` when the user cancels. A chosen image writes the block's `url`, and fills its `alt` only when it has none; width and height are left alone, because an asset's intrinsic size is rarely the size it should render at in an email.
+
+Keep the object stable — module scope, or `useMemo`. Pass no `imageLibrary` and the Image panel is what it always was: a URL field.
+
 ## Registering your own block
 
 A block is declared once, as a `BlockDefinition`: its schema, how it renders in email, how it renders on the canvas, its inspector panel, and its add-block menu entry. `buildBlockRegistry` derives the reader dictionary, the canvas dictionary, the document schema, the inspector dispatch and the menu from a dictionary of them.
