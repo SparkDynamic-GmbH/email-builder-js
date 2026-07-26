@@ -82,8 +82,17 @@ jobs:
             echo "OIDC token endpoint: MISSING — check permissions.id-token"
           fi
           echo "registry: $(npm config get registry)"
-          echo "--- ~/.npmrc"
-          sed 's/_authToken=.*/_authToken=<redacted>/' ~/.npmrc 2>/dev/null || echo "(none)"
+          echo "--- $NPM_CONFIG_USERCONFIG"
+          sed 's/_authToken=.*/_authToken=<redacted>/' "$NPM_CONFIG_USERCONFIG" 2>/dev/null || echo "(none)"
+
+      # setup-node's registry-url writes `_authToken=${NODE_AUTH_TOKEN}` into
+      # that .npmrc, and with no token supplied it sets NODE_AUTH_TOKEN to the
+      # literal placeholder XXXXX-XXXXX-XXXXX-XXXXX. npm then sends that as a
+      # real credential and the registry rejects the identity with a 404 rather
+      # than falling through to OIDC. Keep the registry line, drop the
+      # credential line, and trusted publishing takes over.
+      - name: Let OIDC supply the credential
+        run: sed -i '/_authToken/d' "$NPM_CONFIG_USERCONFIG"
 
       # Plain `npm publish` from the package directory rather than --workspace
       # from the root: the OIDC exchange is what npm documents and tests, and

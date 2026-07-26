@@ -158,7 +158,12 @@ Output is old-school email HTML: `<table role="presentation" cellSpacing="0">`, 
 Authentication is **npm trusted publishing over OIDC** — no `NPM_TOKEN` in this repo, and provenance is attached automatically (the repo is public, which provenance requires). Two things this depends on, both easy to break:
 
 - **The workflow's filename.** The trusted publisher on npmjs.com is configured against this repo _and_ `publish.yml` by name. Renaming the file breaks publishing until npm is updated to match.
-- **`registry-url` on `actions/setup-node` is required.** It looks like it would get in the way — it writes an `.npmrc` containing an `${NODE_AUTH_TOKEN}` placeholder — but it is what points npm at the registry, and without it npm fails **`ENEEDAUTH`** without ever attempting the OIDC exchange. Leaving it out on the first attempt cost a release tag. If npm is older than 11.5.1 the symptom is a bare **404** instead, which is equally uninformative.
+- **`registry-url` on `actions/setup-node` is required, _and_ its credential line has to be deleted.** Both halves matter, and getting either wrong costs a release tag:
+
+  - Without `registry-url`, npm has no registry configuration and fails **`ENEEDAUTH`** without ever attempting the OIDC exchange.
+  - With it, setup-node writes `_authToken=${NODE_AUTH_TOKEN}` into the `.npmrc` at `$NPM_CONFIG_USERCONFIG` and — when no token is supplied — sets `NODE_AUTH_TOKEN` to the literal placeholder `XXXXX-XXXXX-XXXXX-XXXXX`. npm sends that as a real credential and the registry rejects the identity with a **404**, never reaching OIDC.
+
+  So the workflow keeps `registry-url` and then `sed -i '/_authToken/d' "$NPM_CONFIG_USERCONFIG"`. If npm is older than 11.5.1 the symptom is the same uninformative 404, so check the version the run printed before assuming this is the cause.
 
 ### The first publish cannot use this workflow
 
