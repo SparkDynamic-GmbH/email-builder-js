@@ -20,7 +20,7 @@ Short version of the decision:
 | ------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------ |
 | **Drop MUI entirely**; rebuild the editor shell + sidebar panels on **Tailwind 4 + Radix** | **Done.** Matches `Cloudwawi.Web`. Do _not_ add MUI components to new code.                                  |
 | **React 19**                                                                               | **Done**, together with de-MUI — MUI v5 was the main React-19 friction point, so they were one job, not two. |
-| **Table-based markup in the `block-*` renderers**                                          | The real Outlook fix. Renderers currently emit `div` + padding.                                              |
+| **Table-based markup in the block renderers**                                              | The real Outlook fix. Renderers currently emit `div` + padding.                                              |
 | Keep `react-colorful`                                                                      | 2.8 kB, no deps; Radix has no colour picker.                                                                 |
 | BeeFree stays available for tenants who want it                                            | This is about what we build on, not removing an existing flow.                                               |
 
@@ -34,7 +34,7 @@ Built and run locally; there is no CI (workflows were removed deliberately — t
 
 ```bash
 npm ci                                  # root, installs all workspaces
-npm run build --workspaces              # tsup build for every package
+npm run build --workspaces              # tsup build; the editor app resolves dist, so run this first
 npm test                                # jest (ts-jest + jsdom)
 npx tsc --noEmit                        # typecheck
 npx eslint . && npx prettier . --check  # what CI used to enforce; still the bar
@@ -50,17 +50,23 @@ npm-workspaces monorepo, TypeScript + React + zod.
 
 ```
 packages/
-  document-core/     block-dictionary framework (no blocks of its own)
-  block-*/  ×10      one leaf block per package — avatar, button, columns-container,
-                     container, divider, heading, html, image, spacer, text
-  email-builder/     assembles blocks → Reader + renderToStaticMarkup
+  email-builder/           the one published package, @sparkdynamic/email-builder
+    src/core/              block-dictionary framework + the registry (was document-core)
+    src/blocks/<Name>/     one dir per block — renderer, spec, snapshots; containers also
+                           carry their narrowed schema and their *Reader
+    src/Reader/            createReader + the built-in reader
+    src/exports/           one file per subpath export: extensions, blocks, reader
 examples/
   vite-emailbuilder/       the editor SPA (React 19 + Tailwind 4 + Radix + zustand + vite)
 ```
 
+Upstream shipped twelve packages — `document-core`, ten `block-*`, and `email-builder` — for its own reuse story. We have one consumer, so they are **one package** now; see [#1](https://github.com/SparkDynamic-GmbH/email-builder-js/issues/1). Subpath exports (`./extensions`, `./blocks`, `./reader`) are how a consumer takes only what it needs.
+
+The editor still lives in `examples/`, so it is not yet importable — moving it into the package behind a `./editor` export is the remaining consolidation step.
+
 ### The central idea: a block dictionary
 
-`packages/document-core` is the only real abstraction. A **DocumentBlocksDictionary** maps a block type name → `{ schema: ZodObject, Component: (props) => JSX }` (`document-core/src/utils.ts:3`). Builders consume it:
+`packages/email-builder/src/core` is the only real abstraction. A **DocumentBlocksDictionary** maps a block type name → `{ schema: ZodObject, Component: (props) => JSX }` (`core/utils.ts:3`). Builders consume it:
 
 - `buildBlockConfigurationDictionary` — identity fn, purely for type inference
 - `buildBlockConfigurationSchema` — turns the dictionary into a zod `discriminatedUnion('type')`, so arbitrary JSON validates into a typed `{type, data}` (`buildBlockConfigurationSchema.ts:12`)
@@ -70,7 +76,7 @@ A **document** is flat: `Record<blockId, {type, data}>`. Nesting is by ID refere
 
 ### One block set, four consumers
 
-A block is declared **once**, as a `BlockDefinition` — schema, `Reader`, optional `Editor`, optional `SidebarPanel`, optional add-block `menu` entry, optional `chrome: false` (`document-core/src/registry.ts`). `buildBlockRegistry` derives everything from a dictionary of them (`buildBlockRegistry.tsx`):
+A block is declared **once**, as a `BlockDefinition` — schema, `Reader`, optional `Editor`, optional `SidebarPanel`, optional add-block `menu` entry, optional `chrome: false` (`core/registry.ts`). `buildBlockRegistry` derives everything from a dictionary of them (`buildBlockRegistry.tsx`):
 
 | Derived                          | Used by                                                                                  |
 | -------------------------------- | ---------------------------------------------------------------------------------------- |
@@ -86,15 +92,15 @@ The editor's block set lives in `examples/…/documents/blocks/definitions.tsx`;
 
 Recursion happens via context: `ReaderBlock({id})` reads the document _and its block component_ from `ReaderContext`, so containers recurse into whatever block set their `Reader` was created with; `EditorBlock({id})` reads the document from the zustand store and publishes its own id via `EditorBlockContext` so wrappers know who they are.
 
-Container blocks (`Container`, `ColumnsContainer`, `EmailLayout`) live in `email-builder`/the editor rather than their own packages, because they must call back into `ReaderBlock`/`EditorBlock` to recurse.
+Container blocks (`Container`, `ColumnsContainer`, `EmailLayout`) carry a `*Reader` variant next to the plain renderer, because they must call back into `ReaderBlock`/`EditorBlock` to recurse; the plain renderer only takes already-rendered children.
 
 ### Blocks
 
-Each `block-*` package is self-contained and exports `XPropsSchema` (zod), `XProps`, `XPropsDefaults`, `X`. **They have no UI-framework dependency and no dependency on `document-core`** — just `react` + `zod` peer deps (plus `marked`/`insane` in block-text). This is why dropping MUI was cheaper than it looked: it touched the editor shell, not the renderers.
+Each block under `src/blocks/` is self-contained and exports `XPropsSchema` (zod), `XProps`, `XPropsDefaults`, `X`. **They have no UI-framework dependency and no dependency on `src/core`** — just `react` + `zod` (plus `marked`/`insane` in Text). This is why dropping MUI was cheaper than it looked: it touched the editor shell, not the renderers.
 
-The shared `style` shape (color / fontSize / fontFamily / fontWeight / textAlign / padding) and the `getFontFamily` switch are **copy-pasted into every block** — deliberate, for package independence. Preserve that independence; don't "fix" it by introducing a shared runtime dependency.
+The shared `style` shape (color / fontSize / fontFamily / fontWeight / textAlign / padding) and the `getFontFamily` switch are **copy-pasted into every block**. That was deliberate when each block was its own package; now that they are one, deduping it is defensible — but it churns every renderer snapshot, so it is its own change, not a drive-by.
 
-Output is old-school email HTML: `<table role="presentation" cellSpacing="0">`, inline styles, MSO conditional comments injected via `dangerouslySetInnerHTML` (`block-button/src/index.tsx:157`). `block-text` sanitizes markdown through `marked` + `insane` — keep that sanitization when touching text rendering.
+Output is old-school email HTML: `<table role="presentation" cellSpacing="0">`, inline styles, MSO conditional comments injected via `dangerouslySetInnerHTML` (`blocks/Button/index.tsx:157`). `blocks/Text` sanitizes markdown through `marked` + `insane` — keep that sanitization when touching text rendering.
 
 ### Editor app (`examples/vite-emailbuilder`)
 
@@ -108,19 +114,19 @@ Output is old-school email HTML: `<table role="presentation" cellSpacing="0">`, 
 
 ## Where to touch what
 
-| Task                       | Files                                                                                                                                                                                                                                                                   |
-| -------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **New block**              | new `packages/block-x/`, a `XSidebarPanel`, then one `BlockDefinition` in `examples/…/documents/blocks/definitions.tsx` — canvas, inspector, menu and export all follow. Add it to `email-builder/src/Reader/core.tsx` too only if the standalone reader should know it |
-| Change email HTML output   | the block package's `index.tsx`, or `*Reader.tsx` for containers                                                                                                                                                                                                        |
-| Editor behaviour only      | `documents/blocks/helpers/` (wrappers, `TuneMenu`, `EditorChildrenIds`)                                                                                                                                                                                                 |
-| A block's editable options | `input-panels/*SidebarPanel.tsx` + the block's zod schema                                                                                                                                                                                                               |
+| Task                       | Files                                                                                                                                                                                                                                                                             |
+| -------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **New block**              | new `packages/email-builder/src/blocks/<Name>/`, a `XSidebarPanel`, then one `BlockDefinition` in `examples/…/documents/blocks/definitions.tsx` — canvas, inspector, menu and export all follow. Add it to `src/Reader/core.tsx` too only if the standalone reader should know it |
+| Change email HTML output   | the block's `index.tsx`, or `*Reader.tsx` for containers                                                                                                                                                                                                                          |
+| Editor behaviour only      | `documents/blocks/helpers/` (wrappers, `TuneMenu`, `EditorChildrenIds`)                                                                                                                                                                                                           |
+| A block's editable options | `input-panels/*SidebarPanel.tsx` + the block's zod schema                                                                                                                                                                                                                         |
 
 ## Conventions
 
 - Formatting is enforced by prettier (`.prettierrc`) — run it before committing.
 - eslint uses `simple-import-sort`; import order is mechanical, let the fixer do it.
-- Tests are colocated snapshot tests (`src/index.spec.tsx` per block) plus `document-core/tests/`. **Changing renderer markup will churn snapshots — that is expected for the table-based-markup work; review the diffs rather than blindly updating them.**
-- Bump the package `version` when changing a published `block-*`; `email-builder` pins them by caret range.
+- Tests are colocated snapshot tests — `src/blocks/<Name>/index.spec.tsx` per block, plus the builders under `src/core/builders/`. **Changing renderer markup will churn snapshots — that is expected for the table-based-markup work; review the diffs rather than blindly updating them.**
+- One package, one `version`. It is unpublished at 0.1.0 — bumping it is publish-affecting, so ask first.
 
 ## Commit policy
 
@@ -132,7 +138,7 @@ There is no CI, so the gate is local and it is not optional. **Nothing is commit
 npx prettier . --write && npx eslint . && npx tsc --noEmit && npm test
 ```
 
-For changes that touch `packages/*`, add `npm run build --workspaces` — `tsup` + `--dts` catches type errors that `tsc --noEmit` at the root does not.
+For changes that touch `packages/*`, add `npm run build --workspaces` — `tsup` + `--dts` catches type errors that `tsc --noEmit` at the root does not, and the editor app imports the built package, not its source.
 
 ### Commit without asking when
 

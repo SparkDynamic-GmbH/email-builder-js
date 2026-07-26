@@ -58,18 +58,14 @@ Since the builder is completely free and open source, teams can self-host the bu
 
 ## Built-in blocks
 
-Each block is it's own npm package that can be included in the builder. These are the ones that are built-in:
+Upstream shipped each block as its own npm package. Here they are directories in the single
+[`@sparkdynamic/email-builder`](packages/email-builder) package, under
+[`src/blocks/`](packages/email-builder/src/blocks):
 
-- [Avatar](https://github.com/usewaypoint/email-builder-js/tree/main/packages/block-avatar)
-- [Button](https://github.com/usewaypoint/email-builder-js/tree/main/packages/block-button)
-- [Columns](https://github.com/usewaypoint/email-builder-js/tree/main/packages/block-columns-container)
-- [Container](https://github.com/usewaypoint/email-builder-js/tree/main/packages/block-container)
-- [Divider](https://github.com/usewaypoint/email-builder-js/tree/main/packages/block-divider)
-- [Heading](https://github.com/usewaypoint/email-builder-js/tree/main/packages/block-heading)
-- [HTML](https://github.com/usewaypoint/email-builder-js/tree/main/packages/block-html)
-- [Image](https://github.com/usewaypoint/email-builder-js/tree/main/packages/block-image)
-- [Spacer](https://github.com/usewaypoint/email-builder-js/tree/main/packages/block-spacer)
-- [Container](https://github.com/usewaypoint/email-builder-js/tree/main/packages/block-text)
+Avatar, Button, Columns, Container, Divider, Heading, HTML, Image, Spacer, Text.
+
+Registering your own is one `BlockDefinition` — see the
+[package README](packages/email-builder/README.md#registering-your-own-block).
 
 <br>
 
@@ -92,13 +88,13 @@ The email builder can output to a clean JSON or raw HTML. You can see this from 
 Install the package in your project:
 
 ```bash
-npm install --save @usewaypoint/email-builder
+npm install --save @sparkdynamic/email-builder
 ```
 
 Given an EmailBuilder.js configuration (the JSON output of the builder):
 
 ```javascript
-import { TReaderDocument } from '@usewaypoint/email-builder';
+import { TReaderDocument } from '@sparkdynamic/email-builder';
 
 const CONFIGURATION: TReaderDocument = {
   root: {
@@ -134,7 +130,7 @@ const CONFIGURATION: TReaderDocument = {
 You can render the EmailBuilder.js configuration to an HTML email string:
 
 ```javascript
-import { renderToStaticMarkup } from '@usewaypoint/email-builder';
+import { renderToStaticMarkup } from '@sparkdynamic/email-builder';
 
 const string = renderToStaticMarkup(CONFIGURATION, { rootBlockId: 'root' });
 ```
@@ -142,7 +138,7 @@ const string = renderToStaticMarkup(CONFIGURATION, { rootBlockId: 'root' });
 Or you can render the EmailBuilder.js configuration by using the `<Reader />` React component:
 
 ```javascript
-import { Reader } from '@usewaypoint/email-builder';
+import { Reader } from '@sparkdynamic/email-builder';
 
 <Reader document={CONFIGURATION} rootBlockId="root" />;
 ```
@@ -158,7 +154,7 @@ In most cases, you'll want to take the EmailBuilder.js configuration, render it 
 ### Sending through nodemailer
 
 ```javascript
-import { renderToStaticMarkup } from '@usewaypoint/email-builder';
+import { renderToStaticMarkup } from '@sparkdynamic/email-builder';
 import nodemailer from "nodemailer";
 
 // Replace this with your transport configuration
@@ -185,7 +181,7 @@ We'll use [Waypoint](https://www.usewaypoint.com) for this example, however, you
 ```javascript
 import axios from 'axios';
 
-import { renderToStaticMarkup } from '@usewaypoint/email-builder';
+import { renderToStaticMarkup } from '@sparkdynamic/email-builder';
 
 // Replace this with the JSON for your Reader document
 const CONFIGURATION: TReaderDocument = {}

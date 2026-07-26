@@ -1,0 +1,24 @@
+@sparkdynamic/email-builder
+Copyright (c) 2026 SparkDynamic GmbH
+
+This product includes software developed by third parties, listed below. All of
+it is MIT licensed; see LICENSE for the licence text.
+
+--------------------------------------------------------------------------------
+
+EmailBuilder.js
+Copyright (c) 2024 Waypoint (Metaccountant, Inc.)
+https://github.com/usewaypoint/email-builder-js
+
+This repository is a hard fork of EmailBuilder.js, taken at upstream commit
+ce3e610. The block-dictionary framework, the block renderers, the reader and the
+editor shell all originate there. We do not track upstream and the two have
+diverged; see CLAUDE.md for what changed and why.
+
+--------------------------------------------------------------------------------
+
+onchainsuite/email-builder-js
+https://github.com/onchainsuite/email-builder-js
+
+An independent fork of EmailBuilder.js. Where a change here is lifted from it,
+the commit message says so and names the file.
