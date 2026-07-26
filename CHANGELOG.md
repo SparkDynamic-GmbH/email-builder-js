@@ -4,6 +4,14 @@
 
 ## Unreleased
 
+### Added — i18n
+
+- **`language` on `EmailBuilderProvider`**, an ISO 639-1 code; `en` (default) and `de` ship. It covers the editor's chrome — panels, labels, menus, tooltips, the save button — not the document, which is the user's own content.
+- **`translations`**, a partial override map for rewording a built-in string, adding keys for a host's own blocks, or supplying a language we do not ship. Lookup order is override → language → English → the key.
+- **`useTranslate()`, `useLanguage()`, `createTranslate()` and `I18nProvider`** exported from `./editor`, so a host's chrome reads from the same catalog as the editor. `t(key, params)` fills `{name}` placeholders.
+- English is the source of truth for the key set: `de.ts` is typed against it, so a new key does not compile until it is translated.
+- Add-block labels resolve under `block.<type>` and fall back to the label the definition gave, so a block a host registered keeps working untranslated.
+
 ### Added — saving
 
 - **`onSave` on `EmailBuilderProvider`**, with the state a host needs around it: a `save()` action, `useSaveStatus()`, `useSaveError()` and `useIsDirty()`. `save()` snapshots the document, so edits made while a save is in flight stay dirty; a second call joins the one in flight rather than racing it; a rejection is recorded and leaves the document dirty. `markSaved()` covers a host that persisted by some other route.

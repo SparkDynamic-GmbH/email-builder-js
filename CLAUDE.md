@@ -61,6 +61,7 @@ packages/
       helpers/             wrappers, TuneMenu, EditorChildrenIds, InlineEditable
       inspector/           InspectorDrawer, StylesPanel, ConfigurationPanel + input-panels
       ui/                  Radix + Tailwind primitives
+      i18n/                en/de catalogs, I18nProvider, useTranslate
       theme.css            design tokens, exported raw as ./theme.css
       styles.css           compiled to dist/styles.css, exported as ./styles.css
     src/exports/           one file per subpath export: extensions, blocks, reader, editor
@@ -137,6 +138,7 @@ The exception is `EmailLayoutEditor` — canvas chrome, never email output, so i
 - **UI primitives** (`editor/ui/`): thin Radix + Tailwind wrappers — `Button`, `IconButton`, `Drawer`, `Tabs`, `ToggleGroup`, `Slider`, `Switch`, `Select`, `TextField`, `Label`, `Dialog`, `Popover`, `Toast`, `Tooltip`. **Style selected states off ARIA (`aria-selected:`, `aria-checked:`), not `data-state`** — wrapping a Radix trigger in a Radix `Tooltip` overwrites `data-state` with the tooltip's own open/closed value.
 - **Mutation**: `TuneMenu.tsx` implements move/duplicate/delete by walking every block to find the parent (`findParentBlockId`); the same three-case container switch repeats in each handler. `cloneDocumentBlock` clones unknown block types as-is, so a host's own leaf block works; a host's own _container_ would need a case.
 - **Persistence**: the provider takes `onSave` and owns the state around it — `save()` on the actions, `useSaveStatus()`, `useSaveError()`, `useIsDirty()`, and `SaveButton` rendered off them. `autosave` is **off by default**; when on it debounces by `autosaveDebounceMs` (default 10 s, trailing edge, flushed on unmount). `onChange` is the raw change stream, undebounced, not the save hook. Restoring is `initialDocument`, read once, so a host fetching from a backend must not render the provider until the fetch resolves. The host app's stand-in backend is `localStorage` (`persistence.ts`); it still loads from `window.location.hash` first (`#sample/<name>` or `#code/<base64>`, `getConfiguration/index.tsx`) and `ShareButton` encodes back. `beforeunload` flushing is still the host's.
+- **i18n** (`editor/i18n/`): every string the chrome renders comes from a flat, dotted-key catalog. `en.ts` is the source of truth — `TTranslationKey` is `keyof typeof en`, and `de.ts` is typed `Record<TTranslationKey, string>`, so **adding a key fails the build until German has it too**. The provider takes `language` (ISO 639-1, default `'en'`) and `translations`, a partial override map that also accepts keys of a host's own; lookup is override → language → English → the key itself. `useTranslate()` returns `t(key, params?)`, with `{name}` placeholders. Renderers under `src/blocks/` are untouched — they render the document, which is the user's own words. Add-block labels resolve by convention under `block.<type>` and fall back to the label the definition gave, which is how a host's own block keeps a label without a catalog entry.
 
 ## Where to touch what
 
@@ -147,6 +149,7 @@ The exception is `EmailLayoutEditor` — canvas chrome, never email output, so i
 | Editor behaviour only      | `src/editor/helpers/` (wrappers, `TuneMenu`, `EditorChildrenIds`)                                                                                                                                                                                                                      |
 | A block's editable options | `src/editor/inspector/…/input-panels/*SidebarPanel.tsx` + the block's zod schema                                                                                                                                                                                                       |
 | The editor's styling       | `src/editor/theme.css` for tokens, `src/editor/styles.css` for the build; rebuild with `npm run build:css -w packages/email-builder`                                                                                                                                                   |
+| A user-facing string       | `src/editor/i18n/en.ts` **and** `de.ts` — never a literal in a component. The app's own strings live in `examples/vite-emailbuilder/src/i18n.ts`, keyed `app.*`                                                                                                                        |
 
 ## Conventions
 
