@@ -60,7 +60,7 @@ examples/
 
 ### The central idea: a block dictionary
 
-`packages/document-core` is the only real abstraction. A **DocumentBlocksDictionary** maps a block type name → `{ schema: ZodObject, Component: (props) => JSX }` (`document-core/src/utils.ts:3`). Three builders consume it:
+`packages/document-core` is the only real abstraction. A **DocumentBlocksDictionary** maps a block type name → `{ schema: ZodObject, Component: (props) => JSX }` (`document-core/src/utils.ts:3`). Builders consume it:
 
 - `buildBlockConfigurationDictionary` — identity fn, purely for type inference
 - `buildBlockConfigurationSchema` — turns the dictionary into a zod `discriminatedUnion('type')`, so arbitrary JSON validates into a typed `{type, data}` (`buildBlockConfigurationSchema.ts:12`)
@@ -68,17 +68,23 @@ examples/
 
 A **document** is flat: `Record<blockId, {type, data}>`. Nesting is by ID reference — containers hold `childrenIds`, rendering starts at `rootBlockId` (`"root"` by convention). The flat shape is what makes duplicate/move/delete tractable, at the cost of manual parent lookup.
 
-### Two dictionaries over the same blocks
+### One block set, four consumers
 
-The key structural fact:
+A block is declared **once**, as a `BlockDefinition` — schema, `Reader`, optional `Editor`, optional `SidebarPanel`, optional add-block `menu` entry, optional `chrome: false` (`document-core/src/registry.ts`). `buildBlockRegistry` derives everything from a dictionary of them (`buildBlockRegistry.tsx`):
 
-|            | `email-builder/src/Reader/core.tsx:31`                           | `examples/…/documents/editor/core.tsx:27`                                             |
-| ---------- | ---------------------------------------------------------------- | ------------------------------------------------------------------------------------- |
-| Purpose    | pure email output                                                | interactive canvas                                                                    |
-| Components | raw `Avatar`, `Button`, …                                        | same, wrapped in `EditorBlockWrapper` (selection outline + `TuneMenu`)                |
-| Containers | `ContainerReader`, `ColumnsContainerReader`, `EmailLayoutReader` | `*Editor` variants rendering `EditorChildrenIds` (add-block buttons between children) |
+| Derived                          | Used by                                                                                  |
+| -------------------------------- | ---------------------------------------------------------------------------------------- |
+| `readerDictionary`               | email output — raw `Avatar`, `Button`, `*Reader` for containers                          |
+| `editorDictionary`               | the canvas — `Editor` variant if given, wrapped in `EditorBlockWrapper` unless opted out |
+| `blockSchema` / `documentSchema` | validation, shared by reader and canvas so they cannot drift                             |
+| `SidebarPanel`                   | `ConfigurationPanel` — dispatch, not a switch                                            |
+| `menu`                           | `AddBlockMenu` — key order in the definitions dictionary is menu order                   |
 
-Both are hand-maintained and **must stay in sync**. Recursion happens via context: `ReaderBlock({id})` reads the document from `ReaderContext`; `EditorBlock({id})` reads it from the zustand store and publishes its own id via `EditorBlockContext` so wrappers know who they are.
+The editor's block set lives in `examples/…/documents/blocks/definitions.tsx`; `documents/editor/core.tsx` builds the registry from it and also builds the preview/HTML-export reader with `createReader(registry.readerDictionary)`, so a registered block appears on the canvas, in the preview and in the export alike.
+
+`packages/email-builder` still ships a built-in reader dictionary (`Reader/core.tsx`) for consumers that only render email and register nothing — it is `createReader(READER_DICTIONARY)`.
+
+Recursion happens via context: `ReaderBlock({id})` reads the document _and its block component_ from `ReaderContext`, so containers recurse into whatever block set their `Reader` was created with; `EditorBlock({id})` reads the document from the zustand store and publishes its own id via `EditorBlockContext` so wrappers know who they are.
 
 Container blocks (`Container`, `ColumnsContainer`, `EmailLayout`) live in `email-builder`/the editor rather than their own packages, because they must call back into `ReaderBlock`/`EditorBlock` to recurse.
 
@@ -95,19 +101,19 @@ Output is old-school email HTML: `<table role="presentation" cellSpacing="0">`, 
 - **State**: one zustand store, `documents/editor/EditorContext.tsx` — document, `selectedBlockId`, main tab, screen size, drawer flags. `useX()` hooks + free `setX()` functions; no reducer, **no undo** (undo/redo is a work-queue item; the onchainsuite fork has an implementation to lift).
 - **Shell**: `App/index.tsx` = TemplatePanel + InspectorDrawer (right). The upstream samples drawer is gone; the sample documents themselves are kept in `getConfiguration/sample/` and still load via the `#sample/<name>` hash.
 - **TemplatePanel** switches between `<EditorBlock id="root"/>`, `<Reader/>` preview, HTML and JSON views.
-- **InspectorDrawer** → `ConfigurationPanel` dispatches on block type to a `*SidebarPanel`, all built on `BaseSidebarPanel` + reusable inputs under `input-panels/helpers/inputs/`. The panels are highly repetitive by design — they compose `PaddingInput`, `ColorInput`, `RadioGroupInput` etc., which in turn sit on the shared primitives in `src/ui/`.
+- **InspectorDrawer** → `ConfigurationPanel` renders the registry's `SidebarPanel` for the selected block; the panels themselves live in `input-panels/`, all built on `BaseSidebarPanel` + reusable inputs under `input-panels/helpers/inputs/`. The panels are highly repetitive by design — they compose `PaddingInput`, `ColorInput`, `RadioGroupInput` etc., which in turn sit on the shared primitives in `src/ui/`.
 - **UI primitives** (`src/ui/`): thin Radix + Tailwind wrappers — `Button`, `IconButton`, `Drawer`, `Tabs`, `ToggleGroup`, `Slider`, `Switch`, `Select`, `TextField`, `Label`, `Dialog`, `Popover`, `Toast`, `Tooltip`. Design tokens live in `src/styles.css` under `@theme`, carried over verbatim from the deleted MUI theme. **Style selected states off ARIA (`aria-selected:`, `aria-checked:`), not `data-state`** — wrapping a Radix trigger in a Radix `Tooltip` overwrites `data-state` with the tooltip's own open/closed value.
 - **Mutation**: `TuneMenu.tsx` implements move/duplicate/delete by walking every block to find the parent (`findParentBlockId:26`); the same three-case container switch repeats in each handler.
 - **Persistence**: none. Documents load from `window.location.hash` — `#sample/<name>` or `#code/<base64>` (`getConfiguration/index.tsx:11`); `ShareButton` encodes back. Autosave/persistence is a work-queue item.
 
 ## Where to touch what
 
-| Task                       | Files                                                                                                                                                                                                                                     |
-| -------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **New block**              | new `packages/block-x/`, then register in **both** `email-builder/src/Reader/core.tsx` **and** `examples/…/documents/editor/core.tsx`, add a `XSidebarPanel`, add a case in `ConfigurationPanel/index.tsx` and `AddBlockMenu/buttons.tsx` |
-| Change email HTML output   | the block package's `index.tsx`, or `*Reader.tsx` for containers                                                                                                                                                                          |
-| Editor behaviour only      | `documents/blocks/helpers/` (wrappers, `TuneMenu`, `EditorChildrenIds`)                                                                                                                                                                   |
-| A block's editable options | `input-panels/*SidebarPanel.tsx` + the block's zod schema                                                                                                                                                                                 |
+| Task                       | Files                                                                                                                                                                                                                                                                   |
+| -------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **New block**              | new `packages/block-x/`, a `XSidebarPanel`, then one `BlockDefinition` in `examples/…/documents/blocks/definitions.tsx` — canvas, inspector, menu and export all follow. Add it to `email-builder/src/Reader/core.tsx` too only if the standalone reader should know it |
+| Change email HTML output   | the block package's `index.tsx`, or `*Reader.tsx` for containers                                                                                                                                                                                                        |
+| Editor behaviour only      | `documents/blocks/helpers/` (wrappers, `TuneMenu`, `EditorChildrenIds`)                                                                                                                                                                                                 |
+| A block's editable options | `input-panels/*SidebarPanel.tsx` + the block's zod schema                                                                                                                                                                                                               |
 
 ## Conventions
 
