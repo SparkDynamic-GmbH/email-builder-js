@@ -20,7 +20,7 @@ Short version of the decision:
 | ------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------ |
 | **Drop MUI entirely**; rebuild the editor shell + sidebar panels on **Tailwind 4 + Radix** | **Done.** Matches `Cloudwawi.Web`. Do _not_ add MUI components to new code.                                  |
 | **React 19**                                                                               | **Done**, together with de-MUI — MUI v5 was the main React-19 friction point, so they were one job, not two. |
-| **Table-based markup in the block renderers**                                              | The real Outlook fix. Renderers currently emit `div` + padding.                                              |
+| **Table-based markup in the block renderers**                                              | **Done.** The real Outlook fix. Write new blocks table-first.                                                |
 | Keep `react-colorful`                                                                      | 2.8 kB, no deps; Radix has no colour picker.                                                                 |
 | BeeFree stays available for tenants who want it                                            | This is about what we build on, not removing an existing flow.                                               |
 
@@ -122,7 +122,11 @@ Each block under `src/blocks/` is self-contained and exports `XPropsSchema` (zod
 
 The shared `style` shape (color / fontSize / fontFamily / fontWeight / textAlign / padding) and the `getFontFamily` switch are **copy-pasted into every block**. That was deliberate when each block was its own package; now that they are one, deduping it is defensible — but it churns every renderer snapshot, so it is its own change, not a drive-by.
 
-Output is old-school email HTML: `<table role="presentation" cellSpacing="0">`, inline styles, MSO conditional comments injected via `dangerouslySetInnerHTML` (`blocks/Button/index.tsx:157`). `blocks/Text` sanitizes markdown through `marked` + `insane` — keep that sanitization when touching text rendering.
+Output is old-school email HTML: `<table role="presentation" cellSpacing="0">`, inline styles, MSO conditional comments injected via `dangerouslySetInnerHTML` (`blocks/Button/index.tsx`). `blocks/Text` sanitizes markdown through `marked` + `insane` — keep that sanitization when touching text rendering.
+
+Every renderer wraps its content in that table and puts the **padding on the `td`** — Word ignores padding on a `div`. Background colour is emitted twice, as CSS and as a `bgcolor` attribute, and alignment likewise as `text-align` and an `align` attribute; Word honours the attribute where it drops the property. Two blocks go further, and the reasons are load-bearing: `Divider` draws its rule as a cell's `border-top` rather than an `<hr>` (Word renders its own and ignores the width and colour set on it), and `Spacer` holds its height with a `&nbsp;` at a matching `line-height` and a 1px font, because an empty cell collapses. **Write new blocks this way from the start** rather than adding to a pile that has to be migrated later.
+
+The exception is `EmailLayoutEditor` — canvas chrome, never email output, so it stays a `div` and keeps its click-to-deselect handler.
 
 ### The editor (`packages/email-builder/src/editor`)
 
@@ -148,7 +152,7 @@ Output is old-school email HTML: `<table role="presentation" cellSpacing="0">`, 
 
 - Formatting is enforced by prettier (`.prettierrc`) — run it before committing.
 - eslint uses `simple-import-sort`; import order is mechanical, let the fixer do it.
-- Tests are colocated snapshot tests — `src/blocks/<Name>/index.spec.tsx` per block, plus the builders under `src/core/builders/`. **Changing renderer markup will churn snapshots — that is expected for the table-based-markup work; review the diffs rather than blindly updating them.**
+- Tests are colocated snapshot tests — `src/blocks/<Name>/index.spec.tsx` per block, plus the builders under `src/core/builders/`. **Changing renderer markup churns snapshots by design — the diff _is_ the review of the email HTML, so read it rather than blindly running `jest -u`.**
 - One package, one `version`. It is unpublished at 0.1.0 — bumping it is publish-affecting, so ask first.
 
 ## Releasing
