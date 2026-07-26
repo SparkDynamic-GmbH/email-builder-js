@@ -28,6 +28,22 @@ describe('block-text', () => {
     ).toMatchSnapshot();
   });
 
+  it('lets an enclosing mark win over a weight a document already carried', () => {
+    // A `font-weight: normal` span inside a <strong> used to render everything it covered
+    // unbolded, so bolding a whole block appeared to bold only the parts it missed.
+    expect(
+      render(
+        <Text
+          props={{
+            text:
+              '<strong>Start <span style="font-weight: normal">plain </span>' +
+              '<u>underlined</u><span style="font-weight: normal"> end.</span></strong>',
+          }}
+        />
+      ).asFragment()
+    ).toMatchSnapshot();
+  });
+
   it('sanitizes rich text', () => {
     expect(
       render(

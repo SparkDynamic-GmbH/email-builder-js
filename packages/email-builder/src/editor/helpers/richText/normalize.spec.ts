@@ -35,6 +35,25 @@ describe('normalizeRichText', () => {
     );
   });
 
+  it('drops the font-weight span Chrome leaves on the unselected remainder', () => {
+    // Stored, this span outranks any <strong> wrapped around it later, so bolding the whole
+    // block would leave everything it covers unbolded.
+    expect(normalizeRichText('<b>bold</b><span style="font-weight: normal">rest</span>')).toBe(
+      '<strong>bold</strong>rest'
+    );
+  });
+
+  it('keeps colour on a span that also carried a weight', () => {
+    expect(normalizeRichText('<span style="font-weight: normal; color: #FF0000">x</span>')).toBe(
+      '<span style="color: #FF0000">x</span>'
+    );
+  });
+
+  it('leaves slant and decoration to the tags that mean them', () => {
+    expect(normalizeRichText('<span style="font-style: italic">a</span>')).toBe('a');
+    expect(normalizeRichText('<span style="text-decoration: line-through">b</span>')).toBe('b');
+  });
+
   it('unwraps a span left with nothing to say', () => {
     expect(normalizeRichText('<span style="position: absolute">plain</span>')).toBe('plain');
     expect(normalizeRichText('<span class="whatever">plain</span>')).toBe('plain');

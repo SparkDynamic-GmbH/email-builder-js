@@ -13,18 +13,20 @@ export const RICH_TEXT_TAGS: AllowedTags[] = ['a', 'br', 'del', 'em', 'span', 's
 
 /**
  * `style` is the only attribute that carries formatting, and insane cannot look inside it, so
- * every declaration is checked here instead. `font-family` is deliberately absent: it belongs to
- * the block as a whole and the inspector owns it, and its values need quotes that
- * {@link SAFE_STYLE_VALUE} does not allow.
+ * every declaration is checked here instead.
+ *
+ * **Weight, slant and decoration are deliberately absent.** In this vocabulary those marks are
+ * tags — `strong`, `em`, `u`, `del` — and a span that also declares them can only contradict one.
+ * Chrome writes `<span style="font-weight: normal">` around the *unselected* remainder when you
+ * bold part of a run; stored, that span outranks any `<strong>` wrapped around it later, so
+ * bolding the whole block would leave everything it covered unbolded. Dropping the properties
+ * makes the artifact unstorable, and costs only the ability to mark a word normal inside a block
+ * whose own `fontWeight` is bold — which the inspector plus a toolbar click already covers.
+ *
+ * `font-family` is absent too: it belongs to the block as a whole and the inspector owns it, and
+ * its values need quotes that {@link SAFE_STYLE_VALUE} does not allow.
  */
-export const RICH_TEXT_STYLE_PROPERTIES = [
-  'background-color',
-  'color',
-  'font-size',
-  'font-style',
-  'font-weight',
-  'text-decoration',
-];
+export const RICH_TEXT_STYLE_PROPERTIES = ['background-color', 'color', 'font-size'];
 
 /**
  * No parentheses and no quotes, which is what it takes to write `url(...)` or a legacy CSS
