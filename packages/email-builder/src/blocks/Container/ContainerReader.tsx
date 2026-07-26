@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Container as BaseContainer } from '@usewaypoint/block-container';
 
-import { ReaderBlock } from '../../Reader/core';
+import { ReaderBlock } from '../../Reader/ReaderBlock';
 
 import { ContainerProps } from './ContainerPropsSchema';
 

@@ -1,14 +1,16 @@
-export { default as renderToStaticMarkup } from './renderers/renderToStaticMarkup';
+export { default as createReader } from './Reader/createReader';
+
+export { ReaderBlock, TReaderBlockProps } from './Reader/ReaderBlock';
 
 export {
+  READER_DICTIONARY,
   ReaderBlockSchema,
   TReaderBlock,
   //
   ReaderDocumentSchema,
   TReaderDocument,
   //
-  ReaderBlock,
-  TReaderBlockProps,
+  renderToStaticMarkup,
   //
   TReaderProps,
   default as Reader,

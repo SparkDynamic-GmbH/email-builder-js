@@ -2,7 +2,7 @@ import React from 'react';
 
 import { ColumnsContainer as BaseColumnsContainer } from '@usewaypoint/block-columns-container';
 
-import { ReaderBlock } from '../../Reader/core';
+import { ReaderBlock } from '../../Reader/ReaderBlock';
 
 import { ColumnsContainerProps } from './ColumnsContainerPropsSchema';
 

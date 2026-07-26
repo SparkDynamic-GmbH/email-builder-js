@@ -4,4 +4,4 @@ export { default as buildBlockConfigurationDictionary } from './builders/buildBl
 export { default as buildBlockRegistry, BlockRegistryOptions } from './builders/buildBlockRegistry';
 
 export { BlockDefinition, BlockDefinitionDictionary, BlockMenuEntry, SidebarPanelProps } from './registry';
-export { BlockConfiguration, DocumentBlocksDictionary } from './utils';
+export { BaseZodDictionary, BlockConfiguration, DocumentBlocksDictionary } from './utils';
