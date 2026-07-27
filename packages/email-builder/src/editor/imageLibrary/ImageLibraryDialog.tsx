@@ -235,7 +235,11 @@ export default function ImageLibraryDialog({ library, onClose, onSelect }: Props
               <input
                 ref={fileInputRef}
                 type="file"
-                className="hidden"
+                // `display: none` (Tailwind's `hidden`) keeps this out of layout
+                // entirely, and Chromium can intermittently fail to open the
+                // native picker for `.click()` on an element in that state.
+                // `sr-only` clips it instead, which stays reliable.
+                className="sr-only"
                 accept={imageLibraryAccept(library)}
                 onChange={(ev) => {
                   const file = ev.target.files?.[0];
