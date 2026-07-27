@@ -54,39 +54,50 @@ export default function TuneMenu({ blockId }: Props) {
 
     if (parentBlockId) {
       const parentBlock = newDocument[parentBlockId];
+      // `newDocument`'s untouched entries (including this parent) are the same
+      // object references as `document`'s, which is also the top of the undo
+      // stack — so the parent's children array must be copied before
+      // splicing, never mutated in place, or duplicating corrupts history.
       switch (parentBlock.type) {
         case 'EmailLayout': {
-          if (!parentBlock.data.childrenIds) {
-            parentBlock.data.childrenIds = [];
-          }
-          const index = parentBlock.data.childrenIds.indexOf(blockId);
-          parentBlock.data.childrenIds.splice(index + 1, 0, newBlockId);
+          const childrenIds = [...(parentBlock.data.childrenIds ?? [])];
+          const index = childrenIds.indexOf(blockId);
+          childrenIds.splice(index + 1, 0, newBlockId);
+          newDocument[parentBlockId] = { ...parentBlock, data: { ...parentBlock.data, childrenIds } };
           break;
         }
         case 'Container':
         case 'Card': {
-          if (!parentBlock.data.props) {
-            parentBlock.data.props = {};
-          }
-          if (!parentBlock.data.props.childrenIds) {
-            parentBlock.data.props.childrenIds = [];
-          }
-          const index = parentBlock.data.props.childrenIds.indexOf(blockId);
-          parentBlock.data.props.childrenIds.splice(index + 1, 0, newBlockId);
+          const childrenIds = [...(parentBlock.data.props?.childrenIds ?? [])];
+          const index = childrenIds.indexOf(blockId);
+          childrenIds.splice(index + 1, 0, newBlockId);
+          newDocument[parentBlockId] = {
+            ...parentBlock,
+            data: { ...parentBlock.data, props: { ...parentBlock.data.props, childrenIds } },
+          };
           break;
         }
-        case 'ColumnsContainer':
-          if (!parentBlock.data.props) {
-            parentBlock.data.props = { columns: [{ childrenIds: [] }, { childrenIds: [] }, { childrenIds: [] }] };
-          }
-
-          for (const column of parentBlock.data.props.columns) {
-            if (column.childrenIds.includes(blockId)) {
-              const index = column.childrenIds.indexOf(blockId);
-              column.childrenIds.splice(index + 1, 0, newBlockId);
+        case 'ColumnsContainer': {
+          const sourceColumns = parentBlock.data.props?.columns ?? [
+            { childrenIds: [] },
+            { childrenIds: [] },
+            { childrenIds: [] },
+          ];
+          const columns = sourceColumns.map((column: TColumn) => {
+            if (!column.childrenIds.includes(blockId)) {
+              return column;
             }
-          }
+            const childrenIds = [...column.childrenIds];
+            const index = childrenIds.indexOf(blockId);
+            childrenIds.splice(index + 1, 0, newBlockId);
+            return { childrenIds };
+          });
+          newDocument[parentBlockId] = {
+            ...parentBlock,
+            data: { ...parentBlock.data, props: { ...parentBlock.data.props, columns } },
+          };
           break;
+        }
       }
 
       resetDocument(newDocument);
