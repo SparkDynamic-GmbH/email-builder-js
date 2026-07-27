@@ -2,6 +2,18 @@
 
 `@sparkdynamic/email-builder`. This is a hard fork of [usewaypoint/email-builder-js](https://github.com/usewaypoint/email-builder-js) at upstream `ce3e610`, so it has its own version line and does not follow upstream's. It stays on 0.x while the extension API can still change.
 
+## 0.1.4 — 2026-07-27
+
+### Added
+
+- **The Button block's `url` is now required to save.** `BlockDefinition` gains an optional `validate` hook, aggregated into `registry.validateDictionary`; `save()` checks every block against it before calling `onSave`, and refuses — selecting the offending block and opening its panel — if one fails. Button's panel marks the field "Url \*" with an inline error when it's empty.
+
+### Fixed
+
+- **The image library's upload dropzone could silently fail to open the native file picker**, most visibly when opened from a canvas block's hover overlay. `EditorBlockWrapper` wraps every canvas block in an `onClick` that calls `preventDefault()` to select the block; because `Dialog.Content` renders through a Portal, its DOM sits outside the canvas, but React bubbles synthetic events along the component tree, not the DOM tree — a click anywhere in a dialog opened from a canvas control still reached that `preventDefault()`, which silently cancelled the dropzone `<label>`'s native file-picker activation. `Dialog.Content` now stops a click from propagating past itself, so no dialog can be intercepted by whatever triggered it on the canvas.
+- Along the way, the dropzone's hidden `<input type="file">` moved from a `<button>` + `fileInputRef.current.click()` to a native `<label>` wrapping the input (more reliable than a JS-triggered click), and picked up `cursor-pointer` — which `Button`/`IconButton`, the shared primitives behind nearly every button in the editor, were also missing, since this package ships with no Tailwind preflight.
+- **New Button/Image/Card blocks no longer default to a `usewaypoint.com` link.** Placeholder defaults now point at `example.com`/`placehold.co`.
+
 ## 0.1.3 — 2026-07-27
 
 ### Added — undo/redo
