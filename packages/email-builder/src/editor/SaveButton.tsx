@@ -50,7 +50,7 @@ export default function SaveButton({ label, size = 'medium', className }: Props)
           size={size}
           className={className}
           onClick={() => void save()}
-          title={error?.message ?? t('save.failed')}
+          title={error?.message ? t(error.message) : t('save.failed')}
         >
           <TriangleAlert className="size-4 text-brand-red" aria-hidden />
           {t('save.retry')}

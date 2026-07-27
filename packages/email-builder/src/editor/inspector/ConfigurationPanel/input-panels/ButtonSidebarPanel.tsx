@@ -45,8 +45,10 @@ export default function ButtonSidebarPanel({ data, setData }: ButtonSidebarPanel
         onChange={(text) => updateData({ ...data, props: { ...data.props, text } })}
       />
       <TextInput
-        label={t('field.url')}
+        label={`${t('field.url')} *`}
         defaultValue={url}
+        error={!url.trim()}
+        helperText={!url.trim() ? t('validation.button.url') : undefined}
         onChange={(url) => updateData({ ...data, props: { ...data.props, url } })}
       />
       <RadioGroupInput

@@ -126,6 +126,7 @@ const BLOCK_DEFINITIONS = buildBlockDefinitionDictionary({
     Reader: Button,
     Editor: ButtonEditor,
     SidebarPanel: ButtonSidebarPanel,
+    validate: (data) => (data.props?.url?.trim() ? null : 'validation.button.url'),
     menu: {
       label: 'Button',
       icon: <RectangleHorizontal className={ICON_CLASS} />,

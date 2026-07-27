@@ -247,9 +247,11 @@ export function EmailBuilderProvider<T extends BaseZodDictionary>({
   // the subscription and with it any pending autosave.
   const onChangeRef = useRef(onChange);
   const onSaveRef = useRef(onSave);
+  const registryRef = useRef(erasedRegistry);
   useEffect(() => {
     onChangeRef.current = onChange;
     onSaveRef.current = onSave;
+    registryRef.current = erasedRegistry;
   });
 
   // The save in flight, so a second caller joins it instead of racing it.
@@ -349,6 +351,25 @@ export function EmailBuilderProvider<T extends BaseZodDictionary>({
         // Snapshot: edits landing mid-save must stay dirty, so what comes back
         // marked saved is the document the handler actually got.
         const document = store.getState().document;
+
+        // A block that isn't complete enough to save (a Button with no `url`,
+        // say) blocks the whole document — send the user to it rather than
+        // silently persisting something broken.
+        const validateDictionary = registryRef.current.validateDictionary;
+        for (const [blockId, block] of Object.entries(document)) {
+          const message = validateDictionary[block.type]?.(block.data);
+          if (message) {
+            store.setState({
+              saveStatus: 'error',
+              saveError: new Error(message),
+              selectedBlockId: blockId,
+              selectedSidebarTab: 'block-configuration',
+              inspectorDrawerOpen: true,
+            });
+            return Promise.resolve();
+          }
+        }
+
         store.setState({ saveStatus: 'saving', saveError: null });
 
         const succeeded = () => {

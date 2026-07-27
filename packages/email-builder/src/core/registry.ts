@@ -32,6 +32,14 @@ export type BlockDefinition<TSchema extends z.AnyZodObject> = {
   /** Omit for a block the user cannot insert directly. */
   menu?: BlockMenuEntry<z.infer<TSchema>>;
   /**
+   * Checks whether this block is complete enough to save — not whether it
+   * parses, which the schema already guarantees, but whether it is still
+   * missing something the user has to fill in (a Button with no `url`, say).
+   * Return a translation key/message to block `save()`'s call to `onSave` and
+   * send the user to this block's panel; return `null` when it's fine.
+   */
+  validate?: (data: z.infer<TSchema>) => string | null;
+  /**
    * Whether the canvas component is wrapped in the editor chrome (selection
    * outline, block menu). Defaults to `true`; set `false` for a block that
    * owns the whole canvas, such as the email layout.

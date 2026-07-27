@@ -9,6 +9,9 @@ const fr: TTranslations = {
   'save.retry': 'Réessayer',
   'save.failed': 'Le dernier enregistrement a échoué.',
 
+  // Validation
+  'validation.button.url': 'Un bouton a besoin d’une URL avant de pouvoir être enregistré.',
+
   // Undo / redo
   'history.undo': 'Annuler',
   'history.redo': 'Rétablir',

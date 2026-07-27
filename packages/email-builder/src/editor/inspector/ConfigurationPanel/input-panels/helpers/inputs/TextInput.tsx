@@ -7,10 +7,11 @@ type Props = {
   rows?: number;
   placeholder?: string;
   helperText?: string | React.JSX.Element;
+  error?: boolean;
   defaultValue: string;
   onChange: (v: string) => void;
 };
-export default function TextInput({ helperText, label, placeholder, rows, defaultValue, onChange }: Props) {
+export default function TextInput({ helperText, error, label, placeholder, rows, defaultValue, onChange }: Props) {
   const [value, setValue] = useState(defaultValue);
 
   // Adopt changes made elsewhere — inline editing on the canvas writes to the same block.
@@ -28,6 +29,7 @@ export default function TextInput({ helperText, label, placeholder, rows, defaul
       label={label}
       placeholder={placeholder}
       helperText={helperText}
+      error={error}
       value={value}
       onChange={(ev) => {
         const v = ev.target.value;

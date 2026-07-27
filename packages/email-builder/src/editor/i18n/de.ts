@@ -9,6 +9,9 @@ const de: TTranslations = {
   'save.retry': 'Erneut speichern',
   'save.failed': 'Das letzte Speichern ist fehlgeschlagen.',
 
+  // Validation
+  'validation.button.url': 'Ein Button benötigt eine URL, bevor er gespeichert werden kann.',
+
   // Undo / redo
   'history.undo': 'Rückgängig',
   'history.redo': 'Wiederherstellen',

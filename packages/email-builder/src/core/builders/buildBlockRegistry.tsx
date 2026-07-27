@@ -37,6 +37,7 @@ export default function buildBlockRegistry<T extends BaseZodDictionary>(
 
   const readerDictionary = {} as DocumentBlocksDictionary<T>;
   const editorDictionary = {} as DocumentBlocksDictionary<T>;
+  const validateDictionary = {} as Partial<Record<keyof T & string, (data: unknown) => string | null>>;
 
   for (const type of types) {
     const definition = definitions[type];
@@ -54,6 +55,9 @@ export default function buildBlockRegistry<T extends BaseZodDictionary>(
             )
           : Canvas,
     };
+    if (definition.validate) {
+      validateDictionary[type] = definition.validate as (data: unknown) => string | null;
+    }
   }
 
   // The two dictionaries share their schemas, so a document validates the same
@@ -99,5 +103,6 @@ export default function buildBlockRegistry<T extends BaseZodDictionary>(
     documentSchema,
     menu,
     SidebarPanel,
+    validateDictionary,
   };
 }

@@ -13,6 +13,9 @@ const en = {
   'save.retry': 'Retry save',
   'save.failed': 'The last save failed.',
 
+  // Validation
+  'validation.button.url': 'A button needs a URL before it can be saved.',
+
   // Undo / redo
   'history.undo': 'Undo',
   'history.redo': 'Redo',
