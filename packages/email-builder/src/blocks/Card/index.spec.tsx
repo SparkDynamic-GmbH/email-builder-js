@@ -10,7 +10,7 @@ describe('block-card', () => {
     expect(render(<Card />).asFragment()).toMatchSnapshot();
   });
 
-  it('renders image left with heading, body and button', () => {
+  it('renders image left with children content', () => {
     expect(
       render(
         <Card
@@ -18,12 +18,11 @@ describe('block-card', () => {
             imageUrl: 'https://assets.usewaypoint.com/sample-image.jpg',
             imageAlt: 'Sample product',
             imagePosition: 'left',
-            heading: 'New arrival',
-            body: 'A short description of the product.',
-            buttonText: 'Shop now',
-            buttonUrl: 'https://example.com',
           }}
-        />
+        >
+          <h3>New arrival</h3>
+          <p>A short description of the product.</p>
+        </Card>
       ).asFragment()
     ).toMatchSnapshot();
   });

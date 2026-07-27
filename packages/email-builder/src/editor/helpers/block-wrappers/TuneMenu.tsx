@@ -24,6 +24,7 @@ function findParentBlockId(blockId: string, document: TEditorConfiguration) {
         }
         break;
       case 'Container':
+      case 'Card':
         if (block.data.props?.childrenIds?.includes(blockId)) {
           return id;
         }
@@ -62,7 +63,8 @@ export default function TuneMenu({ blockId }: Props) {
           parentBlock.data.childrenIds.splice(index + 1, 0, newBlockId);
           break;
         }
-        case 'Container': {
+        case 'Container':
+        case 'Card': {
           if (!parentBlock.data.props) {
             parentBlock.data.props = {};
           }
@@ -117,6 +119,7 @@ export default function TuneMenu({ blockId }: Props) {
           };
           break;
         case 'Container':
+        case 'Card':
           nDocument[id] = {
             ...block,
             data: {
@@ -187,6 +190,7 @@ export default function TuneMenu({ blockId }: Props) {
           };
           break;
         case 'Container':
+        case 'Card':
           nDocument[id] = {
             ...block,
             data: {

@@ -16,6 +16,7 @@ export * from '../blocks/Text';
 
 export * from '../blocks/ColumnsContainer';
 export * from '../blocks/Container';
+export { default as CardReader } from '../blocks/Card/CardReader';
 export { default as ColumnsContainerReader } from '../blocks/ColumnsContainer/ColumnsContainerReader';
 export { default as ContainerReader } from '../blocks/Container/ContainerReader';
 export { default as EmailLayoutReader } from '../blocks/EmailLayout/EmailLayoutReader';

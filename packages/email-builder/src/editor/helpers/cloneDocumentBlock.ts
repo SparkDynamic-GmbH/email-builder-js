@@ -20,6 +20,7 @@ function cloneBlock(document: TEditorConfiguration, blockId: string): TEditorBlo
     case 'EmailLayout':
       throw new Error('Cloning EmailLayout blocks is not supported.');
     case 'Container':
+    case 'Card':
       if (clone.data?.props?.childrenIds) {
         clone.data.props.childrenIds = cloneChildrenIds(document, clone.data.props.childrenIds);
       }

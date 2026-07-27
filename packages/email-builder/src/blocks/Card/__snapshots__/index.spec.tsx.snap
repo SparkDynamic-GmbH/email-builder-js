@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`block-card renders image left with heading, body and button 1`] = `
+exports[`block-card renders image left with children content 1`] = `
 <DocumentFragment>
   <table
     border="0"
@@ -35,70 +35,15 @@ exports[`block-card renders image left with heading, body and button 1`] = `
                   />
                 </td>
                 <td
+                  style="text-align: left;"
                   valign="top"
                 >
-                  <table
-                    border="0"
-                    cellpadding="0"
-                    cellspacing="0"
-                    role="presentation"
-                    style="width: 100%;"
-                    width="100%"
-                  >
-                    <tbody>
-                      <tr>
-                        <td
-                          style="padding-bottom: 8px; text-align: left;"
-                        >
-                          <h3
-                            style="margin: 0px; font-size: 20px; font-weight: bold; text-align: left;"
-                          >
-                            New arrival
-                          </h3>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td
-                          style="padding-bottom: 16px; text-align: left;"
-                        >
-                          <p
-                            style="margin: 0px; font-size: 14px; text-align: left;"
-                          >
-                            A short description of the product.
-                          </p>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>
-                          <table
-                            border="0"
-                            cellpadding="0"
-                            cellspacing="0"
-                            role="presentation"
-                            style="width: 100%;"
-                            width="100%"
-                          >
-                            <tbody>
-                              <tr>
-                                <td
-                                  align="left"
-                                  style="text-align: left;"
-                                >
-                                  <a
-                                    href="https://example.com"
-                                    style="display: inline-block; color: rgb(255, 255, 255); background-color: rgb(153, 153, 153); border-radius: 4px; padding: 12px 20px; font-weight: bold; text-decoration: none;"
-                                    target="_blank"
-                                  >
-                                    Shop now
-                                  </a>
-                                </td>
-                              </tr>
-                            </tbody>
-                          </table>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
+                  <h3>
+                    New arrival
+                  </h3>
+                  <p>
+                    A short description of the product.
+                  </p>
                 </td>
               </tr>
             </tbody>
@@ -134,19 +79,9 @@ exports[`block-card renders image right 1`] = `
             <tbody>
               <tr>
                 <td
+                  style="text-align: left;"
                   valign="top"
-                >
-                  <table
-                    border="0"
-                    cellpadding="0"
-                    cellspacing="0"
-                    role="presentation"
-                    style="width: 100%;"
-                    width="100%"
-                  >
-                    <tbody />
-                  </table>
-                </td>
+                />
                 <td
                   style="padding: 0px 0px 0px 16px;"
                   valign="top"
@@ -191,18 +126,10 @@ exports[`block-card renders with default values 1`] = `
           >
             <tbody>
               <tr>
-                <td>
-                  <table
-                    border="0"
-                    cellpadding="0"
-                    cellspacing="0"
-                    role="presentation"
-                    style="width: 100%;"
-                    width="100%"
-                  >
-                    <tbody />
-                  </table>
-                </td>
+                <td
+                  style="text-align: left;"
+                  valign="top"
+                />
               </tr>
             </tbody>
           </table>

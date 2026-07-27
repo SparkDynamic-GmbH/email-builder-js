@@ -2,15 +2,27 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 import { Card, CardProps } from '../../../exports/blocks';
 import { useCurrentBlockId } from '../../EditorBlock';
-import { useEditorActions } from '../../EditorContext';
+import { useDocument, useEditorActions } from '../../EditorContext';
+import EditorChildrenIds from '../../helpers/EditorChildrenIds';
 import { ImageLibraryDialog, TImageLibraryItem, toImageLibraryItem, useImageLibrary } from '../../imageLibrary';
 
 const PLACEHOLDER_URL = 'https://placehold.co/600x400@2x/F8F8F8/CCC?text=Your%20image';
+const STARTER_PADDING = { top: 16, bottom: 16, left: 24, right: 24 };
 
-/** Clicking the image on the canvas opens the host's image library, same as the sidebar's picker button. */
+function generateChildId() {
+  return `block-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
+}
+
+/**
+ * Clicking the image on the canvas opens the host's image library, same as the sidebar's picker button.
+ * A Card with no `childrenIds` at all (never initialized) gets a starter Heading/Text/Button, matching
+ * this block's pre-container default look; `childrenIds` is `[]`, not undefined, once the user has
+ * emptied it on purpose, so this never re-seeds after a deliberate delete.
+ */
 export default function CardEditor(props: CardProps) {
-  const { setDocument } = useEditorActions();
-  const blockId = useCurrentBlockId();
+  const { setDocument, setSelectedBlockId } = useEditorActions();
+  const currentBlockId = useCurrentBlockId();
+  const document = useDocument();
   const library = useImageLibrary();
 
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -22,6 +34,42 @@ export default function CardEditor(props: CardProps) {
     []
   );
 
+  const hasSeededRef = useRef(false);
+  useEffect(() => {
+    if (hasSeededRef.current || props.props?.childrenIds !== undefined) {
+      return;
+    }
+    hasSeededRef.current = true;
+    const headingId = generateChildId();
+    const textId = generateChildId();
+    const buttonId = generateChildId();
+    setDocument({
+      [headingId]: { type: 'Heading', data: { props: { text: 'New arrival' }, style: { padding: STARTER_PADDING } } },
+      [textId]: {
+        type: 'Text',
+        data: {
+          props: { text: 'A short description of the product goes here.' },
+          style: { padding: STARTER_PADDING, fontWeight: 'normal' },
+        },
+      },
+      [buttonId]: {
+        type: 'Button',
+        data: {
+          props: { text: 'Shop now', url: 'https://www.usewaypoint.com' },
+          style: { padding: STARTER_PADDING },
+        },
+      },
+      [currentBlockId]: {
+        type: 'Card',
+        data: {
+          ...document[currentBlockId].data,
+          props: { ...props.props, childrenIds: [headingId, textId, buttonId] },
+        },
+      },
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const currentUrl = props.props?.imageUrl ?? null;
 
   // The library's alt text fills a blank one, never replaces what was typed.
@@ -29,13 +77,13 @@ export default function CardEditor(props: CardProps) {
     ({ url, alt }: TImageLibraryItem) => {
       const hasAlt = (props.props?.imageAlt ?? '').trim().length > 0;
       setDocument({
-        [blockId]: {
+        [currentBlockId]: {
           type: 'Card',
           data: { ...props, props: { ...props.props, imageUrl: url, ...(!hasAlt && alt ? { imageAlt: alt } : {}) } },
         },
       });
     },
-    [blockId, props, setDocument]
+    [currentBlockId, props, setDocument]
   );
 
   const onImageClick = useCallback(() => {
@@ -57,13 +105,29 @@ export default function CardEditor(props: CardProps) {
     }
   }, [applyLibraryItem, currentUrl, library]);
 
+  const childrenIds = props.props?.childrenIds ?? [];
+
   return (
     <>
       <Card
         style={props.style}
         props={{ ...props.props, imageUrl: props.props?.imageUrl ?? PLACEHOLDER_URL }}
         onImageClick={library ? onImageClick : undefined}
-      />
+      >
+        <EditorChildrenIds
+          childrenIds={childrenIds}
+          onChange={({ block, blockId, childrenIds }) => {
+            setDocument({
+              [blockId]: block,
+              [currentBlockId]: {
+                type: 'Card',
+                data: { ...document[currentBlockId].data, props: { ...props.props, childrenIds } },
+              },
+            });
+            setSelectedBlockId(blockId);
+          }}
+        />
+      </Card>
       {isDialogOpen && library && (
         <ImageLibraryDialog
           library={library}
