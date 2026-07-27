@@ -4,6 +4,7 @@ import {
   Columns3,
   Heading as HeadingIcon,
   Image as ImageIcon,
+  LayoutTemplate,
   Minus,
   RectangleHorizontal,
   SquareStack,
@@ -25,6 +26,9 @@ import {
   AvatarPropsSchema,
   Button,
   ButtonPropsSchema,
+  Card,
+  CardProps,
+  CardPropsSchema,
   ColumnsContainerReader,
   ContainerReader,
   Divider,
@@ -57,6 +61,7 @@ import TableEditor from './blocks/Table/TableEditor';
 import TextEditor from './blocks/Text/TextEditor';
 import AvatarSidebarPanel from './inspector/ConfigurationPanel/input-panels/AvatarSidebarPanel';
 import ButtonSidebarPanel from './inspector/ConfigurationPanel/input-panels/ButtonSidebarPanel';
+import CardSidebarPanel from './inspector/ConfigurationPanel/input-panels/CardSidebarPanel';
 import ColumnsContainerSidebarPanel from './inspector/ConfigurationPanel/input-panels/ColumnsContainerSidebarPanel';
 import ContainerSidebarPanel from './inspector/ConfigurationPanel/input-panels/ContainerSidebarPanel';
 import DividerSidebarPanel from './inspector/ConfigurationPanel/input-panels/DividerSidebarPanel';
@@ -143,6 +148,27 @@ const BLOCK_DEFINITIONS = buildBlockDefinitionDictionary({
           alt: 'Sample product',
           contentAlignment: 'middle',
           linkHref: null,
+        },
+        style: { padding: DEFAULT_PADDING },
+      }),
+    },
+  },
+  Card: {
+    schema: CardPropsSchema,
+    Reader: Card,
+    SidebarPanel: CardSidebarPanel,
+    menu: {
+      label: 'Card',
+      icon: <LayoutTemplate className={ICON_CLASS} />,
+      defaults: (): CardProps => ({
+        props: {
+          imageUrl: 'https://assets.usewaypoint.com/sample-image.jpg',
+          imageAlt: 'Sample product',
+          imagePosition: 'top',
+          heading: 'New arrival',
+          body: 'A short description of the product goes here.',
+          buttonText: 'Shop now',
+          buttonUrl: 'https://www.usewaypoint.com',
         },
         style: { padding: DEFAULT_PADDING },
       }),

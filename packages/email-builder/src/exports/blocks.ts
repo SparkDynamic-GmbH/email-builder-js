@@ -5,6 +5,7 @@
  */
 export * from '../blocks/Avatar';
 export * from '../blocks/Button';
+export * from '../blocks/Card';
 export * from '../blocks/Divider';
 export * from '../blocks/Heading';
 export * from '../blocks/Html';

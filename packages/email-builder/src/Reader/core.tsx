@@ -2,6 +2,7 @@ import { z } from 'zod';
 
 import { Avatar, AvatarPropsSchema } from '../blocks/Avatar';
 import { Button, ButtonPropsSchema } from '../blocks/Button';
+import { Card, CardPropsSchema } from '../blocks/Card';
 import ColumnsContainerPropsSchema from '../blocks/ColumnsContainer/ColumnsContainerPropsSchema';
 import ColumnsContainerReader from '../blocks/ColumnsContainer/ColumnsContainerReader';
 import { ContainerPropsSchema } from '../blocks/Container/ContainerPropsSchema';
@@ -40,6 +41,10 @@ export const READER_DICTIONARY = buildBlockConfigurationDictionary({
   Button: {
     schema: ButtonPropsSchema,
     Component: Button,
+  },
+  Card: {
+    schema: CardPropsSchema,
+    Component: Card,
   },
   Divider: {
     schema: DividerPropsSchema,
