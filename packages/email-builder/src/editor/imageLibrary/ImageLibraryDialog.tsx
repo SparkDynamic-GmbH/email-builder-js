@@ -218,7 +218,7 @@ export default function ImageLibraryDialog({ library, onClose, onSelect }: Props
                   }
                 }}
                 className={cn(
-                  'flex w-full flex-col items-center justify-center gap-2 rounded-sm border border-dashed px-4 py-6',
+                  'flex w-full cursor-pointer flex-col items-center justify-center gap-2 rounded-sm border border-dashed px-4 py-6',
                   'text-body2 text-txt-secondary transition-colors',
                   'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-blue',
                   'disabled:pointer-events-none disabled:opacity-60',

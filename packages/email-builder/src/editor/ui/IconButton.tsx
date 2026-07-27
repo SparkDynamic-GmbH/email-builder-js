@@ -3,7 +3,7 @@ import React from 'react';
 import cn from './cn';
 
 const BASE =
-  'inline-flex shrink-0 items-center justify-center rounded-full p-2 text-txt-primary transition-colors ' +
+  'inline-flex shrink-0 cursor-pointer items-center justify-center rounded-full p-2 text-txt-primary transition-colors ' +
   'hover:bg-black/4 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-blue ' +
   'disabled:pointer-events-none disabled:opacity-60';
 
