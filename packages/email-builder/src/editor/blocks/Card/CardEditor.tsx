@@ -46,7 +46,7 @@ export default function CardEditor(props: CardProps) {
       [buttonId]: {
         type: 'Button',
         data: {
-          props: { text: 'Shop now', url: 'https://www.usewaypoint.com' },
+          props: { text: 'Shop now', url: 'https://example.com' },
           style: { padding: STARTER_PADDING },
         },
       },

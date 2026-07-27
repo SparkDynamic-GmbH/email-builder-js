@@ -130,7 +130,7 @@ const BLOCK_DEFINITIONS = buildBlockDefinitionDictionary({
       label: 'Button',
       icon: <RectangleHorizontal className={ICON_CLASS} />,
       defaults: () => ({
-        props: { text: 'Button', url: 'https://www.usewaypoint.com' },
+        props: { text: 'Button', url: 'https://example.com' },
         style: { padding: DEFAULT_PADDING },
       }),
     },
@@ -145,7 +145,7 @@ const BLOCK_DEFINITIONS = buildBlockDefinitionDictionary({
       icon: <ImageIcon className={ICON_CLASS} />,
       defaults: (): ImageProps => ({
         props: {
-          url: 'https://assets.usewaypoint.com/sample-image.jpg',
+          url: 'https://placehold.co/600x400',
           alt: 'Sample product',
           contentAlignment: 'middle',
           linkHref: null,
@@ -164,7 +164,7 @@ const BLOCK_DEFINITIONS = buildBlockDefinitionDictionary({
       icon: <LayoutTemplate className={ICON_CLASS} />,
       defaults: (): CardProps => ({
         props: {
-          imageUrl: 'https://assets.usewaypoint.com/sample-image.jpg',
+          imageUrl: 'https://placehold.co/600x400',
           imageAlt: 'Sample product',
           imagePosition: 'top',
         },
