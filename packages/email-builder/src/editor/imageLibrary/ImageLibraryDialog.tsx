@@ -65,8 +65,6 @@ export default function ImageLibraryDialog({ library, onClose, onSelect }: Props
   const [isUploading, setIsUploading] = useState(false);
   const [uploadError, setUploadError] = useState<string | null>(null);
   const [isDraggingOver, setIsDraggingOver] = useState(false);
-
-  const fileInputRef = useRef<HTMLInputElement | null>(null);
   const moreControllerRef = useRef<AbortController | null>(null);
   const uploadControllerRef = useRef<AbortController | null>(null);
 
@@ -199,11 +197,8 @@ export default function ImageLibraryDialog({ library, onClose, onSelect }: Props
         <div className="flex flex-col gap-4">
           {canUpload && (
             <div className="flex flex-col gap-1">
-              <button
-                type="button"
-                disabled={isUploading}
+              <label
                 aria-busy={isUploading}
-                onClick={() => fileInputRef.current?.click()}
                 onDragOver={(ev) => {
                   ev.preventDefault();
                   setIsDraggingOver(true);
@@ -220,8 +215,8 @@ export default function ImageLibraryDialog({ library, onClose, onSelect }: Props
                 className={cn(
                   'flex w-full cursor-pointer flex-col items-center justify-center gap-2 rounded-sm border border-dashed px-4 py-6',
                   'text-body2 text-txt-secondary transition-colors',
-                  'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-blue',
-                  'disabled:pointer-events-none disabled:opacity-60',
+                  'has-focus-visible:outline-2 has-focus-visible:outline-offset-2 has-focus-visible:outline-brand-blue',
+                  isUploading ? 'pointer-events-none opacity-60' : undefined,
                   isDraggingOver ? 'border-brand-blue bg-brand-blue/5' : 'border-grey-400 hover:border-grey-500'
                 )}
               >
@@ -231,25 +226,22 @@ export default function ImageLibraryDialog({ library, onClose, onSelect }: Props
                   <ImageUp className="size-6" aria-hidden="true" />
                 )}
                 <span>{isUploading ? t('imageLibrary.uploading') : t('imageLibrary.dropzone')}</span>
-              </button>
-              <input
-                ref={fileInputRef}
-                type="file"
-                // `display: none` (Tailwind's `hidden`) keeps this out of layout
-                // entirely, and Chromium can intermittently fail to open the
-                // native picker for `.click()` on an element in that state.
-                // `sr-only` clips it instead, which stays reliable.
-                className="sr-only"
-                accept={imageLibraryAccept(library)}
-                onChange={(ev) => {
-                  const file = ev.target.files?.[0];
-                  // Reset so choosing the same file twice fires again.
-                  ev.target.value = '';
-                  if (file) {
-                    upload(file);
-                  }
-                }}
-              />
+                {/* A <label> opens the picker natively on click — no JS `.click()` to flake on. */}
+                <input
+                  type="file"
+                  disabled={isUploading}
+                  className="sr-only"
+                  accept={imageLibraryAccept(library)}
+                  onChange={(ev) => {
+                    const file = ev.target.files?.[0];
+                    // Reset so choosing the same file twice fires again.
+                    ev.target.value = '';
+                    if (file) {
+                      upload(file);
+                    }
+                  }}
+                />
+              </label>
               {uploadError && (
                 <p role="alert" className="text-body2 text-brand-red">
                   {uploadError}
