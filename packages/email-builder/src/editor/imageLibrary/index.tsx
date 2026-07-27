@@ -21,6 +21,7 @@ export {
   toImageLibraryItem,
 } from './helpers';
 
+export { default as CanvasImagePickerOverlay } from './CanvasImagePickerOverlay';
 export { default as ImageLibraryDialog } from './ImageLibraryDialog';
 export { default as ImagePickerButton } from './ImagePickerButton';
 

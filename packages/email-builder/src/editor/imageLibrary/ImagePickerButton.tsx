@@ -13,6 +13,8 @@ type Props = {
   /** The block's current URL, so a host's own picker can preselect. */
   currentUrl: string | null;
   onSelect: (item: TImageLibraryItem) => void;
+  /** Swaps the default sidebar button for a different trigger element, e.g. a canvas overlay. */
+  renderTrigger?: (props: { onClick: () => void; disabled: boolean }) => React.ReactNode;
 };
 
 /**
@@ -20,7 +22,7 @@ type Props = {
  * hands off and renders nothing of its own; otherwise it opens the built-in
  * dialog over whatever `upload`/`list` the host gave.
  */
-export default function ImagePickerButton({ library, currentUrl, onSelect }: Props) {
+export default function ImagePickerButton({ library, currentUrl, onSelect, renderTrigger }: Props) {
   const t = useTranslate();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isPicking, setIsPicking] = useState(false);
@@ -70,25 +72,31 @@ export default function ImagePickerButton({ library, currentUrl, onSelect }: Pro
     [onSelect]
   );
 
+  const handleTriggerClick = useCallback(() => {
+    const { pick } = library;
+    if (pick) {
+      openHostPicker(pick);
+    } else {
+      setIsDialogOpen(true);
+    }
+  }, [library, openHostPicker]);
+
   return (
     <div className="flex flex-col gap-1">
-      <Button
-        variant="outlined"
-        size="small"
-        className="self-start"
-        disabled={isPicking}
-        onClick={() => {
-          const { pick } = library;
-          if (pick) {
-            openHostPicker(pick);
-          } else {
-            setIsDialogOpen(true);
-          }
-        }}
-      >
-        <ImagePlus className="size-4" aria-hidden="true" />
-        {t('imageLibrary.choose')}
-      </Button>
+      {renderTrigger ? (
+        renderTrigger({ onClick: handleTriggerClick, disabled: isPicking })
+      ) : (
+        <Button
+          variant="outlined"
+          size="small"
+          className="self-start"
+          disabled={isPicking}
+          onClick={handleTriggerClick}
+        >
+          <ImagePlus className="size-4" aria-hidden="true" />
+          {t('imageLibrary.choose')}
+        </Button>
+      )}
 
       {error && (
         <p role="alert" className="text-body2 text-brand-red">

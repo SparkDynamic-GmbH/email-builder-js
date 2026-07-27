@@ -42,7 +42,12 @@ export const ImagePropsSchema = z.object({
 
 export type ImageProps = z.infer<typeof ImagePropsSchema>;
 
-export function Image({ style, props, onImageClick }: ImageProps & { onImageClick?: () => void }) {
+type ImageOwnProps = ImageProps & {
+  /** Canvas-only: rendered over the image, e.g. an "open the image library" trigger. */
+  imageOverlay?: React.ReactNode;
+};
+
+export function Image({ style, props, imageOverlay }: ImageOwnProps) {
   const backgroundColor = style?.backgroundColor ?? undefined;
   const textAlign = style?.textAlign ?? undefined;
   const cellStyle: CSSProperties = {
@@ -55,7 +60,7 @@ export function Image({ style, props, onImageClick }: ImageProps & { onImageClic
   const width = props?.width ?? undefined;
   const height = props?.height ?? undefined;
 
-  const imageElement = (
+  const img = (
     <img
       alt={props?.alt ?? ''}
       src={props?.url ?? ''}
@@ -70,18 +75,17 @@ export function Image({ style, props, onImageClick }: ImageProps & { onImageClic
         verticalAlign: props?.contentAlignment ?? 'middle',
         display: 'inline-block',
         maxWidth: '100%',
-        cursor: onImageClick ? 'pointer' : undefined,
       }}
-      onClick={
-        onImageClick
-          ? (ev) => {
-              ev.preventDefault();
-              ev.stopPropagation();
-              onImageClick();
-            }
-          : undefined
-      }
     />
+  );
+
+  const imageElement = imageOverlay ? (
+    <span className="group/image-overlay" style={{ position: 'relative', display: 'inline-block', maxWidth: '100%' }}>
+      {img}
+      {imageOverlay}
+    </span>
+  ) : (
+    img
   );
 
   return (

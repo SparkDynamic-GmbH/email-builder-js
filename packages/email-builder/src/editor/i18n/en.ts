@@ -154,6 +154,7 @@ const en = {
 
   // Image library
   'imageLibrary.choose': 'Choose image…',
+  'imageLibrary.pickOverlay': 'Pick image from media library',
   'imageLibrary.title': 'Choose an image',
   'imageLibrary.dropzone': 'Drop an image here, or click to choose a file',
   'imageLibrary.uploading': 'Uploading…',

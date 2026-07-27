@@ -60,14 +60,15 @@ function CardImage({
   url,
   alt,
   fullWidth,
-  onClick,
+  overlay,
 }: {
   url: string;
   alt: string;
   fullWidth: boolean;
-  onClick?: () => void;
+  /** Canvas-only: rendered over the image, e.g. an "open the image library" trigger. */
+  overlay?: React.ReactNode;
 }) {
-  return (
+  const img = (
     <img
       alt={alt}
       src={url}
@@ -80,19 +81,32 @@ function CardImage({
         outline: 'none',
         textDecoration: 'none',
         maxWidth: '100%',
-        cursor: onClick ? 'pointer' : undefined,
       }}
-      onClick={onClick}
     />
+  );
+
+  if (!overlay) {
+    return img;
+  }
+
+  return (
+    <span
+      className="group/image-overlay"
+      style={{ position: 'relative', display: fullWidth ? 'block' : 'inline-block', maxWidth: '100%' }}
+    >
+      {img}
+      {overlay}
+    </span>
   );
 }
 
-export function Card({
-  style,
-  props,
-  children,
-  onImageClick,
-}: CardProps & { children?: React.ReactNode; onImageClick?: () => void }) {
+type CardOwnProps = CardProps & {
+  children?: React.ReactNode;
+  /** Canvas-only: rendered over the card's image. */
+  imageOverlay?: React.ReactNode;
+};
+
+export function Card({ style, props, children, imageOverlay }: CardOwnProps) {
   const imageUrl = props?.imageUrl ?? '';
   const imageAlt = props?.imageAlt ?? CardPropsDefaults.imageAlt;
   const imagePosition = props?.imagePosition ?? CardPropsDefaults.imagePosition;
@@ -115,7 +129,7 @@ export function Card({
           : { padding: imagePosition === 'left' ? '0 16px 0 0' : '0 0 0 16px' }
       }
     >
-      <CardImage url={imageUrl} alt={imageAlt} fullWidth={imagePosition === 'top'} onClick={onImageClick} />
+      <CardImage url={imageUrl} alt={imageAlt} fullWidth={imagePosition === 'top'} overlay={imageOverlay} />
     </td>
   ) : null;
 

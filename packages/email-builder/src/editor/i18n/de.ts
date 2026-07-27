@@ -150,6 +150,7 @@ const de: TTranslations = {
 
   // Image library
   'imageLibrary.choose': 'Bild auswählen…',
+  'imageLibrary.pickOverlay': 'Bild aus der Mediathek wählen',
   'imageLibrary.title': 'Bild auswählen',
   'imageLibrary.dropzone': 'Bild hierher ziehen oder klicken, um eine Datei zu wählen',
   'imageLibrary.uploading': 'Wird hochgeladen…',

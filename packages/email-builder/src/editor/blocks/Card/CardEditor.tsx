@@ -1,10 +1,10 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 
 import { Card, CardProps } from '../../../exports/blocks';
 import { useCurrentBlockId } from '../../EditorBlock';
 import { useDocument, useEditorActions } from '../../EditorContext';
 import EditorChildrenIds from '../../helpers/EditorChildrenIds';
-import { ImageLibraryDialog, TImageLibraryItem, toImageLibraryItem, useImageLibrary } from '../../imageLibrary';
+import { CanvasImagePickerOverlay, TImageLibraryItem, useImageLibrary } from '../../imageLibrary';
 
 const PLACEHOLDER_URL = 'https://placehold.co/600x400@2x/F8F8F8/CCC?text=Your%20image';
 const STARTER_PADDING = { top: 16, bottom: 16, left: 24, right: 24 };
@@ -14,7 +14,7 @@ function generateChildId() {
 }
 
 /**
- * Clicking the image on the canvas opens the host's image library, same as the sidebar's picker button.
+ * A hover overlay on the canvas image opens the host's image library, same as the sidebar's picker button.
  * A Card with no `childrenIds` at all (never initialized) gets a starter Heading/Text/Button, matching
  * this block's pre-container default look; `childrenIds` is `[]`, not undefined, once the user has
  * emptied it on purpose, so this never re-seeds after a deliberate delete.
@@ -24,15 +24,6 @@ export default function CardEditor(props: CardProps) {
   const currentBlockId = useCurrentBlockId();
   const document = useDocument();
   const library = useImageLibrary();
-
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const isMountedRef = useRef(true);
-  useEffect(
-    () => () => {
-      isMountedRef.current = false;
-    },
-    []
-  );
 
   const hasSeededRef = useRef(false);
   useEffect(() => {
@@ -86,58 +77,31 @@ export default function CardEditor(props: CardProps) {
     [currentBlockId, props, setDocument]
   );
 
-  const onImageClick = useCallback(() => {
-    if (!library) {
-      return;
-    }
-    const { pick } = library;
-    if (pick) {
-      // A failed or aborted pick is silent here — the sidebar's picker button is where the error shows.
-      pick({ url: currentUrl })
-        .then((result) => {
-          if (isMountedRef.current && result !== null && result !== undefined) {
-            applyLibraryItem(toImageLibraryItem(result));
-          }
-        })
-        .catch(() => {});
-    } else {
-      setIsDialogOpen(true);
-    }
-  }, [applyLibraryItem, currentUrl, library]);
-
   const childrenIds = props.props?.childrenIds ?? [];
 
   return (
-    <>
-      <Card
-        style={props.style}
-        props={{ ...props.props, imageUrl: props.props?.imageUrl ?? PLACEHOLDER_URL }}
-        onImageClick={library ? onImageClick : undefined}
-      >
-        <EditorChildrenIds
-          childrenIds={childrenIds}
-          onChange={({ block, blockId, childrenIds }) => {
-            setDocument({
-              [blockId]: block,
-              [currentBlockId]: {
-                type: 'Card',
-                data: { ...document[currentBlockId].data, props: { ...props.props, childrenIds } },
-              },
-            });
-            setSelectedBlockId(blockId);
-          }}
-        />
-      </Card>
-      {isDialogOpen && library && (
-        <ImageLibraryDialog
-          library={library}
-          onClose={() => setIsDialogOpen(false)}
-          onSelect={(item) => {
-            setIsDialogOpen(false);
-            applyLibraryItem(item);
-          }}
-        />
-      )}
-    </>
+    <Card
+      style={props.style}
+      props={{ ...props.props, imageUrl: props.props?.imageUrl ?? PLACEHOLDER_URL }}
+      imageOverlay={
+        library ? (
+          <CanvasImagePickerOverlay library={library} currentUrl={currentUrl} onSelect={applyLibraryItem} />
+        ) : undefined
+      }
+    >
+      <EditorChildrenIds
+        childrenIds={childrenIds}
+        onChange={({ block, blockId, childrenIds }) => {
+          setDocument({
+            [blockId]: block,
+            [currentBlockId]: {
+              type: 'Card',
+              data: { ...document[currentBlockId].data, props: { ...props.props, childrenIds } },
+            },
+          });
+          setSelectedBlockId(blockId);
+        }}
+      />
+    </Card>
   );
 }

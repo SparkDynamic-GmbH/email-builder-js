@@ -151,6 +151,7 @@ const fr: TTranslations = {
 
   // Image library
   'imageLibrary.choose': 'Choisir une image…',
+  'imageLibrary.pickOverlay': 'Choisir une image dans la médiathèque',
   'imageLibrary.title': 'Choisir une image',
   'imageLibrary.dropzone': 'Glissez une image ici ou cliquez pour choisir un fichier',
   'imageLibrary.uploading': 'Téléversement…',
