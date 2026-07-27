@@ -2,7 +2,7 @@
 
 `@sparkdynamic/email-builder`. This is a hard fork of [usewaypoint/email-builder-js](https://github.com/usewaypoint/email-builder-js) at upstream `ce3e610`, so it has its own version line and does not follow upstream's. It stays on 0.x while the extension API can still change.
 
-## Unreleased
+## 0.1.3 — 2026-07-27
 
 ### Added — undo/redo
 
@@ -13,6 +13,17 @@
 - `resetDocument` takes `{ clearHistory: true }` for loading a different template — the states before it are not steps the user took in this one. The host app passes it when a sample is picked or JSON is imported.
 - History is capped at 100 steps; snapshots are structurally shared, so a step costs the objects the edit replaced and nothing more.
 - The catalogs gain `history.undo` and `history.redo`, in every language.
+
+### Added — Card block
+
+- **A `Card` block** — image + heading + body + button, previously only reachable by combining other blocks by hand. Image position is `top`/`left`/`right`, plus card background, border and radius. Table-based markup throughout, including the button. Registered in the built-in reader dictionary too.
+- **`Card` is a container**, not a fixed leaf: its heading/body/button seed as ordinary removable children (`childrenIds`), so they can be added to, removed or reordered like `Container`/`ColumnsContainer` content. The image stays fixed chrome. `TuneMenu`'s move/duplicate/delete and `cloneDocumentBlock` gained a `Card` case alongside `Container`.
+- **Clicking the card's (and the standalone Image block's) canvas image opens the image library** — the host's, or the built-in dialog — the same interaction as `ImagePickerButton` in the sidebar. The image itself is inert to clicks; a "Pick image from media library" overlay button, centered and shown on hover, is the only click target that opens it, so clicking elsewhere on the image still selects the block. `ImagePickerButton` grew a `renderTrigger` prop so this overlay and the Card/Image editors share one implementation instead of each keeping their own dialog state.
+- The catalogs gain `block.Card`, `panel.Card` and the new field labels, in every language.
+
+### Fixed
+
+- **Duplicating a top-level block, then undoing, no longer corrupts the document.** `cloneDocumentBlock`'s shallow copy left every untouched entry — including the parent whose children array the duplicate handler then spliced in place — as the same object reference sitting in the undo stack's most recent snapshot; undoing the duplicate mutated that snapshot retroactively and crashed the editor. Move/duplicate/delete now all copy the parent's children array before splicing, instead of two of the three doing so.
 
 ## 0.1.2 — 2026-07-26
 
