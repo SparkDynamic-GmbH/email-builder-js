@@ -52,6 +52,7 @@ import {
 } from '../exports/blocks';
 
 import ButtonEditor from './blocks/Button/ButtonEditor';
+import CardEditor from './blocks/Card/CardEditor';
 import ColumnsContainerEditor from './blocks/ColumnsContainer/ColumnsContainerEditor';
 import ContainerEditor from './blocks/Container/ContainerEditor';
 import EmailLayoutEditor from './blocks/EmailLayout/EmailLayoutEditor';
@@ -156,6 +157,7 @@ const BLOCK_DEFINITIONS = buildBlockDefinitionDictionary({
   Card: {
     schema: CardPropsSchema,
     Reader: Card,
+    Editor: CardEditor,
     SidebarPanel: CardSidebarPanel,
     menu: {
       label: 'Card',

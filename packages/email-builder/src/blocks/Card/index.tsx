@@ -67,7 +67,17 @@ function getBorder(style: CardProps['style']) {
   return `1px solid ${style.borderColor}`;
 }
 
-function CardImage({ url, alt, fullWidth }: { url: string; alt: string; fullWidth: boolean }) {
+function CardImage({
+  url,
+  alt,
+  fullWidth,
+  onClick,
+}: {
+  url: string;
+  alt: string;
+  fullWidth: boolean;
+  onClick?: () => void;
+}) {
   return (
     <img
       alt={alt}
@@ -81,7 +91,9 @@ function CardImage({ url, alt, fullWidth }: { url: string; alt: string; fullWidt
         outline: 'none',
         textDecoration: 'none',
         maxWidth: '100%',
+        cursor: onClick ? 'pointer' : undefined,
       }}
+      onClick={onClick}
     />
   );
 }
@@ -126,7 +138,7 @@ function CardButton({
   );
 }
 
-export function Card({ style, props }: CardProps) {
+export function Card({ style, props, onImageClick }: CardProps & { onImageClick?: () => void }) {
   const imageUrl = props?.imageUrl ?? '';
   const imageAlt = props?.imageAlt ?? CardPropsDefaults.imageAlt;
   const imagePosition = props?.imagePosition ?? CardPropsDefaults.imagePosition;
@@ -183,7 +195,7 @@ export function Card({ style, props }: CardProps) {
           : { padding: imagePosition === 'left' ? '0 16px 0 0' : '0 0 0 16px' }
       }
     >
-      <CardImage url={imageUrl} alt={imageAlt} fullWidth={imagePosition === 'top'} />
+      <CardImage url={imageUrl} alt={imageAlt} fullWidth={imagePosition === 'top'} onClick={onImageClick} />
     </td>
   ) : null;
 

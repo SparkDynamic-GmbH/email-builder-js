@@ -3,6 +3,7 @@ import { ZodError } from 'zod';
 
 import { CardProps, CardPropsDefaults, CardPropsSchema } from '../../../../exports/blocks';
 import { useTranslate } from '../../../i18n';
+import { ImagePickerButton, TImageLibraryItem, useImageLibrary } from '../../../imageLibrary';
 import { ToggleButton } from '../../../ui/ToggleGroup';
 
 import BaseSidebarPanel from './helpers/BaseSidebarPanel';
@@ -17,6 +18,7 @@ type CardSidebarPanelProps = {
 };
 export default function CardSidebarPanel({ data, setData }: CardSidebarPanelProps) {
   const t = useTranslate();
+  const imageLibrary = useImageLibrary();
   const [, setErrors] = useState<ZodError | null>(null);
 
   const updateData = (d: unknown) => {
@@ -27,6 +29,12 @@ export default function CardSidebarPanel({ data, setData }: CardSidebarPanelProp
     } else {
       setErrors(res.error);
     }
+  };
+
+  // The library's alt text fills a blank one, never replaces what was typed.
+  const applyLibraryItem = ({ url, alt }: TImageLibraryItem) => {
+    const hasAlt = (data.props?.imageAlt ?? '').trim().length > 0;
+    updateData({ ...data, props: { ...data.props, imageUrl: url, ...(!hasAlt && alt ? { imageAlt: alt } : {}) } });
   };
 
   const imageUrl = data.props?.imageUrl ?? '';
@@ -46,6 +54,9 @@ export default function CardSidebarPanel({ data, setData }: CardSidebarPanelProp
         defaultValue={imageUrl}
         onChange={(imageUrl) => updateData({ ...data, props: { ...data.props, imageUrl } })}
       />
+      {imageLibrary && (
+        <ImagePickerButton library={imageLibrary} currentUrl={imageUrl || null} onSelect={applyLibraryItem} />
+      )}
       <TextInput
         label={t('field.altText')}
         defaultValue={imageAlt}
