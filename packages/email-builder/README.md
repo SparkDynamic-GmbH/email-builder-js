@@ -106,6 +106,40 @@ Resolve with `null` when the user cancels. A chosen image writes the block's `ur
 
 Keep the object stable — module scope, or `useMemo`. Pass no `imageLibrary` and the Image panel is what it always was: a URL field.
 
+## Wiring up your template library
+
+Give the provider a `templateLibrary` and every block on the canvas grows a "Save as template" action in its tune menu, which keeps that block and everything under it as a plain JSON fragment. The saved set you hand back is listed in a Templates tab in the sidebar and offered under the block grid in the add-block menu.
+
+Like the image library, this is callbacks rather than storage: the editor never persists anything and keeps no copy of the list, so nothing has to be invalidated.
+
+```tsx
+const [templates, setTemplates] = useState<TBlockTemplate[]>(() => loadTemplates());
+
+<EmailBuilderProvider
+  registry={registry}
+  initialDocument={doc}
+  templateLibrary={{
+    templates,
+    // `draft` is { name, blockType, rootBlockId, blocks } — plain JSON.
+    // Rejecting shows the error's message in the save dialog and leaves it
+    // open, so throw something worth reading.
+    save: async (draft) => {
+      const saved = await api.createTemplate(draft);
+      setTemplates((list) => [saved, ...list]);
+    },
+    // Leave `remove` out and entries cannot be deleted from the editor.
+    remove: async (template) => {
+      await api.deleteTemplate(template.id);
+      setTemplates((list) => list.filter((t) => t.id !== template.id));
+    },
+  }}
+>
+```
+
+Every member is optional. `save` alone gets you the action without a list; `templates` alone gets you a read-only library. The list on screen is always your state — the editor does not add a saved draft to it for you.
+
+Inserting renumbers the whole subtree, so one template can sit next to a copy of itself, and a template that references a block type this registry does not have is listed as unsupported rather than offered.
+
 ## Registering your own block
 
 A block is declared once, as a `BlockDefinition`: its schema, how it renders in email, how it renders on the canvas, its inspector panel, and its add-block menu entry. `buildBlockRegistry` derives the reader dictionary, the canvas dictionary, the document schema, the inspector dispatch and the menu from a dictionary of them.
