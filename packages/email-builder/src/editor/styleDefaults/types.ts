@@ -47,7 +47,12 @@ export type TStylePreset = {
   thumbnailUrl?: string | null;
   /** The layout's colours, border and typeface. Fields left out are not touched. */
   layout?: TStylePresetLayout | null;
-  /** What each block type starts from. Replaces the document's map wholesale. */
+  /**
+   * What each block type starts from. Merged into the document's map rather
+   * than replacing it, type by type and then section by section, so a preset
+   * says only what it is about and leaves the rest of the document's defaults
+   * standing. A preset therefore cannot clear a default, only overwrite one.
+   */
   blockDefaults?: TBlockDefaults | null;
 };
 

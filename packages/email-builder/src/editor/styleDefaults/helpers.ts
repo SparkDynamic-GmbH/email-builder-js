@@ -138,6 +138,25 @@ export type ApplyStylePresetOptions = {
 };
 
 /**
+ * The document's defaults with the preset's laid over them, type by type and
+ * then section by section within a type.
+ *
+ * Merged rather than replaced so that a preset says only what it is about: one
+ * that themes Text and Button leaves the Heading default the user set alone,
+ * and one carrying `style` alone does not drop a `props` default under the same
+ * type. The cost is that a preset cannot take a default away, only overwrite
+ * it — clearing one is what the panel's reset button is for.
+ */
+function mergeBlockDefaults(document: TEditorConfiguration, preset: TStylePreset): TBlockDefaults {
+  const current = getBlockDefaults(document);
+  const merged: TBlockDefaults = { ...current };
+  for (const [type, entry] of Object.entries(preset.blockDefaults ?? {})) {
+    merged[type] = mergeBlockData(current[type], entry);
+  }
+  return merged;
+}
+
+/**
  * Applies a preset, returning the whole document so the change lands as one
  * undo step.
  *
@@ -152,7 +171,7 @@ export function applyStylePreset(
   { restyleExistingBlocks = false }: ApplyStylePresetOptions = {}
 ): TEditorConfiguration {
   const root = getLayout(document);
-  const blockDefaults = preset.blockDefaults ?? {};
+  const blockDefaults = mergeBlockDefaults(document, preset);
   const next: TEditorConfiguration = { ...document };
 
   if (root) {
@@ -167,7 +186,10 @@ export function applyStylePreset(
     if (id === 'root') {
       continue;
     }
-    const style = blockDefaults[block.type]?.style;
+    // The preset's own entries, not the merged map: a restyle should reach the
+    // types this preset actually brought, not every type the document happens
+    // to hold a default for and that the user never asked to touch.
+    const style = preset.blockDefaults?.[block.type]?.style;
     if (!isRecord(style)) {
       continue;
     }

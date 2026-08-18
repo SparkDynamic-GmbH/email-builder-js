@@ -35,9 +35,11 @@ function PresetSwatch({ preset }: { preset: TStylePreset }) {
 /**
  * The named stylings at the top of the Styles tab.
  *
- * Applying one is a single document write, so it is one undo step. Whether it
- * also restyles the blocks already on the canvas is asked in the dialog rather
- * than assumed: a restyle overwrites styling the user may have set on a block
+ * Applying one is a single document write, so it is one undo step. It merges
+ * into the document's block defaults rather than replacing them, so a preset
+ * that themes two block types leaves the rest as they were. Whether it also
+ * restyles the blocks already on the canvas is asked in the dialog rather than
+ * assumed: a restyle overwrites styling the user may have set on a block
  * deliberately, and undo is a thin thing to hang that on.
  */
 export default function StylePresetPicker() {

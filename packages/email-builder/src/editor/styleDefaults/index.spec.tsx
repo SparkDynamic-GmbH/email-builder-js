@@ -136,12 +136,45 @@ describe('applyStylePreset', () => {
     blockDefaults: { Text: { style: { padding: { top: 40, bottom: 40, left: 40, right: 40 }, fontSize: 20 } } },
   };
 
+  it('merges into the defaults already there rather than replacing them', () => {
+    const withHeading = { ...DOC, ...setBlockDefault(DOC, 'Heading', { style: { padding: PADDING } }) };
+    const next = applyStylePreset(R, withHeading, preset);
+    const defaults = getBlockDefaults(next);
+
+    // The preset named Text, so Text is the preset's.
+    expect(defaults.Text.style.fontSize).toBe(20);
+    // It said nothing about Heading, so the document keeps what it had.
+    expect(defaults.Heading.style.padding).toEqual(PADDING);
+  });
+
+  it('merges section by section within a type, so a style-only preset keeps a props default', () => {
+    const withProps = { ...DOC, ...setBlockDefault(DOC, 'Text', { props: { text: 'House style' } }) };
+    const defaults = getBlockDefaults(applyStylePreset(R, withProps, preset));
+
+    expect(defaults.Text.props.text).toBe('House style');
+    expect(defaults.Text.style.fontSize).toBe(20);
+  });
+
+  it('restyles only the types the preset itself named', () => {
+    const document: TEditorConfiguration = {
+      ...DOC,
+      ...setBlockDefault(DOC, 'Heading', { style: { fontFamily: 'MONOSPACE' } }),
+      heading: { type: 'Heading', data: { props: { text: 'Hi' }, style: { fontFamily: 'MODERN_SANS' } } },
+    };
+    const next = applyStylePreset(R, document, preset, { restyleExistingBlocks: true });
+
+    expect(next.text.data.style.fontSize).toBe(20);
+    // Heading has a default in the document, but not in this preset.
+    expect(next.heading.data.style.fontFamily).toBe('MODERN_SANS');
+  });
+
   it('writes the layout and the defaults, and keeps the content', () => {
     const next = applyStylePreset(R, DOC, preset);
     expect(next.root.data.canvasColor).toBe('#FFEEDD');
     expect(next.root.data.preheader).toBe('Keep me');
     expect(next.root.data.childrenIds).toEqual(['text']);
     expect(next.root.data.blockDefaults).toEqual(preset.blockDefaults);
+    // Nothing was there to merge with, so the preset's map is the whole of it.
   });
 
   it('leaves the blocks already in the document alone by default', () => {
