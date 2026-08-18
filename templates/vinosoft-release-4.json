@@ -1,0 +1,661 @@
+{
+  "root": {
+    "type": "EmailLayout",
+    "data": {
+      "backdropColor": "#F5F5F5",
+      "canvasColor": "#FFFFFF",
+      "textColor": "#262626",
+      "fontFamily": "MODERN_SANS",
+      "preheader": "Ein grosses Vinosoft-Update, vollgepackt mit dem, was Sie sich gewünscht haben.",
+      "childrenIds": [
+        "block-logo",
+        "block-divider-1",
+        "block-heading-2",
+        "block-text-3",
+        "block-text-4",
+        "block-text-5",
+        "block-heading-6",
+        "block-text-7",
+        "block-text-8",
+        "block-text-9",
+        "block-heading-10",
+        "block-text-11",
+        "block-heading-12",
+        "block-text-13",
+        "block-text-14",
+        "block-text-15",
+        "block-heading-16",
+        "block-text-17",
+        "block-text-18",
+        "block-text-19",
+        "block-text-20",
+        "block-heading-21",
+        "block-text-22",
+        "block-heading-23",
+        "block-text-24",
+        "block-heading-25",
+        "block-text-26",
+        "block-heading-27",
+        "block-text-28",
+        "block-heading-29",
+        "block-text-30",
+        "block-divider-31",
+        "block-text-32",
+        "block-text-33"
+      ]
+    }
+  },
+  "block-logo": {
+    "type": "Image",
+    "data": {
+      "props": {
+        "url": "https://sparkdynamic.blob.core.windows.net/assets/media/7718d173-1f3f-4f8c-b282-5b5a1c183bce/newsletters/d2bab17f-0dfd-423b-acb2-39f182c58709__vinosoft-logo-1.png",
+        "alt": "Vinosoft",
+        "contentAlignment": "middle",
+        "linkHref": "https://www.vinosoft.ch"
+      },
+      "style": {
+        "padding": {
+          "top": 24,
+          "bottom": 16,
+          "right": 24,
+          "left": 24
+        },
+        "textAlign": "left"
+      }
+    }
+  },
+  "block-divider-1": {
+    "type": "Divider",
+    "data": {
+      "props": {
+        "lineColor": "#CCCCCC",
+        "lineHeight": 1
+      },
+      "style": {
+        "padding": {
+          "top": 0,
+          "bottom": 8,
+          "right": 24,
+          "left": 24
+        }
+      }
+    }
+  },
+  "block-heading-2": {
+    "type": "Heading",
+    "data": {
+      "props": {
+        "text": "Major Vinosoft Release 4",
+        "level": "h1"
+      },
+      "style": {
+        "padding": {
+          "top": 8,
+          "bottom": 4,
+          "right": 24,
+          "left": 24
+        },
+        "textAlign": "left"
+      }
+    }
+  },
+  "block-text-3": {
+    "type": "Text",
+    "data": {
+      "props": {
+        "text": "Rüti ZH, 21.08.2026"
+      },
+      "style": {
+        "padding": {
+          "top": 0,
+          "bottom": 16,
+          "right": 24,
+          "left": 24
+        },
+        "fontWeight": "normal",
+        "textAlign": "left",
+        "color": "#666666"
+      }
+    }
+  },
+  "block-text-4": {
+    "type": "Text",
+    "data": {
+      "props": {
+        "text": "<strong>Ein grosses Vinosoft-Update, vollgepackt mit dem, was Sie sich gewünscht haben</strong>"
+      },
+      "style": {
+        "padding": {
+          "top": 0,
+          "bottom": 8,
+          "right": 24,
+          "left": 24
+        },
+        "fontWeight": "normal",
+        "textAlign": "left"
+      }
+    }
+  },
+  "block-text-5": {
+    "type": "Text",
+    "data": {
+      "props": {
+        "text": "Wir haben das letzte Jahr damit verbracht, Vinosoft zu verbessern – und das Ergebnis ist unser bisher grösster Release. Unter der Haube läuft die Plattform jetzt auf dem neuesten .NET – dadurch ist die ganze Anwendung spürbar schneller und reaktionsfreudiger. Aber Technik ist nebensächlich; entscheidend ist, was Sie damit tun können. Hier ist also, was wirklich neu ist."
+      },
+      "style": {
+        "padding": {
+          "top": 0,
+          "bottom": 16,
+          "right": 24,
+          "left": 24
+        },
+        "fontWeight": "normal",
+        "textAlign": "left"
+      }
+    }
+  },
+  "block-heading-6": {
+    "type": "Heading",
+    "data": {
+      "props": {
+        "text": "Ein KI-Assistent, der Ihre Büroarbeit übernimmt",
+        "level": "h2"
+      },
+      "style": {
+        "padding": {
+          "top": 24,
+          "bottom": 8,
+          "right": 24,
+          "left": 24
+        },
+        "textAlign": "left"
+      }
+    }
+  },
+  "block-text-7": {
+    "type": "Text",
+    "data": {
+      "props": {
+        "text": "Lernen Sie Ihren neuen Assistenten direkt in der App kennen. Sagen Sie ihm einfach in normaler Sprache, was Sie brauchen – «Erstelle eine Rechnung für die Meier AG über 12 Flaschen Pinot 2021» – und er erstellt das Dokument für Sie. Er funktioniert mit Offerten, Auftragsbestätigungen, Rechnungen, Gutschriften, Lieferscheinen und Bestellungen."
+      },
+      "style": {
+        "padding": {
+          "top": 0,
+          "bottom": 16,
+          "right": 24,
+          "left": 24
+        },
+        "fontWeight": "normal",
+        "textAlign": "left"
+      }
+    }
+  },
+  "block-text-8": {
+    "type": "Text",
+    "data": {
+      "props": {
+        "text": "Er sucht Ihre Kunden und Artikel heraus und füllt die Preise automatisch aus. Bitten Sie ihn, ein Dokument per E-Mail zu versenden oder das PDF direkt im Chat zu öffnen."
+      },
+      "style": {
+        "padding": {
+          "top": 0,
+          "bottom": 16,
+          "right": 24,
+          "left": 24
+        },
+        "fontWeight": "normal",
+        "textAlign": "left"
+      }
+    }
+  },
+  "block-text-9": {
+    "type": "Text",
+    "data": {
+      "props": {
+        "text": "Ihr gesamter Gesprächsverlauf bleibt in einer Seitenleiste erhalten, sodass Sie jederzeit dort weitermachen können, wo Sie aufgehört haben.<br>Für Administratoren ist jedes Gespräch nachvollziehbar – mit monatlicher Kosten- und Nutzungsauswertung und einem im Voraus bezahlten Guthaben, damit die KI-Kosten stets planbar bleiben."
+      },
+      "style": {
+        "padding": {
+          "top": 0,
+          "bottom": 16,
+          "right": 24,
+          "left": 24
+        },
+        "fontWeight": "normal",
+        "textAlign": "left"
+      }
+    }
+  },
+  "block-heading-10": {
+    "type": "Heading",
+    "data": {
+      "props": {
+        "text": "Finden Sie alles – sofort",
+        "level": "h2"
+      },
+      "style": {
+        "padding": {
+          "top": 24,
+          "bottom": 8,
+          "right": 24,
+          "left": 24
+        },
+        "textAlign": "left"
+      }
+    }
+  },
+  "block-text-11": {
+    "type": "Text",
+    "data": {
+      "props": {
+        "text": "Zuoberst in der App gibt es jetzt eine einzige Suchleiste. Geben Sie einen Kundennamen, eine Rechnungsnummer, eine Offerte, eine Auftragsbestätigung, eine Bestellung oder einen Artikel ein – und springen Sie direkt dorthin. Die Ergebnisse zeigen Betrag und Status auf einen Blick, und jeder sieht nur, wozu er berechtigt ist."
+      },
+      "style": {
+        "padding": {
+          "top": 0,
+          "bottom": 16,
+          "right": 24,
+          "left": 24
+        },
+        "fontWeight": "normal",
+        "textAlign": "left"
+      }
+    }
+  },
+  "block-heading-12": {
+    "type": "Heading",
+    "data": {
+      "props": {
+        "text": "Ein Shop, der besser verkauft",
+        "level": "h2"
+      },
+      "style": {
+        "padding": {
+          "top": 24,
+          "bottom": 8,
+          "right": 24,
+          "left": 24
+        },
+        "textAlign": "left"
+      }
+    }
+  },
+  "block-text-13": {
+    "type": "Text",
+    "data": {
+      "props": {
+        "text": "Sie können jetzt optional auf ein brandneues Checkout-Erlebnis umsteigen – <strong>einen anpassbaren Checkout im Shopify-Stil</strong>, den Sie selbst steuern. Es ist optional – Sie steigen um, wann immer Sie bereit sind:"
+      },
+      "style": {
+        "padding": {
+          "top": 0,
+          "bottom": 16,
+          "right": 24,
+          "left": 24
+        },
+        "fontWeight": "normal",
+        "textAlign": "left"
+      }
+    }
+  },
+  "block-text-14": {
+    "type": "Text",
+    "data": {
+      "props": {
+        "text": "Ein <strong>neu gestalteter Checkout auf einer einzigen Seite</strong> – aufgeräumt, schnell und mobilfreundlich.<br><br><strong>Machen Sie ihn zu Ihrem</strong>: Gestalten Sie den Checkout mit Ihrem Logo, Ihren Farben, Ihrer Typografie und Ihren Vertrauenshinweisen – mit Live-Vorschau.<br><br><strong>Bauen Sie Ihre Liste aus</strong>: Newsletter-Anmeldung sowie Zustimmung zu AGB/Datenschutz sind direkt in den Checkout integriert.<br><br><strong>Schweizer Altersverifikation</strong>: Verkaufen Sie altersbeschränkte Produkte in voller Übereinstimmung mit den Schweizer Altersvorgaben – Kundinnen und Kunden verifizieren sich per Ausweis-Scan, und Sie entscheiden, welche Produkte (oder alle) das erfordern."
+      },
+      "style": {
+        "padding": {
+          "top": 0,
+          "bottom": 16,
+          "right": 24,
+          "left": 24
+        },
+        "fontWeight": "normal",
+        "textAlign": "left"
+      }
+    }
+  },
+  "block-text-15": {
+    "type": "Text",
+    "data": {
+      "props": {
+        "text": "Im Hintergrund erhalten Sie ausserdem Ihre eigene Domain mit geführter DNS-Einrichtung, einen Theme-Editor und einen Drag-and-drop-Builder für das Navigationsmenü – ganz ohne Entwickler."
+      },
+      "style": {
+        "padding": {
+          "top": 0,
+          "bottom": 16,
+          "right": 24,
+          "left": 24
+        },
+        "fontWeight": "normal",
+        "textAlign": "left"
+      }
+    }
+  },
+  "block-heading-16": {
+    "type": "Heading",
+    "data": {
+      "props": {
+        "text": "Smarte Kollektionen: Kuratieren Sie Ihren Katalog automatisch",
+        "level": "h2"
+      },
+      "style": {
+        "padding": {
+          "top": 24,
+          "bottom": 8,
+          "right": 24,
+          "left": 24
+        },
+        "textAlign": "left"
+      }
+    }
+  },
+  "block-text-17": {
+    "type": "Text",
+    "data": {
+      "props": {
+        "text": "Mit Kollektionen gruppieren Sie Produkte zu einkaufbaren Kategorien – und sie sind jetzt deutlich leistungsfähiger. Statt jedes Produkt von Hand hinzuzufügen, können Sie nun smarte Kollektionen erstellen, die sich anhand Ihrer Regeln selbst füllen:"
+      },
+      "style": {
+        "padding": {
+          "top": 0,
+          "bottom": 16,
+          "right": 24,
+          "left": 24
+        },
+        "fontWeight": "normal",
+        "textAlign": "left"
+      }
+    }
+  },
+  "block-text-18": {
+    "type": "Text",
+    "data": {
+      "props": {
+        "text": "Ordnen Sie Produkte nach Tag, Hersteller, Preisspanne oder Kategorie zu – oder kombinieren Sie diese.<br><br>Neue passende Produkte werden automatisch hinzugefügt; Produkte, die nicht mehr passen, fallen von selbst heraus.<br><br>Die Seiten bleiben auch bei grossen Katalogen schnell, und die Produktanzahl ist stets aktuell."
+      },
+      "style": {
+        "padding": {
+          "top": 0,
+          "bottom": 16,
+          "right": 24,
+          "left": 24
+        },
+        "fontWeight": "normal",
+        "textAlign": "left"
+      }
+    }
+  },
+  "block-text-19": {
+    "type": "Text",
+    "data": {
+      "props": {
+        "text": "Auch jede Kollektionsseite kann mehr: Fügen Sie eine <strong>Beschreibung und SEO-Angaben</strong> hinzu, laden Sie ein Titelbild hoch, wählen Sie die Sortierreihenfolge (auch nach Ihren eigenen benutzerdefinierten Feldern), wählen Sie eine Seitenvorlage, teilen Sie lange Listen auf Seiten auf und veröffentlichen oder verbergen Sie sie mit einem Klick."
+      },
+      "style": {
+        "padding": {
+          "top": 0,
+          "bottom": 16,
+          "right": 24,
+          "left": 24
+        },
+        "fontWeight": "normal",
+        "textAlign": "left"
+      }
+    }
+  },
+  "block-text-20": {
+    "type": "Text",
+    "data": {
+      "props": {
+        "text": "Und weil Kundinnen und Kunden Shops zunehmend über Google und KI-Assistenten entdecken, liefert jeder Shop nun umfangreiche strukturierte Daten, saubere Sitemaps und maschinenlesbare Inhalte – damit Ihre Produkte gefunden werden, wo auch immer gesucht wird."
+      },
+      "style": {
+        "padding": {
+          "top": 0,
+          "bottom": 16,
+          "right": 24,
+          "left": 24
+        },
+        "fontWeight": "normal",
+        "textAlign": "left"
+      }
+    }
+  },
+  "block-heading-21": {
+    "type": "Heading",
+    "data": {
+      "props": {
+        "text": "Bauen Sie auf Vinosoft auf",
+        "level": "h2"
+      },
+      "style": {
+        "padding": {
+          "top": 24,
+          "bottom": 8,
+          "right": 24,
+          "left": 24
+        },
+        "textAlign": "left"
+      }
+    }
+  },
+  "block-text-22": {
+    "type": "Text",
+    "data": {
+      "props": {
+        "text": "Entwickler können jetzt direkt über eine vollständige, dokumentierte REST-API integrieren – mit Zugriff auf Storefront, Administration und Kundenkonten, samt OpenAPI-/Swagger-Dokumentation, OAuth und sicheren Tokens."
+      },
+      "style": {
+        "padding": {
+          "top": 0,
+          "bottom": 16,
+          "right": 24,
+          "left": 24
+        },
+        "fontWeight": "normal",
+        "textAlign": "left"
+      }
+    }
+  },
+  "block-heading-23": {
+    "type": "Heading",
+    "data": {
+      "props": {
+        "text": "Dashboards, die zu Ihrer Arbeitsweise passen",
+        "level": "h2"
+      },
+      "style": {
+        "padding": {
+          "top": 24,
+          "bottom": 8,
+          "right": 24,
+          "left": 24
+        },
+        "textAlign": "left"
+      }
+    }
+  },
+  "block-text-24": {
+    "type": "Text",
+    "data": {
+      "props": {
+        "text": "Erstellen Sie Ihr eigenes Dashboard, indem Sie die für Sie wichtigen Widgets hineinziehen, und teilen Sie Layouts mit Ihrem Team. Neu bei Vinosoft? Eine Einstiegs-Checkliste führt Sie Schritt für Schritt durch die Einrichtung."
+      },
+      "style": {
+        "padding": {
+          "top": 0,
+          "bottom": 16,
+          "right": 24,
+          "left": 24
+        },
+        "fontWeight": "normal",
+        "textAlign": "left"
+      }
+    }
+  },
+  "block-heading-25": {
+    "type": "Heading",
+    "data": {
+      "props": {
+        "text": "Eine brandneue Kassen-App fürs iPad",
+        "level": "h2"
+      },
+      "style": {
+        "padding": {
+          "top": 24,
+          "bottom": 8,
+          "right": 24,
+          "left": 24
+        },
+        "textAlign": "left"
+      }
+    }
+  },
+  "block-text-26": {
+    "type": "Text",
+    "data": {
+      "props": {
+        "text": "Wir haben eine komplett neue native iOS-Kassen-App veröffentlicht – Vinosoft POS Lite –, welche die alte ersetzt. Sie ist schneller, einfacher zu bedienen und ab sofort im App Store erhältlich. Akzeptieren Sie Zahlungen mit SumUp und Twint, legen Sie Einstellungen pro Gerät fest und sind in wenigen Minuten startklar."
+      },
+      "style": {
+        "padding": {
+          "top": 0,
+          "bottom": 16,
+          "right": 24,
+          "left": 24
+        },
+        "fontWeight": "normal",
+        "textAlign": "left"
+      }
+    }
+  },
+  "block-heading-27": {
+    "type": "Heading",
+    "data": {
+      "props": {
+        "text": "Treueprogramm, benutzerdefinierte Felder und mehr",
+        "level": "h2"
+      },
+      "style": {
+        "padding": {
+          "top": 24,
+          "bottom": 8,
+          "right": 24,
+          "left": 24
+        },
+        "textAlign": "left"
+      }
+    }
+  },
+  "block-text-28": {
+    "type": "Text",
+    "data": {
+      "props": {
+        "text": "<strong>Treueprogramm</strong>: Geben Sie Treuekarten aus, verfolgen Sie Guthaben und lassen Sie Kundinnen und Kunden an der Kasse und auf Rechnungen Punkte sammeln und einlösen – mit Barcodes, Sammelausgabe und Excel-Export.<br><br><strong>Benutzerdefinierte Felder</strong>: Fügen Sie Produkten und Varianten eigene Felder (Text, Zahlen, Auswahllisten) hinzu und zeigen Sie diese direkt in Ihrem Shop an.<br><br><strong>Dokumente</strong>: bearbeitbare offene Gutschriften, E-Mail an mehrere Empfänger, Lieferschein-Unterschriften direkt am Bildschirm und automatisch wiederkehrende Rechnungen."
+      },
+      "style": {
+        "padding": {
+          "top": 0,
+          "bottom": 16,
+          "right": 24,
+          "left": 24
+        },
+        "fontWeight": "normal",
+        "textAlign": "left"
+      }
+    }
+  },
+  "block-heading-29": {
+    "type": "Heading",
+    "data": {
+      "props": {
+        "text": "Ausgereift, sicher und mehrsprachig",
+        "level": "h2"
+      },
+      "style": {
+        "padding": {
+          "top": 24,
+          "bottom": 8,
+          "right": 24,
+          "left": 24
+        },
+        "textAlign": "left"
+      }
+    }
+  },
+  "block-text-30": {
+    "type": "Text",
+    "data": {
+      "props": {
+        "text": "Zwei-Faktor-Authentifizierung, feiner abgestufte Berechtigungen und eine deutlich bessere Lokalisierung in Deutsch, Französisch und Italienisch runden das Release ab."
+      },
+      "style": {
+        "padding": {
+          "top": 0,
+          "bottom": 16,
+          "right": 24,
+          "left": 24
+        },
+        "fontWeight": "normal",
+        "textAlign": "left"
+      }
+    }
+  },
+  "block-divider-31": {
+    "type": "Divider",
+    "data": {
+      "props": {
+        "lineColor": "#CCCCCC",
+        "lineHeight": 1
+      },
+      "style": {
+        "padding": {
+          "top": 16,
+          "bottom": 16,
+          "right": 24,
+          "left": 24
+        }
+      }
+    }
+  },
+  "block-text-32": {
+    "type": "Text",
+    "data": {
+      "props": {
+        "text": "<strong>Das ist ein grosser Schritt nach vorne – und erst der Anfang.</strong> Alles wird nach und nach in Ihrem Konto verfügbar sein; melden Sie sich einfach an und entdecken Sie es. Fragen? Kontaktieren Sie uns – wir helfen Ihnen gerne."
+      },
+      "style": {
+        "padding": {
+          "top": 0,
+          "bottom": 16,
+          "right": 24,
+          "left": 24
+        },
+        "fontWeight": "normal",
+        "textAlign": "left"
+      }
+    }
+  },
+  "block-text-33": {
+    "type": "Text",
+    "data": {
+      "props": {
+        "text": "Freundliche Grüsse<br><br>Vinosoft Team"
+      },
+      "style": {
+        "padding": {
+          "top": 0,
+          "bottom": 32,
+          "right": 24,
+          "left": 24
+        },
+        "fontWeight": "normal",
+        "textAlign": "left"
+      }
+    }
+  }
+}
