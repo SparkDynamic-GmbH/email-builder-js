@@ -2,7 +2,16 @@
 
 `@sparkdynamic/email-builder`. This is a hard fork of [usewaypoint/email-builder-js](https://github.com/usewaypoint/email-builder-js) at upstream `ce3e610`, so it has its own version line and does not follow upstream's. It stays on 0.x while the extension API can still change.
 
-## Unreleased
+## 0.1.5 — 2026-08-18
+
+### Added — template library
+
+- **A block can be kept as a reusable partial.** A block's tune menu grows a "Save as template" action that lifts it and everything under it into a plain JSON fragment, and the saved set comes back in a Templates tab in the sidebar and under the block grid in the add-block menu.
+- **The contract mirrors the image library: callbacks, not storage.** The provider's new `templateLibrary` prop takes `save`, `remove` and `templates`. `save` hands the host `{name, blockType, rootBlockId, blocks}`; the host hands its own list back as `templates`, so the editor keeps no copy and nothing has to be invalidated. Every member is optional — `save` alone gets the action without a list, `templates` alone a read-only library, and no prop at all changes nothing about the editor.
+- **Inserting renumbers the whole subtree**, so one template can sit next to a copy of itself, and a template that names a block type the registry does not have is listed as unsupported rather than offered.
+- `helpers/blockChildren.ts` is now the one place that knows which blocks hold children — the template walk, the renumber, the insert and `TuneMenu`'s parent lookup all go through it rather than repeating the container switch a fourth time. `EditorChildrenIds`' change carries blocks keyed by id, since a template is more than one block.
+- New exports from `./editor`: `SaveTemplateButton`, `TemplateLibraryPanel`, `TemplateLibraryProvider`, `useTemplateLibrary`, `useInsertBlockTemplate`, `useIsTemplateSupported`, `extractBlockTemplate`, `instantiateBlockTemplate`, `isBlockTemplateContent`, `isTemplateLibraryUsable`, `templateBlockCount`, `templateBlockTypes`, `templateKey`, and the `TBlockTemplate` / `TBlockTemplateContent` / `TBlockTemplateDraft` / `TTemplateLibrary` types.
+- The catalogs gain `inspector.tab.templates` and the `templates.*` keys, in every language.
 
 ### Added — links in rich text
 
