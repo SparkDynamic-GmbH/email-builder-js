@@ -4,6 +4,19 @@
 
 ## Unreleased
 
+### Added — style presets and per-block defaults
+
+- **A document's styling now covers what a new block starts from.** `EmailLayout` grows a `blockDefaults` map, keyed by block type, and the add-block menu lays that entry over the one the block's definition declares — so a Text block added after the padding is set arrives with that padding, rather than the built-in 16/24. The merge is section-wise, props over props and style over style, so an entry carrying only `style` keeps the placeholder content the definition gives; the result is parsed against the registry's schema before it is used, so a default left behind by an older block set falls back to the definition instead of putting an invalid block into the document.
+- **A style preset is that pair named**: the layout's colours, border and typeface, plus the defaults map. Three ship in the package — Default, Compact, Editorial — and a host serves its own through the provider's `stylePresets` prop. Same callback contract as the image and template libraries, because the styling lives on the document's root block and the editor persists nothing; leaving the prop out offers the built-ins, and `{ presets: [] }` offers none.
+- **Applying one is a single document write**, so it is one undo step. Whether it also restyles the blocks already on the canvas is asked in the dialog rather than assumed — a restyle overwrites styling the user may have set deliberately — and it replaces their `style` only, never their content.
+- **The Styles tab holds all of it**: presets at the top, the Global fields as before, and a Block defaults accordion under them. A block's default is edited through that block's own inspector panel against a stand-in block, so there is no second set of inputs to keep in step, and a host's own block is covered without writing anything.
+- `extractStylePreset` lifts the current styling out as a draft, the way `extractBlockTemplate` does for a subtree. New `Accordion` primitive, and the `stylePresets.*` and `styleDefaults.*` keys in every language.
+
+### Fixed
+
+- **The Global panel's font-family field showed the wrong value.** Its `defaultValue` was the literal `MODERN_SANS`, so the select read Modern sans however the layout was actually set.
+- **The Styles tab now follows a document written from outside it.** Its inputs are uncontrolled, so applying a preset left the fields showing what they mounted with; they remount on an external write and only then, so dragging one of their own sliders still works.
+
 ### Added — JSON import and export
 
 - **The document can be taken out as a file and read back in.** `ExportJsonButton` downloads the current document as JSON (`fileName` names the download, `email-template.json` by default); `ImportJsonButton` opens a dialog that takes it pasted or picked as a `.json` file and replaces the document with it. Both are host chrome, like `SaveButton` — put them in your toolbar.
