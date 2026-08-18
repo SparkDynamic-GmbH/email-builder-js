@@ -99,6 +99,35 @@ export {
 } from './templateLibrary';
 
 /**
+ * Document-wide styling. The layout's colours and typeface and each block
+ * type's defaults live on the root block; a `stylePresets` library on the
+ * provider offers named stylings over the pair, and the editor ships three.
+ */
+export {
+  applyStylePreset,
+  ApplyStylePresetOptions,
+  BlockDefaultsPanel,
+  BUILT_IN_STYLE_PRESETS,
+  extractStylePreset,
+  getBlockDefaults,
+  getStylePresetLayout,
+  isStylePresetLibraryUsable,
+  resolveNewBlock,
+  setBlockDefault,
+  setBlockDefaults,
+  STYLE_PRESET_LAYOUT_KEYS,
+  StylePresetPicker,
+  StylePresetProvider,
+  stylePresetKey,
+  TBlockDefaults,
+  TStylePreset,
+  TStylePresetDraft,
+  TStylePresetLayout,
+  TStylePresetLibrary,
+  useStylePresets,
+} from './styleDefaults';
+
+/**
  * JSON import and export. A document is plain JSON, so it can be handed out as
  * a file and read back; the import checks it against the provider's registry.
  */
@@ -138,6 +167,7 @@ export { default as StylesPanel } from './inspector/StylesPanel';
 
 // Radix + Tailwind primitives the panels are built on, exported so a host's own
 // blocks and chrome can match them.
+export { default as Accordion, AccordionItem } from './ui/Accordion';
 export { default as Button, LinkButton } from './ui/Button';
 export { default as cn } from './ui/cn';
 export { default as Dialog, DialogActions, DialogContent } from './ui/Dialog';

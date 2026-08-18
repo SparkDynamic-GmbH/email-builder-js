@@ -1,8 +1,9 @@
 import React from 'react';
 
-import { useEditorRegistry } from '../../../../editor/EditorContext';
+import { useDocument, useEditorRegistry } from '../../../../editor/EditorContext';
 import { TEditorBlock } from '../../../../editor/types';
 import { useTranslate } from '../../../i18n';
+import { resolveNewBlock } from '../../../styleDefaults/helpers';
 
 import BlockButton from './BlockButton';
 
@@ -11,7 +12,9 @@ type BlocksMenuProps = {
 };
 export default function BlocksMenu({ onSelect }: BlocksMenuProps) {
   const t = useTranslate();
-  const { menu } = useEditorRegistry();
+  const registry = useEditorRegistry();
+  const document = useDocument();
+  const { menu } = registry;
 
   // A block's label is translated by convention, under `block.<type>`. A host's
   // own block has no such key unless it supplied one through `translations`, so
@@ -29,7 +32,9 @@ export default function BlocksMenu({ onSelect }: BlocksMenuProps) {
           key={entry.type}
           label={labelOf(entry.type, entry.label)}
           icon={entry.icon}
-          onClick={() => onSelect(entry.block())}
+          // The document's own defaults, where it has one for this type, stand
+          // in for the definition's — see `styleDefaults/`.
+          onClick={() => onSelect(resolveNewBlock(registry, document, entry.block()))}
         />
       ))}
     </div>

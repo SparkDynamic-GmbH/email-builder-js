@@ -5,6 +5,8 @@ import { BaseZodDictionary, BlockConfiguration, BlockRegistry } from '../core';
 
 import { DEFAULT_LANGUAGE, I18nProvider, TLanguage, TTranslationOverrides } from './i18n';
 import { ImageLibraryProvider, TImageLibrary } from './imageLibrary';
+import { StylePresetProvider } from './styleDefaults/context';
+import { TStylePresetLibrary } from './styleDefaults/types';
 import { TemplateLibraryProvider } from './templateLibrary/context';
 import { TTemplateLibrary } from './templateLibrary/types';
 import { TEditorBlock, TEditorConfiguration, TEditorRegistry } from './types';
@@ -210,6 +212,19 @@ export type EmailBuilderProviderProps<T extends BaseZodDictionary> = {
    */
   templateLibrary?: TTemplateLibrary;
   /**
+   * The host's named stylings, offered at the top of the Styles tab. A preset
+   * carries the layout's colours and typeface plus what each block type starts
+   * from, and applying one is a single, undoable document write.
+   *
+   * Left out, the editor offers `BUILT_IN_STYLE_PRESETS`; pass `{ presets: [] }`
+   * to offer none. The styling itself lives on the document's root block either
+   * way, so the editor persists nothing here.
+   *
+   * Keep the object stable (module scope or `useMemo`); the `presets` array
+   * inside it may change freely.
+   */
+  stylePresets?: TStylePresetLibrary;
+  /**
    * Bind Ctrl/Cmd+Z and Ctrl/Cmd+Shift+Z (and Ctrl+Y) on the window to undo and
    * redo. **On by default.** Keystrokes made inside a field or an inline
    * editable are left to the browser, whose own undo owns the caret there.
@@ -245,6 +260,7 @@ export function EmailBuilderProvider<T extends BaseZodDictionary>({
   translations,
   imageLibrary,
   templateLibrary,
+  stylePresets,
   undoRedoHotkeys = true,
   children,
 }: EmailBuilderProviderProps<T>) {
@@ -502,7 +518,9 @@ export function EmailBuilderProvider<T extends BaseZodDictionary>({
     <EditorContext.Provider value={value}>
       <I18nProvider language={language} translations={translations}>
         <ImageLibraryProvider library={imageLibrary}>
-          <TemplateLibraryProvider library={templateLibrary}>{children}</TemplateLibraryProvider>
+          <TemplateLibraryProvider library={templateLibrary}>
+            <StylePresetProvider library={stylePresets}>{children}</StylePresetProvider>
+          </TemplateLibraryProvider>
         </ImageLibraryProvider>
       </I18nProvider>
     </EditorContext.Provider>

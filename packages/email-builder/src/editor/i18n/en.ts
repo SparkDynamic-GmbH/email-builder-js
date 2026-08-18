@@ -207,6 +207,31 @@ const en = {
   'templates.error.remove': 'The template could not be deleted.',
   'templates.error.insert': 'There was nowhere to put this template.',
 
+  // Style presets and block defaults
+  'stylePresets.title': 'Style presets',
+  'stylePresets.helper': 'A named look for the whole email: page colours, typeface, and what each block starts from.',
+  'stylePresets.empty': 'No presets available.',
+  'stylePresets.applyTitle': 'Apply {name}',
+  'stylePresets.applyBody': 'This sets the page styling and what blocks you add from now on will look like.',
+  'stylePresets.applyConfirm': 'Apply',
+  'stylePresets.restyle': 'Also restyle the blocks already here',
+  'stylePresets.restyleHelper':
+    'Replaces the spacing, size and typeface of every block in the design. Content is untouched, and this counts as one undo step.',
+  'stylePresets.saveAs': 'Save current styling',
+  'stylePresets.saveTitle': 'Save as style preset',
+  'stylePresets.name': 'Preset name',
+  'stylePresets.namePlaceholder': 'Brand newsletter',
+  'stylePresets.save': 'Save',
+  'stylePresets.saving': 'Savingâ¦',
+  'stylePresets.cancel': 'Cancel',
+  'stylePresets.remove': 'Delete preset',
+  'stylePresets.error.name': 'Give the preset a name.',
+  'stylePresets.error.save': 'The preset could not be saved.',
+  'styleDefaults.title': 'Block defaults',
+  'styleDefaults.helper':
+    'What a block looks like the moment you add it. Blocks already in the design keep their own styling.',
+  'styleDefaults.reset': 'Reset to built-in default',
+
   // JSON import / export
   'json.import': 'Import JSON',
   'json.import.body': 'Paste the JSON of a design, or choose a file. Importing replaces the current design.',

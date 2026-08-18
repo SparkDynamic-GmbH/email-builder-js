@@ -203,6 +203,32 @@ const de: TTranslations = {
   'templates.error.remove': 'Die Vorlage konnte nicht gelöscht werden.',
   'templates.error.insert': 'Für diese Vorlage war kein Platz zu finden.',
 
+  // Style presets and block defaults
+  'stylePresets.title': 'Stilvorlagen',
+  'stylePresets.helper':
+    'Ein benanntes Aussehen fÃ¼r die ganze E-Mail: Seitenfarben, Schriftart und die Startwerte jedes Blocks.',
+  'stylePresets.empty': 'Keine Stilvorlagen verfÃ¼gbar.',
+  'stylePresets.applyTitle': '{name} anwenden',
+  'stylePresets.applyBody': 'Setzt das Seitenlayout und das Aussehen aller BlÃ¶cke, die Sie ab jetzt hinzufÃ¼gen.',
+  'stylePresets.applyConfirm': 'Anwenden',
+  'stylePresets.restyle': 'Auch die bereits vorhandenen BlÃ¶cke umgestalten',
+  'stylePresets.restyleHelper':
+    'Ersetzt AbstÃ¤nde, GrÃ¶Ãe und Schriftart jedes Blocks im Entwurf. Inhalte bleiben unverÃ¤ndert, und es zÃ¤hlt als ein Schritt beim RÃ¼ckgÃ¤ngigmachen.',
+  'stylePresets.saveAs': 'Aktuellen Stil speichern',
+  'stylePresets.saveTitle': 'Als Stilvorlage speichern',
+  'stylePresets.name': 'Name der Stilvorlage',
+  'stylePresets.namePlaceholder': 'Marken-Newsletter',
+  'stylePresets.save': 'Speichern',
+  'stylePresets.saving': 'Speichernâ¦',
+  'stylePresets.cancel': 'Abbrechen',
+  'stylePresets.remove': 'Stilvorlage lÃ¶schen',
+  'stylePresets.error.name': 'Geben Sie der Stilvorlage einen Namen.',
+  'stylePresets.error.save': 'Die Stilvorlage konnte nicht gespeichert werden.',
+  'styleDefaults.title': 'Block-Standardwerte',
+  'styleDefaults.helper':
+    'Wie ein Block aussieht, sobald Sie ihn hinzufÃ¼gen. Bereits vorhandene BlÃ¶cke behalten ihr eigenes Aussehen.',
+  'styleDefaults.reset': 'Auf Standard zurÃ¼cksetzen',
+
   // JSON-Import / -Export
   'json.import': 'JSON importieren',
   'json.import.body':

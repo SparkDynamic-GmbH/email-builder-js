@@ -221,6 +221,32 @@ const fr: TTranslations = {
   'input.auto': 'auto',
   'input.clear': 'Réinitialiser {label}',
   'input.value': 'Valeur',
+
+  // Style presets and block defaults
+  'stylePresets.title': 'PrÃ©rÃ©glages de style',
+  'stylePresets.helper':
+    'Une apparence nommÃ©e pour tout lâe-mail : couleurs de page, police et valeurs de dÃ©part de chaque bloc.',
+  'stylePresets.empty': 'Aucun prÃ©rÃ©glage disponible.',
+  'stylePresets.applyTitle': 'Appliquer {name}',
+  'stylePresets.applyBody': 'DÃ©finit le style de la page et lâapparence des blocs que vous ajouterez dÃ©sormais.',
+  'stylePresets.applyConfirm': 'Appliquer',
+  'stylePresets.restyle': 'Remettre aussi en forme les blocs dÃ©jÃ  prÃ©sents',
+  'stylePresets.restyleHelper':
+    'Remplace les marges, la taille et la police de chaque bloc de la maquette. Le contenu nâest pas touchÃ©, et cela compte pour une seule annulation.',
+  'stylePresets.saveAs': 'Enregistrer le style actuel',
+  'stylePresets.saveTitle': 'Enregistrer comme prÃ©rÃ©glage',
+  'stylePresets.name': 'Nom du prÃ©rÃ©glage',
+  'stylePresets.namePlaceholder': 'Newsletter de la marque',
+  'stylePresets.save': 'Enregistrer',
+  'stylePresets.saving': 'Enregistrementâ¦',
+  'stylePresets.cancel': 'Annuler',
+  'stylePresets.remove': 'Supprimer le prÃ©rÃ©glage',
+  'stylePresets.error.name': 'Donnez un nom au prÃ©rÃ©glage.',
+  'stylePresets.error.save': 'Le prÃ©rÃ©glage nâa pas pu Ãªtre enregistrÃ©.',
+  'styleDefaults.title': 'Valeurs par dÃ©faut des blocs',
+  'styleDefaults.helper':
+    'Lâapparence dâun bloc au moment oÃ¹ vous lâajoutez. Les blocs dÃ©jÃ  prÃ©sents gardent la leur.',
+  'styleDefaults.reset': 'RÃ©initialiser',
 };
 
 export default fr;
