@@ -10,6 +10,16 @@ import { describe, expect, it } from '@jest/globals';
 import { renderToStaticMarkup } from './core';
 import createReader from './createReader';
 
+/** The document shell every export carries, asserted once rather than in every case. */
+const DOCTYPE = '<!DOCTYPE html><html xmlns:o="urn:schemas-microsoft-com:office:office">';
+const HEAD =
+  '<head>' +
+  '<meta charset="utf-8">' +
+  '<meta name="viewport" content="width=device-width,initial-scale=1">' +
+  '<!--[if mso]><xml><o:OfficeDocumentSettings><o:PixelsPerInch>96</o:PixelsPerInch>' +
+  '</o:OfficeDocumentSettings></xml><![endif]-->' +
+  '</head>';
+
 describe('renderToStaticMarkup', () => {
   it('renders into a string', () => {
     const result = renderToStaticMarkup(
@@ -25,9 +35,10 @@ describe('renderToStaticMarkup', () => {
       },
       { rootBlockId: 'root' }
     );
-    // React 19 always emits a <head> for a rendered <html>, even an empty one.
     expect(result).toEqual(
-      '<!DOCTYPE html><html><head></head><body>' +
+      DOCTYPE +
+        HEAD +
+        '<body style="margin:0;padding:0">' +
         '<table role="presentation" width="100%" cellPadding="0" cellSpacing="0" border="0" style="width:100%">' +
         '<tbody><tr><td></td></tr></tbody></table>' +
         '</body></html>'
@@ -47,7 +58,17 @@ describe('createReader', () => {
     const { renderToStaticMarkup } = createReader(noteBlocks);
 
     const result = renderToStaticMarkup({ root: { type: 'Note', data: { text: 'Hello' } } }, { rootBlockId: 'root' });
-    expect(result).toEqual('<!DOCTYPE html><html><head></head><body><p>Hello</p></body></html>');
+    expect(result).toEqual(DOCTYPE + HEAD + '<body style="margin:0;padding:0"><p>Hello</p></body></html>');
+  });
+
+  it('escapes nothing in the head it builds as a string', () => {
+    const { renderToStaticMarkup } = createReader(noteBlocks);
+
+    const result = renderToStaticMarkup({ root: { type: 'Note', data: { text: 'Hi' } } }, { rootBlockId: 'root' });
+    // A conditional comment is why the head is concatenated rather than rendered: React has no
+    // comment node to emit one with.
+    expect(result).toContain('<!--[if mso]>');
+    expect(result).not.toContain('&lt;');
   });
 
   it('validates documents against the block set it was created with', () => {
