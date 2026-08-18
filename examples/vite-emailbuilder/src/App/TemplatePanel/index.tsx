@@ -3,6 +3,8 @@ import React, { CSSProperties } from 'react';
 
 import {
   EditorBlock,
+  ExportJsonButton,
+  ImportJsonButton,
   SaveButton,
   ToggleButton,
   ToggleGroup,
@@ -18,9 +20,7 @@ import {
 import { Reader, TEditorConfiguration } from '../../registry';
 import ToggleSamplesPanelButton from '../SamplesDrawer/ToggleSamplesPanelButton';
 
-import DownloadJson from './DownloadJson';
 import HtmlPanel from './HtmlPanel';
-import ImportJson from './ImportJson';
 import JsonPanel from './JsonPanel';
 import LanguageToggle from './LanguageToggle';
 import MainTabsGroup from './MainTabsGroup';
@@ -91,8 +91,8 @@ export default function TemplatePanel({ samplesDrawerOpen, onToggleSamplesDrawer
           <MainTabsGroup />
           <div className="flex items-center gap-4">
             <UndoRedoButtons className="flex items-center" />
-            <DownloadJson />
-            <ImportJson />
+            <ExportJsonButton fileName="emailTemplate.json" />
+            <ImportJsonButton />
             <ToggleGroup value={selectedScreenSize} onValueChange={handleScreenSizeChange}>
               <ToggleButton value="desktop" tooltip={t('app.view.desktop')}>
                 <Monitor className="size-5" />

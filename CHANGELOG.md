@@ -2,6 +2,15 @@
 
 `@sparkdynamic/email-builder`. This is a hard fork of [usewaypoint/email-builder-js](https://github.com/usewaypoint/email-builder-js) at upstream `ce3e610`, so it has its own version line and does not follow upstream's. It stays on 0.x while the extension API can still change.
 
+## Unreleased
+
+### Added — JSON import and export
+
+- **The document can be taken out as a file and read back in.** `ExportJsonButton` downloads the current document as JSON (`fileName` names the download, `email-template.json` by default); `ImportJsonButton` opens a dialog that takes it pasted or picked as a `.json` file and replaces the document with it. Both are host chrome, like `SaveButton` — put them in your toolbar.
+- **The import validates against the provider's own registry**, not a schema the host has to pass in: a document written for a different block set is refused with a message rather than throwing on the canvas, and one without a `root` block is refused separately, since rendering starts there. `parseDocumentJson` and `documentToJson` are exported for a host that wants the check without the dialog.
+- **An import clears the undo history.** The states before it are not steps the user took in the document they now have — the same rule a template load already followed.
+- The catalogs gain the `json.*` keys, in every language. The sample app dropped its own copies of these controls and uses the package's.
+
 ## 0.1.6 — 2026-08-18
 
 ### Fixed — the export was missing its head, and columns never stacked

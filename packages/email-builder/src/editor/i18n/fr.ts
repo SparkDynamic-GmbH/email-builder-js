@@ -204,6 +204,19 @@ const fr: TTranslations = {
   'templates.error.remove': 'Le modèle n’a pas pu être supprimé.',
   'templates.error.insert': 'Aucun emplacement trouvé pour ce modèle.',
 
+  // Import / export JSON
+  'json.import': 'Importer du JSON',
+  'json.import.body': 'Collez le JSON d’un design ou choisissez un fichier. L’import remplace le design actuel.',
+  'json.import.file': 'Choisir un fichier',
+  'json.import.helper': 'Le JSON du document, tel que l’export l’écrit.',
+  'json.import.cancel': 'Annuler',
+  'json.import.confirm': 'Importer',
+  'json.export': 'Exporter en JSON',
+  'json.error.invalidJson': 'Ce n’est pas du JSON valide.',
+  'json.error.invalidSchema': 'Ce JSON n’est pas un design que cet éditeur peut ouvrir.',
+  'json.error.missingRoot': 'Ce design n’a pas de bloc racine.',
+  'json.error.file': 'Le fichier n’a pas pu être lu.',
+
   // Inputs
   'input.auto': 'auto',
   'input.clear': 'Réinitialiser {label}',

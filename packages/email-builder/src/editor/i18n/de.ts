@@ -203,6 +203,20 @@ const de: TTranslations = {
   'templates.error.remove': 'Die Vorlage konnte nicht gelöscht werden.',
   'templates.error.insert': 'Für diese Vorlage war kein Platz zu finden.',
 
+  // JSON-Import / -Export
+  'json.import': 'JSON importieren',
+  'json.import.body':
+    'Das JSON eines Designs einfügen oder eine Datei auswählen. Der Import ersetzt das aktuelle Design.',
+  'json.import.file': 'Datei auswählen',
+  'json.import.helper': 'Das Dokument-JSON, so wie es der Export schreibt.',
+  'json.import.cancel': 'Abbrechen',
+  'json.import.confirm': 'Importieren',
+  'json.export': 'JSON exportieren',
+  'json.error.invalidJson': 'Das ist kein gültiges JSON.',
+  'json.error.invalidSchema': 'Dieses JSON ist kein Design, das dieser Editor öffnen kann.',
+  'json.error.missingRoot': 'Diesem Design fehlt der Root-Block.',
+  'json.error.file': 'Die Datei konnte nicht gelesen werden.',
+
   // Inputs
   'input.auto': 'auto',
   'input.clear': '{label} zurücksetzen',

@@ -203,6 +203,19 @@ const it: TTranslations = {
   'templates.error.remove': 'Non è stato possibile eliminare il modello.',
   'templates.error.insert': 'Non c’è stato spazio per questo modello.',
 
+  // Import / export JSON
+  'json.import': 'Importa JSON',
+  'json.import.body': 'Incolla il JSON di un design o scegli un file. L’importazione sostituisce il design attuale.',
+  'json.import.file': 'Scegli un file',
+  'json.import.helper': 'Il JSON del documento, così come lo scrive l’esportazione.',
+  'json.import.cancel': 'Annulla',
+  'json.import.confirm': 'Importa',
+  'json.export': 'Esporta JSON',
+  'json.error.invalidJson': 'Questo non è JSON valido.',
+  'json.error.invalidSchema': 'Questo JSON non è un design che questo editor può aprire.',
+  'json.error.missingRoot': 'Questo design non ha un blocco root.',
+  'json.error.file': 'Non è stato possibile leggere il file.',
+
   // Inputs
   'input.auto': 'auto',
   'input.clear': 'Reimposta {label}',

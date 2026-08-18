@@ -66,7 +66,7 @@ packages/
       styles.css           compiled to dist/styles.css, exported as ./styles.css
     src/exports/           one file per subpath export: extensions, blocks, reader, editor
 examples/
-  vite-emailbuilder/       a host app: toolbar, view tabs, hash loading, import/export/share
+  vite-emailbuilder/       a host app: toolbar, view tabs, hash loading, sharing
 ```
 
 Upstream shipped twelve packages — `document-core`, ten `block-*`, and `email-builder` — for its own reuse story. We have one consumer, so they are **one package** now; see [#1](https://github.com/SparkDynamic-GmbH/email-builder-js/issues/1). Subpath exports are how a consumer takes only what it needs:
@@ -83,7 +83,7 @@ Upstream shipped twelve packages — `document-core`, ten `block-*`, and `email-
 
 The package owns the editor; `examples/vite-emailbuilder` is a **host app**, the same shape `Cloudwawi.Web` will be, and it consumes the built package rather than its source. That split is the point — if something the app does can't be done through the public entry points, the entry points are wrong.
 
-The app keeps: the toolbar, the editor/preview/HTML/JSON tab switcher, `registry.ts` (its own `buildBlockRegistry` call plus the strict types it derives for its sample documents), hash-based loading in `getConfiguration/`, import/download/share.
+The app keeps: the toolbar, the editor/preview/HTML/JSON tab switcher, `registry.ts` (its own `buildBlockRegistry` call plus the strict types it derives for its sample documents), hash-based loading in `getConfiguration/`, and sharing. JSON import/export moved into the package (`editor/json/`) — the app renders `ImportJsonButton`/`ExportJsonButton`.
 
 **Styling.** The package ships `dist/styles.css` — its tokens and only the utilities its own components use, built by the Tailwind CLI over `src/editor/` — with **no preflight**, so it doesn't fight a host's reset. Its first line declares `@layer theme, base, components, utilities` on purpose: cascade-layer order is fixed by first appearance, and without it a host's own preflight is seen after our utilities and beats them, which silently strips the padding and borders off every panel. Import the package stylesheet before the host's.
 
@@ -159,6 +159,7 @@ The exception is `EmailLayoutEditor` — canvas chrome, never email output, so i
 | **Responsive behaviour**   | the `@media` rule in `src/Reader/createReader.tsx` **and** the matching `@container` rule in `src/editor/styles.css` — the same class and breakpoint written twice; change one and change the other                                                                                    |
 | The editor's styling       | `src/editor/theme.css` for tokens, `src/editor/styles.css` for the build; rebuild with `npm run build:css -w packages/email-builder`                                                                                                                                                   |
 | The template library       | `src/editor/templateLibrary/` — the contract in `types.ts`. The host app's stand-in store is `examples/vite-emailbuilder/src/templateLibrary.ts`                                                                                                                                       |
+| JSON import / export       | `src/editor/json/` — the two toolbar buttons, the dialog, and the parse that checks a document against the registry's schema                                                                                                                                                           |
 | The image picker           | `src/editor/imageLibrary/` — the contract in `types.ts`, the dialog and the button beside it. The host app's stand-in store is `examples/vite-emailbuilder/src/imageLibrary.ts`                                                                                                        |
 | A user-facing string       | `src/editor/i18n/en.ts` **and** `de.ts` — never a literal in a component. The app's own strings live in `examples/vite-emailbuilder/src/i18n.ts`, keyed `app.*`                                                                                                                        |
 

@@ -207,6 +207,19 @@ const en = {
   'templates.error.remove': 'The template could not be deleted.',
   'templates.error.insert': 'There was nowhere to put this template.',
 
+  // JSON import / export
+  'json.import': 'Import JSON',
+  'json.import.body': 'Paste the JSON of a design, or choose a file. Importing replaces the current design.',
+  'json.import.file': 'Choose a file',
+  'json.import.helper': 'The document JSON, as the export writes it.',
+  'json.import.cancel': 'Cancel',
+  'json.import.confirm': 'Import',
+  'json.export': 'Export JSON',
+  'json.error.invalidJson': 'This is not valid JSON.',
+  'json.error.invalidSchema': 'This JSON is not a design this editor can open.',
+  'json.error.missingRoot': 'This design has no root block.',
+  'json.error.file': 'The file could not be read.',
+
   // Inputs
   'input.auto': 'auto',
   'input.clear': 'Clear {label}',

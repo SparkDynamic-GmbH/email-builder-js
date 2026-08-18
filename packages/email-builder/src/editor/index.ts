@@ -98,6 +98,19 @@ export {
   useTemplateLibrary,
 } from './templateLibrary';
 
+/**
+ * JSON import and export. A document is plain JSON, so it can be handed out as
+ * a file and read back; the import checks it against the provider's registry.
+ */
+export {
+  documentToJson,
+  ExportJsonButton,
+  ImportJsonButton,
+  ImportJsonDialog,
+  parseDocumentJson,
+  TParseResult,
+} from './json';
+
 /** Saves through the provider's `onSave`, and shows where that got to. */
 export { default as SaveButton } from './SaveButton';
 
