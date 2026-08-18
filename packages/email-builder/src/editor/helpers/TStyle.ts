@@ -2,6 +2,7 @@
 
 export type TStyle = {
   backgroundColor?: any;
+  backgroundPadding?: any;
   borderColor?: any;
   borderWidth?: any;
   borderRadius?: any;
@@ -9,6 +10,7 @@ export type TStyle = {
   fontFamily?: any;
   fontSize?: any;
   fontWeight?: any;
+  inlineBackground?: any;
   padding?: any;
   textAlign?: any;
 };

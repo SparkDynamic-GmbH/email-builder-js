@@ -44,6 +44,37 @@ describe('block-text', () => {
     ).toMatchSnapshot();
   });
 
+  it('shrinks the background to the text when asked, keeping padding as the outer spacing', () => {
+    expect(
+      render(
+        <Text
+          style={{
+            color: '#FDFBF8',
+            backgroundColor: '#8A1338',
+            inlineBackground: true,
+            backgroundPadding: { top: 6, bottom: 6, left: 12, right: 12 },
+            fontSize: 11,
+            fontWeight: 'bold',
+            textAlign: 'left',
+            padding: { top: 40, bottom: 0, left: 40, right: 40 },
+          }}
+          props={{ text: 'RELEASE 4' }}
+        />
+      ).asFragment()
+    ).toMatchSnapshot();
+  });
+
+  it('places a shrunken background with the align attribute', () => {
+    expect(
+      render(
+        <Text
+          style={{ backgroundColor: '#8A1338', inlineBackground: true, textAlign: 'center' }}
+          props={{ text: 'Centered chip' }}
+        />
+      ).asFragment()
+    ).toMatchSnapshot();
+  });
+
   it('sanitizes rich text', () => {
     expect(
       render(

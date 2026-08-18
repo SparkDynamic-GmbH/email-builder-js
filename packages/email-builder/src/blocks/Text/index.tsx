@@ -74,6 +74,13 @@ export const TextPropsSchema = z.object({
     .object({
       color: COLOR_SCHEMA,
       backgroundColor: COLOR_SCHEMA,
+      /**
+       * Shrink the background to the text instead of filling the block's whole width — a chip or
+       * eyebrow label rather than a band. The background then needs an inset of its own, which is
+       * what `backgroundPadding` is; `padding` stays the block's outer spacing either way.
+       */
+      inlineBackground: z.boolean().optional().nullable(),
+      backgroundPadding: PADDING_SCHEMA,
       fontSize: z.number().gte(0).optional().nullable(),
       fontFamily: FONT_FAMILY_SCHEMA,
       fontWeight: z.enum(['bold', 'normal']).optional().nullable(),
@@ -101,20 +108,80 @@ export const TextPropsDefaults = {
   text: '',
 };
 
+/**
+ * Alignment goes out twice, the way background colour already does: Word honours the `align`
+ * attribute and ignores `margin: auto`, and every browser-based client does the opposite —
+ * `align` on a `display: table` element moves nothing outside quirks mode.
+ */
+function getAlignMargin(align: 'left' | 'center' | 'right' | undefined): CSSProperties {
+  switch (align) {
+    case 'center':
+      return { marginLeft: 'auto', marginRight: 'auto' };
+    case 'right':
+      return { marginLeft: 'auto' };
+    default:
+      return {};
+  }
+}
+
 export function Text({ style, props }: TextProps) {
   const backgroundColor = style?.backgroundColor ?? undefined;
   const textAlign = style?.textAlign ?? undefined;
-  const cellStyle: CSSProperties = {
+  const inlineBackground = style?.inlineBackground === true;
+  const typography: CSSProperties = {
     color: style?.color ?? undefined,
-    backgroundColor,
     fontSize: style?.fontSize ?? undefined,
     fontFamily: getFontFamily(style?.fontFamily),
     fontWeight: style?.fontWeight ?? undefined,
     textAlign,
-    padding: getPadding(style?.padding),
   };
 
   const text = props?.text ?? TextPropsDefaults.text;
+
+  if (inlineBackground) {
+    // A second table is what makes the background hug the text: a `display: inline-block` span
+    // collapses to full width in Word, and a table is as wide as its content unless told
+    // otherwise. The outer cell keeps the block's padding and places it with `align`.
+    return (
+      <table role="presentation" width="100%" cellPadding="0" cellSpacing="0" border={0} style={{ width: '100%' }}>
+        <tbody>
+          <tr>
+            <td style={{ padding: getPadding(style?.padding), textAlign }} align={textAlign}>
+              <table
+                role="presentation"
+                align={textAlign}
+                cellPadding="0"
+                cellSpacing="0"
+                border={0}
+                bgcolor={backgroundColor}
+                style={{ backgroundColor, ...getAlignMargin(textAlign) }}
+              >
+                <tbody>
+                  <tr>
+                    <EmailRichText
+                      style={{ ...typography, padding: getPadding(style?.backgroundPadding) }}
+                      align={textAlign}
+                      html={text}
+                    />
+                  </tr>
+                </tbody>
+              </table>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    );
+  }
+
+  const cellStyle: CSSProperties = {
+    color: typography.color,
+    backgroundColor,
+    fontSize: typography.fontSize,
+    fontFamily: typography.fontFamily,
+    fontWeight: typography.fontWeight,
+    textAlign,
+    padding: getPadding(style?.padding),
+  };
 
   return (
     <table

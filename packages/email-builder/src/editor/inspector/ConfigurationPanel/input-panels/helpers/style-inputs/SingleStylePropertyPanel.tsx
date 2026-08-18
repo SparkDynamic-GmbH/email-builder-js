@@ -3,6 +3,7 @@ import React from 'react';
 
 import { TStyle } from '../../../../../helpers/TStyle';
 import { useTranslate } from '../../../../../i18n';
+import BooleanInput from '../inputs/BooleanInput';
 import { NullableColorInput } from '../inputs/ColorInput';
 import { NullableFontFamily } from '../inputs/FontFamily';
 import FontSizeInput from '../inputs/FontSizeInput';
@@ -69,5 +70,15 @@ export default function SingleStylePropertyPanel({ name, value, onChange }: Styl
       return <TextAlignInput label={t('field.alignment')} defaultValue={defaultValue} onChange={handleChange} />;
     case 'padding':
       return <PaddingInput label={t('field.padding')} defaultValue={defaultValue} onChange={handleChange} />;
+    case 'inlineBackground':
+      return (
+        <BooleanInput
+          label={t('field.inlineBackground')}
+          defaultValue={defaultValue === true}
+          onChange={handleChange}
+        />
+      );
+    case 'backgroundPadding':
+      return <PaddingInput label={t('field.backgroundPadding')} defaultValue={defaultValue} onChange={handleChange} />;
   }
 }

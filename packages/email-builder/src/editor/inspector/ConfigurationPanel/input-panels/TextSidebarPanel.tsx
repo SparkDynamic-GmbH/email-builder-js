@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { ZodError } from 'zod';
 
 import { TextProps, TextPropsSchema } from '../../../../exports/blocks';
+import { TStyle } from '../../../helpers/TStyle';
 import { useTranslate } from '../../../i18n';
 
 import BaseSidebarPanel from './helpers/BaseSidebarPanel';
@@ -31,13 +32,23 @@ export default function TextSidebarPanel({ data, setData }: TextSidebarPanelProp
     }
   };
 
+  // The background's own inset only means anything once the background has stopped filling the
+  // block, so it appears with the switch rather than sitting inert above it.
+  const names: (keyof TStyle)[] = [
+    'color',
+    'backgroundColor',
+    'inlineBackground',
+    ...(data.style?.inlineBackground ? (['backgroundPadding'] as const) : []),
+    'fontFamily',
+    'fontSize',
+    'fontWeight',
+    'textAlign',
+    'padding',
+  ];
+
   return (
     <BaseSidebarPanel title={t('panel.Text')}>
-      <MultiStylePropertyPanel
-        names={['color', 'backgroundColor', 'fontFamily', 'fontSize', 'fontWeight', 'textAlign', 'padding']}
-        value={data.style}
-        onChange={(style) => updateData({ ...data, style })}
-      />
+      <MultiStylePropertyPanel names={names} value={data.style} onChange={(style) => updateData({ ...data, style })} />
     </BaseSidebarPanel>
   );
 }
