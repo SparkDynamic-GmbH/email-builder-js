@@ -2,6 +2,21 @@
 
 `@sparkdynamic/email-builder`. This is a hard fork of [usewaypoint/email-builder-js](https://github.com/usewaypoint/email-builder-js) at upstream `ce3e610`, so it has its own version line and does not follow upstream's. It stays on 0.x while the extension API can still change.
 
+## 0.1.6 — 2026-08-18
+
+### Fixed — the export was missing its head, and columns never stacked
+
+- **The exported document now has a real `<head>`.** It rendered `<html><head></head><body>` — React's empty head, and nothing in it. Four things every email needs were missing, each with a visible symptom: no charset, so a saved file mangles umlauts; no viewport, so a phone lays the message out at desktop width and scales it down; no Outlook `PixelsPerInch`, so Word scales the whole email by 4/3 on a Windows display above 96 DPI; and no body margin reset, so the client's default 8px gutter shows through where the backdrop colour never reaches. The head is concatenated as a string rather than rendered, because a conditional comment is not a node React can emit.
+- **A `ColumnsContainer` stacks below 600px.** A column renders a real table cell and cells never wrap, so a 600px two-up row stayed 600px on a phone and forced the whole email to scroll sideways. The new `stackOnMobile` prop — **on by default** — marks each cell `eb-column`, and below the breakpoint the cell stops being a cell and takes the full width; the horizontal gap padding goes with it, since stacked it would only indent one column against the other. Turning it off is a real choice: a 44px number beside its text reads worse stacked than squeezed.
+- **The stacking rule is written twice on purpose.** The export carries a `@media` query in its head; the canvas and preview need a `@container` query against `eb-canvas`, because the mobile toggle narrows a _box_ to 370px inside a window that is still full width, so a viewport query would never match and the canvas would show columns the email had already stacked. Same class, same breakpoint. A host rendering the reader itself has to put `eb-canvas` on its own wrapper, as the sample app's preview tab does.
+
+### Added — three blocks gained the shape they were missing
+
+- **`Divider` can be narrower than its block.** `lineWidth` sets the rule's own width and `align` places it left/center/right; both are absent by default, so an existing document renders unchanged. Alignment goes out twice, the way background colour and text alignment already do — Word honours the `align` attribute and ignores `margin: auto`, and every browser-based client does the opposite.
+- **`Container` can draw its border per side.** `borderWidth` gives the four sides their own widths, and only the sides that have one are declared, so a `0` side drops out of the markup entirely — a callout or a quote with a single accent rule down one edge no longer needs an Html block. Absent, it still means the uniform 1px it always drew, so a document written before this renders byte for byte the same. The inspector shows the widths only once there is a border colour for them to be drawn in.
+- **`Text` can shrink its background to the text.** A Text block's background filled the whole width, so an eyebrow label or a chip came out as a full-width band. `inlineBackground` puts the text in a table of its own, as wide as its content; `backgroundPadding` is that background's own inset, since `padding` stays the block's outer spacing. The inspector shows it only once the switch is on. A span with `display: inline-block` is not an alternative — Word collapses it back to full width.
+- The catalogs gain `field.stackOnMobile`, `field.inlineBackground` and `field.backgroundPadding`, in every language.
+
 ## 0.1.5 — 2026-08-18
 
 ### Added — template library
