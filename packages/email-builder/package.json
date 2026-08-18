@@ -1,6 +1,6 @@
 {
   "name": "@sparkdynamic/email-builder",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "Email editor and renderer: block registry, canvas, inspector and email HTML output",
   "license": "MIT",
   "repository": {
