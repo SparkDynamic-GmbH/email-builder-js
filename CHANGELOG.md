@@ -2,7 +2,7 @@
 
 `@sparkdynamic/email-builder`. This is a hard fork of [usewaypoint/email-builder-js](https://github.com/usewaypoint/email-builder-js) at upstream `ce3e610`, so it has its own version line and does not follow upstream's. It stays on 0.x while the extension API can still change.
 
-## Unreleased
+## 0.1.8 — 2026-08-18
 
 ### Changed
 
