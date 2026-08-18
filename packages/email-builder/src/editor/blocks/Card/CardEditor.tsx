@@ -91,9 +91,9 @@ export default function CardEditor(props: CardProps) {
     >
       <EditorChildrenIds
         childrenIds={childrenIds}
-        onChange={({ block, blockId, childrenIds }) => {
+        onChange={({ blocks, blockId, childrenIds }) => {
           setDocument({
-            [blockId]: block,
+            ...blocks,
             [currentBlockId]: {
               type: 'Card',
               data: { ...document[currentBlockId].data, props: { ...props.props, childrenIds } },

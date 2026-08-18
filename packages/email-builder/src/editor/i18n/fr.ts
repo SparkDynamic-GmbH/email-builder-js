@@ -182,6 +182,25 @@ const fr: TTranslations = {
   'imageLibrary.error.type': '{name} n’est pas un type d’image autorisé.',
   'imageLibrary.error.tooLarge': '{name} dépasse la limite de {limit}.',
 
+  // Template library
+  'inspector.tab.templates': 'Modèles',
+  'templates.title': 'Modèles enregistrés',
+  'templates.saveAs': 'Enregistrer comme modèle',
+  'templates.saveTitle': 'Enregistrer comme modèle',
+  'templates.name': 'Nom du modèle',
+  'templates.namePlaceholder': 'En-tête',
+  'templates.save': 'Enregistrer',
+  'templates.saving': 'Enregistrement…',
+  'templates.cancel': 'Annuler',
+  'templates.insert': 'Insérer {name}',
+  'templates.delete': 'Supprimer {name}',
+  'templates.empty': 'Rien d’enregistré pour l’instant. Utilisez « Enregistrer comme modèle » sur un bloc.',
+  'templates.unsupported': 'Ce modèle utilise des blocs que cet éditeur ne connaît pas.',
+  'templates.error.name': 'Donnez un nom au modèle.',
+  'templates.error.save': 'Le modèle n’a pas pu être enregistré.',
+  'templates.error.remove': 'Le modèle n’a pas pu être supprimé.',
+  'templates.error.insert': 'Aucun emplacement trouvé pour ce modèle.',
+
   // Inputs
   'input.auto': 'auto',
   'input.clear': 'Réinitialiser {label}',

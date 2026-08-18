@@ -181,6 +181,25 @@ const it: TTranslations = {
   'imageLibrary.error.type': '{name} non è un tipo di immagine consentito.',
   'imageLibrary.error.tooLarge': '{name} supera il limite di {limit}.',
 
+  // Template library
+  'inspector.tab.templates': 'Modelli',
+  'templates.title': 'Modelli salvati',
+  'templates.saveAs': 'Salva come modello',
+  'templates.saveTitle': 'Salva come modello',
+  'templates.name': 'Nome del modello',
+  'templates.namePlaceholder': 'Intestazione',
+  'templates.save': 'Salva',
+  'templates.saving': 'Salvataggio…',
+  'templates.cancel': 'Annulla',
+  'templates.insert': 'Inserisci {name}',
+  'templates.delete': 'Elimina {name}',
+  'templates.empty': 'Non c’è ancora nulla. Usa « Salva come modello » su un blocco.',
+  'templates.unsupported': 'Questo modello usa blocchi che questo editor non conosce.',
+  'templates.error.name': 'Assegna un nome al modello.',
+  'templates.error.save': 'Non è stato possibile salvare il modello.',
+  'templates.error.remove': 'Non è stato possibile eliminare il modello.',
+  'templates.error.insert': 'Non c’è stato spazio per questo modello.',
+
   // Inputs
   'input.auto': 'auto',
   'input.clear': 'Reimposta {label}',

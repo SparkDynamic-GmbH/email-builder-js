@@ -185,6 +185,25 @@ const en = {
   'imageLibrary.error.type': '{name} is not an accepted image type.',
   'imageLibrary.error.tooLarge': '{name} is larger than the limit of {limit}.',
 
+  // Template library
+  'inspector.tab.templates': 'Templates',
+  'templates.title': 'Saved templates',
+  'templates.saveAs': 'Save as template',
+  'templates.saveTitle': 'Save as template',
+  'templates.name': 'Template name',
+  'templates.namePlaceholder': 'Hero section',
+  'templates.save': 'Save',
+  'templates.saving': 'Saving…',
+  'templates.cancel': 'Cancel',
+  'templates.insert': 'Insert {name}',
+  'templates.delete': 'Delete {name}',
+  'templates.empty': 'Nothing saved yet. Use a block’s "Save as template" button to keep it here.',
+  'templates.unsupported': 'This template uses blocks this editor does not have.',
+  'templates.error.name': 'Give the template a name.',
+  'templates.error.save': 'The template could not be saved.',
+  'templates.error.remove': 'The template could not be deleted.',
+  'templates.error.insert': 'There was nowhere to put this template.',
+
   // Inputs
   'input.auto': 'auto',
   'input.clear': 'Clear {label}',

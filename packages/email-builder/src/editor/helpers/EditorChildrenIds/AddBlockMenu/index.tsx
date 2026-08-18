@@ -1,15 +1,27 @@
 import { Popover as RadixPopover } from 'radix-ui';
 import React, { useState } from 'react';
 
-import { TEditorBlock } from '../../../../editor/types';
+import { TEditorConfiguration } from '../../../../editor/types';
+import { TemplatesMenu } from '../../../templateLibrary';
+import { generateBlockId } from '../../blockChildren';
 
 import BlocksMenu from './BlocksMenu';
 import DividerButton from './DividerButton';
 import PlaceholderButton from './PlaceholderButton';
 
+/**
+ * What the menu emits: one block, or a whole template already renumbered.
+ * Either way it is blocks keyed by id plus which of them goes into the
+ * children list at this point.
+ */
+export type TBlockInsertion = {
+  blockId: string;
+  blocks: TEditorConfiguration;
+};
+
 type Props = {
   placeholder?: boolean;
-  onSelect: (block: TEditorBlock) => void;
+  onSelect: (insertion: TBlockInsertion) => void;
 };
 
 /**
@@ -23,6 +35,11 @@ export default function AddBlockButton({ onSelect, placeholder }: Props) {
 
   const handleButtonClick = () => {
     setOpen(true);
+  };
+
+  const handleSelect = (insertion: TBlockInsertion) => {
+    onSelect(insertion);
+    setOpen(false);
   };
 
   const renderButton = () => {
@@ -50,10 +67,11 @@ export default function AddBlockButton({ onSelect, placeholder }: Props) {
         >
           <BlocksMenu
             onSelect={(block) => {
-              onSelect(block);
-              setOpen(false);
+              const blockId = generateBlockId();
+              handleSelect({ blockId, blocks: { [blockId]: block } });
             }}
           />
+          <TemplatesMenu onSelect={handleSelect} />
         </RadixPopover.Content>
       </RadixPopover.Portal>
     </RadixPopover.Root>

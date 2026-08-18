@@ -5,6 +5,8 @@ import { BaseZodDictionary, BlockConfiguration, BlockRegistry } from '../core';
 
 import { DEFAULT_LANGUAGE, I18nProvider, TLanguage, TTranslationOverrides } from './i18n';
 import { ImageLibraryProvider, TImageLibrary } from './imageLibrary';
+import { TemplateLibraryProvider } from './templateLibrary/context';
+import { TTemplateLibrary } from './templateLibrary/types';
 import { TEditorBlock, TEditorConfiguration, TEditorRegistry } from './types';
 
 /**
@@ -42,7 +44,7 @@ type TEditorState = {
   future: THistoryEntry[];
 
   selectedBlockId: string | null;
-  selectedSidebarTab: 'block-configuration' | 'styles';
+  selectedSidebarTab: 'block-configuration' | 'styles' | 'templates';
   selectedMainTab: 'editor' | 'preview' | 'json' | 'html';
   selectedScreenSize: 'desktop' | 'mobile';
 
@@ -196,6 +198,18 @@ export type EmailBuilderProviderProps<T extends BaseZodDictionary> = {
    */
   imageLibrary?: TImageLibrary;
   /**
+   * The host's store of reusable partials. `save` grows a "Save as template"
+   * action on every block; `templates` — the host's own saved set, as plain
+   * JSON — is what the sidebar's Templates tab and the add-block menu offer.
+   *
+   * The editor persists nothing and keeps no copy of the list: a save that the
+   * host does not put back into `templates` simply does not appear.
+   *
+   * Keep the object stable (module scope or `useMemo`); the `templates` array
+   * inside it may change freely.
+   */
+  templateLibrary?: TTemplateLibrary;
+  /**
    * Bind Ctrl/Cmd+Z and Ctrl/Cmd+Shift+Z (and Ctrl+Y) on the window to undo and
    * redo. **On by default.** Keystrokes made inside a field or an inline
    * editable are left to the browser, whose own undo owns the caret there.
@@ -230,6 +244,7 @@ export function EmailBuilderProvider<T extends BaseZodDictionary>({
   language = DEFAULT_LANGUAGE,
   translations,
   imageLibrary,
+  templateLibrary,
   undoRedoHotkeys = true,
   children,
 }: EmailBuilderProviderProps<T>) {
@@ -486,7 +501,9 @@ export function EmailBuilderProvider<T extends BaseZodDictionary>({
   return (
     <EditorContext.Provider value={value}>
       <I18nProvider language={language} translations={translations}>
-        <ImageLibraryProvider library={imageLibrary}>{children}</ImageLibraryProvider>
+        <ImageLibraryProvider library={imageLibrary}>
+          <TemplateLibraryProvider library={templateLibrary}>{children}</TemplateLibraryProvider>
+        </ImageLibraryProvider>
       </I18nProvider>
     </EditorContext.Provider>
   );

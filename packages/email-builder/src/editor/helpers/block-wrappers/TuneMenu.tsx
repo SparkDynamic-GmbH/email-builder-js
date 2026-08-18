@@ -3,41 +3,15 @@ import React from 'react';
 
 import { ColumnsContainerProps } from '../../../blocks/ColumnsContainer/ColumnsContainerPropsSchema';
 import { useDocument, useEditorActions } from '../../../editor/EditorContext';
-import { TEditorBlock, TEditorConfiguration } from '../../../editor/types';
+import { TEditorBlock } from '../../../editor/types';
 import { useTranslate } from '../../i18n';
+import { SaveTemplateButton } from '../../templateLibrary';
 import IconButton from '../../ui/IconButton';
 import Tooltip from '../../ui/Tooltip';
+import { findParentBlockId } from '../blockChildren';
 import cloneDocumentBlock from '../cloneDocumentBlock';
 
 type TColumn = { childrenIds: string[] };
-
-function findParentBlockId(blockId: string, document: TEditorConfiguration) {
-  for (const [id, b] of Object.entries(document)) {
-    if (id === blockId) {
-      continue;
-    }
-    const block = b as TEditorBlock;
-    switch (block.type) {
-      case 'EmailLayout':
-        if (block.data.childrenIds?.includes(blockId)) {
-          return id;
-        }
-        break;
-      case 'Container':
-      case 'Card':
-        if (block.data.props?.childrenIds?.includes(blockId)) {
-          return id;
-        }
-        break;
-      case 'ColumnsContainer':
-        if (block.data.props?.columns?.some((col: TColumn) => col.childrenIds?.includes(blockId))) {
-          return id;
-        }
-        break;
-    }
-  }
-  return null;
-}
 
 type Props = {
   blockId: string;
@@ -261,6 +235,7 @@ export default function TuneMenu({ blockId }: Props) {
           <Trash2 className="size-5" />
         </IconButton>
       </Tooltip>
+      <SaveTemplateButton blockId={blockId} />
     </div>
   );
 }

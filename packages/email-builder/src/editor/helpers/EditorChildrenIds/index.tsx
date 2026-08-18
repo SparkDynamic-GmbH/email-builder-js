@@ -1,44 +1,33 @@
 import React, { Fragment } from 'react';
 
 import EditorBlock from '../../../editor/EditorBlock';
-import { TEditorBlock } from '../../../editor/types';
+import { TEditorConfiguration } from '../../../editor/types';
 
-import AddBlockButton from './AddBlockMenu';
+import AddBlockButton, { TBlockInsertion } from './AddBlockMenu';
 
 export type EditorChildrenChange = {
+  /** The inserted block's id — the fragment's root, when a template was chosen. */
   blockId: string;
-  block: TEditorBlock;
+  /**
+   * The inserted block and, for a template, everything under it, keyed by id.
+   * Merge the lot into the document: for a plain block it is a single entry.
+   */
+  blocks: TEditorConfiguration;
   childrenIds: string[];
 };
-
-function generateId() {
-  return `block-${Date.now()}`;
-}
 
 export type EditorChildrenIdsProps = {
   childrenIds: string[] | null | undefined;
   onChange: (val: EditorChildrenChange) => void;
 };
 export default function EditorChildrenIds({ childrenIds, onChange }: EditorChildrenIdsProps) {
-  const appendBlock = (block: TEditorBlock) => {
-    const blockId = generateId();
-    return onChange({
-      blockId,
-      block,
-      childrenIds: [...(childrenIds || []), blockId],
-    });
-  };
-
-  const insertBlock = (block: TEditorBlock, index: number) => {
-    const blockId = generateId();
+  const insertBlock = ({ blockId, blocks }: TBlockInsertion, index: number) => {
     const newChildrenIds = [...(childrenIds || [])];
     newChildrenIds.splice(index, 0, blockId);
-    return onChange({
-      blockId,
-      block,
-      childrenIds: newChildrenIds,
-    });
+    return onChange({ blockId, blocks, childrenIds: newChildrenIds });
   };
+
+  const appendBlock = (insertion: TBlockInsertion) => insertBlock(insertion, (childrenIds || []).length);
 
   if (!childrenIds || childrenIds.length === 0) {
     return <AddBlockButton placeholder onSelect={appendBlock} />;
@@ -48,7 +37,7 @@ export default function EditorChildrenIds({ childrenIds, onChange }: EditorChild
     <>
       {childrenIds.map((childId, i) => (
         <Fragment key={childId}>
-          <AddBlockButton onSelect={(block) => insertBlock(block, i)} />
+          <AddBlockButton onSelect={(insertion) => insertBlock(insertion, i)} />
           <EditorBlock id={childId} />
         </Fragment>
       ))}

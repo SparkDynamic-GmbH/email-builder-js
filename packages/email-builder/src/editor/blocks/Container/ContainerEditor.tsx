@@ -17,9 +17,9 @@ export default function ContainerEditor({ style, props }: ContainerProps) {
     <BaseContainer style={style}>
       <EditorChildrenIds
         childrenIds={childrenIds}
-        onChange={({ block, blockId, childrenIds }) => {
+        onChange={({ blocks, blockId, childrenIds }) => {
           setDocument({
-            [blockId]: block,
+            ...blocks,
             [currentBlockId]: {
               type: 'Container',
               data: {

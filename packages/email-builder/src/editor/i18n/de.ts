@@ -181,6 +181,25 @@ const de: TTranslations = {
   'imageLibrary.error.type': '{name} ist kein zulässiger Bildtyp.',
   'imageLibrary.error.tooLarge': '{name} überschreitet das Limit von {limit}.',
 
+  // Template library
+  'inspector.tab.templates': 'Vorlagen',
+  'templates.title': 'Gespeicherte Vorlagen',
+  'templates.saveAs': 'Als Vorlage speichern',
+  'templates.saveTitle': 'Als Vorlage speichern',
+  'templates.name': 'Name der Vorlage',
+  'templates.namePlaceholder': 'Kopfbereich',
+  'templates.save': 'Speichern',
+  'templates.saving': 'Wird gespeichert…',
+  'templates.cancel': 'Abbrechen',
+  'templates.insert': '{name} einfügen',
+  'templates.delete': '{name} löschen',
+  'templates.empty': 'Noch nichts gespeichert. Mit „Als Vorlage speichern“ an einem Block wird hier etwas abgelegt.',
+  'templates.unsupported': 'Diese Vorlage verwendet Blöcke, die dieser Editor nicht kennt.',
+  'templates.error.name': 'Bitte einen Namen für die Vorlage angeben.',
+  'templates.error.save': 'Die Vorlage konnte nicht gespeichert werden.',
+  'templates.error.remove': 'Die Vorlage konnte nicht gelöscht werden.',
+  'templates.error.insert': 'Für diese Vorlage war kein Platz zu finden.',
+
   // Inputs
   'input.auto': 'auto',
   'input.clear': '{label} zurücksetzen',

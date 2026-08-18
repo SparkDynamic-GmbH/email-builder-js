@@ -17,11 +17,11 @@ export default function ColumnsContainerEditor({ style, props }: ColumnsContaine
   const { columns, ...restProps } = props ?? {};
   const columnsValue = columns ?? EMPTY_COLUMNS;
 
-  const updateColumn = (columnIndex: 0 | 1 | 2, { block, blockId, childrenIds }: EditorChildrenChange) => {
+  const updateColumn = (columnIndex: 0 | 1 | 2, { blocks, blockId, childrenIds }: EditorChildrenChange) => {
     const nColumns = [...columnsValue];
     nColumns[columnIndex] = { childrenIds };
     setDocument({
-      [blockId]: block,
+      ...blocks,
       [currentBlockId]: {
         type: 'ColumnsContainer',
         data: ColumnsContainerPropsSchema.parse({

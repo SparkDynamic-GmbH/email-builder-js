@@ -73,6 +73,31 @@ export {
   useImageLibrary,
 } from './imageLibrary';
 
+/**
+ * The template library. Give `EmailBuilderProvider` a `templateLibrary` and
+ * every block grows a "Save as template" action, while the saved set the host
+ * hands back is offered in the sidebar and in the add-block menu.
+ */
+export {
+  extractBlockTemplate,
+  instantiateBlockTemplate,
+  isBlockTemplateContent,
+  isTemplateLibraryUsable,
+  SaveTemplateButton,
+  TBlockTemplate,
+  TBlockTemplateContent,
+  TBlockTemplateDraft,
+  TemplateLibraryPanel,
+  TemplateLibraryProvider,
+  templateBlockCount,
+  templateBlockTypes,
+  templateKey,
+  TTemplateLibrary,
+  useInsertBlockTemplate,
+  useIsTemplateSupported,
+  useTemplateLibrary,
+} from './templateLibrary';
+
 /** Saves through the provider's `onSave`, and shows where that got to. */
 export { default as SaveButton } from './SaveButton';
 
