@@ -12,7 +12,10 @@
 - The link panel is the one part of the toolbar allowed to take focus, because its field has to be typed into: the range is saved on every read of the selection and restored before a command runs, and `InlineEditable` treats a blur into the toolbar as no blur at all rather than committing the block.
 - `normalizeRichText` now unwraps an anchor with no address and keeps `target` only when it is `_blank`. The tags and attributes themselves were already allowed through `sanitizeRichText`; what was missing was the UI.
 - The canvas puts a link's browser default look back — blue and underlined — which a host's preflight strips but the email clients rendering the same markup apply. Without it a link is indistinguishable from the words around it.
-- The catalogs gain `richText.link`, `richText.editLink`, `richText.removeLink`, `richText.linkUrl`, `richText.linkPlaceholder`, `richText.linkNewTab` and `richText.linkApply`, in every language.
+- **A link can be styled.** The link panel gains a colour grid, with a Default swatch that leaves the colour to the client, and an "Underline the link" toggle. Both are written onto the `<a>` itself rather than a span inside it, because a client's own link rule — blue and underlined — targets `a` and outranks anything a descendant declares; picking a colour also clears `color` off spans under the anchor, which would otherwise win in a browser and make the choice look like it had not applied. Opening the panel on an existing link seeds both from it.
+- `text-decoration` is now allowed on an anchor, and only on an anchor, in both `normalizeRichText` and `sanitizeRichText`: a link is a single element with a single decoration, so there is nothing for it to contradict — unlike a span, where the four marks own it.
+- The toolbar now measures itself to decide whether to sit above or below the selection, instead of assuming the height of its button row. With the link panel open it is several times taller, and a selection near the top of the canvas used to push its fields off-screen.
+- The catalogs gain `richText.link`, `richText.editLink`, `richText.removeLink`, `richText.linkUrl`, `richText.linkPlaceholder`, `richText.linkNewTab`, `richText.linkApply`, `richText.linkColor`, `richText.linkColorDefault` and `richText.linkUnderline`, in every language.
 
 ## 0.1.4 — 2026-07-27
 

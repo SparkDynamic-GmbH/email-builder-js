@@ -1,4 +1,4 @@
-import { RICH_TEXT_STYLE_PROPERTIES, RICH_TEXT_TAGS } from '../../../exports/blocks';
+import { RICH_TEXT_TAGS, richTextStyleProperties } from '../../../exports/blocks';
 
 /**
  * `execCommand` output is browser-dependent — Chrome writes `<b>` and wraps each new line in a
@@ -28,7 +28,7 @@ const GENERIC_ATTRIBUTES = ['style', 'title'];
 const RGB = /^rgba?\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*(?:,\s*[\d.]+\s*)?\)$/i;
 
 /** The sanitizer rejects parentheses outright, so a browser's `rgb()` has to become hex here. */
-function normalizeColor(value: string): string | null {
+export function normalizeColor(value: string): string | null {
   const match = RGB.exec(value.trim());
   if (!match) {
     return null;
@@ -40,7 +40,7 @@ function normalizeColor(value: string): string | null {
   return `#${channels.join('')}`.toUpperCase();
 }
 
-function filterStyle(style: string | null): string | null {
+function filterStyle(style: string | null, tag: string): string | null {
   if (!style) {
     return null;
   }
@@ -52,7 +52,7 @@ function filterStyle(style: string | null): string | null {
         return null;
       }
       const property = declaration.slice(0, separator).trim().toLowerCase();
-      if (!RICH_TEXT_STYLE_PROPERTIES.includes(property)) {
+      if (!richTextStyleProperties(tag).includes(property)) {
         return null;
       }
       const raw = declaration.slice(separator + 1).trim();
@@ -83,7 +83,7 @@ function unwrap(element: Element) {
 
 function rename(element: Element, tag: string): Element {
   const next = element.ownerDocument.createElement(tag);
-  const style = filterStyle(element.getAttribute('style'));
+  const style = filterStyle(element.getAttribute('style'), tag);
   if (style) {
     next.setAttribute('style', style);
   }
@@ -100,7 +100,7 @@ function normalizeAttributes(element: Element) {
       element.removeAttribute(name);
     }
   }
-  const style = filterStyle(element.getAttribute('style'));
+  const style = filterStyle(element.getAttribute('style'), tag);
   if (style) {
     element.setAttribute('style', style);
   } else {

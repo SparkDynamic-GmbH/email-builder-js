@@ -29,13 +29,28 @@ export const RICH_TEXT_TAGS: AllowedTags[] = ['a', 'br', 'del', 'em', 'span', 's
 export const RICH_TEXT_STYLE_PROPERTIES = ['background-color', 'color', 'font-size'];
 
 /**
+ * An anchor may declare its own color and decoration on top of that.
+ *
+ * It has to be the anchor and not a span inside it: a mail client's default link style — blue and
+ * underlined — is set on `a`, and it beats anything a descendant declares in Gmail and in Word's
+ * engine. `text-decoration` is safe here for the same reason the four marks keep it out of a span:
+ * a link is a single element with a single decoration, so there is nothing for it to contradict.
+ */
+export const RICH_TEXT_ANCHOR_STYLE_PROPERTIES = [...RICH_TEXT_STYLE_PROPERTIES, 'text-decoration'];
+
+/** The declarations a given tag may carry — everything is the base set except `a`. */
+export function richTextStyleProperties(tag: string): string[] {
+  return tag === 'a' ? RICH_TEXT_ANCHOR_STYLE_PROPERTIES : RICH_TEXT_STYLE_PROPERTIES;
+}
+
+/**
  * No parentheses and no quotes, which is what it takes to write `url(...)` or a legacy CSS
  * `expression(...)`. It also rejects `rgb(...)`; the editor normalizes colors to hex before it
  * stores them, and pasted markup is reduced to plain text.
  */
 const SAFE_STYLE_VALUE = /^[#a-zA-Z0-9 ,.%-]+$/;
 
-function filterStyle(style: string): string | null {
+function filterStyle(style: string, allowed: string[]): string | null {
   const declarations = style
     .split(';')
     .map((declaration) => {
@@ -45,7 +60,7 @@ function filterStyle(style: string): string | null {
       }
       const property = declaration.slice(0, separator).trim().toLowerCase();
       const value = declaration.slice(separator + 1).trim();
-      if (!RICH_TEXT_STYLE_PROPERTIES.includes(property) || !SAFE_STYLE_VALUE.test(value)) {
+      if (!allowed.includes(property) || !SAFE_STYLE_VALUE.test(value)) {
         return null;
       }
       return `${property}: ${value}`;
@@ -73,7 +88,7 @@ export function sanitizeRichText(html: string): string {
     filter: (token) => {
       const { attrs } = token;
       if (typeof attrs.style === 'string') {
-        const style = filterStyle(attrs.style);
+        const style = filterStyle(attrs.style, richTextStyleProperties(token.tag));
         if (style === null) {
           delete attrs.style;
         } else {

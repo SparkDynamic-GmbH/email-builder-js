@@ -6,7 +6,21 @@
  * into shape by `normalizeRichText` on commit.
  */
 
+import { normalizeColor } from './normalize';
+
 export type TInlineMark = 'bold' | 'italic' | 'underline' | 'strikethrough';
+
+/**
+ * How a link looks. It lives on the anchor itself rather than on a span inside it, because a mail
+ * client's own link rule — blue and underlined — targets `a` and outranks whatever a descendant
+ * declares. `color: null` means "leave it to the client", which is the default a new link gets.
+ */
+export type TLinkStyle = {
+  color: string | null;
+  underline: boolean;
+};
+
+export const DEFAULT_LINK_STYLE: TLinkStyle = { color: null, underline: true };
 
 const MARK_COMMANDS: Record<TInlineMark, string> = {
   bold: 'bold',
@@ -127,12 +141,51 @@ export function normalizeHref(raw: string): string {
   return `https://${href}`;
 }
 
+/** Reads back what {@link applyLinkStyle} wrote, so the panel opens showing the link's own look. */
+export function readLinkStyle(anchor: HTMLAnchorElement | null): TLinkStyle {
+  if (!anchor) {
+    return DEFAULT_LINK_STYLE;
+  }
+  const color = anchor.style.color;
+  return {
+    color: color ? normalizeColor(color) ?? color : null,
+    underline: anchor.style.textDecorationLine !== 'none' && anchor.style.textDecoration !== 'none',
+  };
+}
+
+/**
+ * Writes the look onto the anchor, and clears any `color` the toolbar's own color button left on
+ * spans underneath — those are more specific than the anchor and would win in a browser, which
+ * would make the picked link color look like it had not applied at all.
+ */
+export function applyLinkStyle(anchor: HTMLAnchorElement, style: TLinkStyle) {
+  if (style.color) {
+    anchor.style.color = style.color;
+    for (const span of Array.from(anchor.querySelectorAll<HTMLElement>('[style]'))) {
+      span.style.removeProperty('color');
+      if (!span.getAttribute('style')) {
+        span.removeAttribute('style');
+      }
+    }
+  } else {
+    anchor.style.removeProperty('color');
+  }
+  if (style.underline) {
+    anchor.style.removeProperty('text-decoration');
+  } else {
+    anchor.style.textDecoration = 'none';
+  }
+  if (!anchor.getAttribute('style')) {
+    anchor.removeAttribute('style');
+  }
+}
+
 /**
  * Applies a link to the selection, or retargets the one it is already inside. `createLink` needs
  * a non-collapsed selection, so editing an existing link goes through the element directly —
  * which is also what lets the caret alone be enough to change a link's address.
  */
-export function applyLink(container: HTMLElement, href: string, newTab: boolean) {
+export function applyLink(container: HTMLElement, href: string, newTab: boolean, style: TLinkStyle) {
   const url = normalizeHref(href);
   if (url.length === 0) {
     return;
@@ -152,6 +205,7 @@ export function applyLink(container: HTMLElement, href: string, newTab: boolean)
     } else {
       anchor.removeAttribute('target');
     }
+    applyLinkStyle(anchor, style);
   }
 }
 

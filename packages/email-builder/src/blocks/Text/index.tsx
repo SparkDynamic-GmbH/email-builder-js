@@ -3,7 +3,13 @@ import { z } from 'zod';
 
 import EmailRichText from './EmailRichText';
 
-export { RICH_TEXT_STYLE_PROPERTIES, RICH_TEXT_TAGS, sanitizeRichText } from './EmailRichText';
+export {
+  RICH_TEXT_ANCHOR_STYLE_PROPERTIES,
+  RICH_TEXT_STYLE_PROPERTIES,
+  RICH_TEXT_TAGS,
+  richTextStyleProperties,
+  sanitizeRichText,
+} from './EmailRichText';
 
 const FONT_FAMILY_SCHEMA = z
   .enum([

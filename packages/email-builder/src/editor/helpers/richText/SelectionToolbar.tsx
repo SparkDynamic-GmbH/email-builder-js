@@ -1,5 +1,5 @@
-import { Baseline, Bold, Italic, Link2, Link2Off, RemoveFormatting, Strikethrough, Underline } from 'lucide-react';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { Ban, Baseline, Bold, Italic, Link2, Link2Off, RemoveFormatting, Strikethrough, Underline } from 'lucide-react';
+import React, { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 
 import { useTranslate } from '../../i18n';
@@ -11,9 +11,12 @@ import {
   applyLink,
   clearFormatting,
   currentLink,
+  DEFAULT_LINK_STYLE,
+  readLinkStyle,
   readMarks,
   removeLink,
   TInlineMark,
+  TLinkStyle,
   toggleMark,
 } from './commands';
 
@@ -24,8 +27,8 @@ const NO_MARKS: Record<TInlineMark, boolean> = {
   strikethrough: false,
 };
 
-/** Below this much room above the selection the toolbar would be off-screen, so it flips under. */
-const FLIP_THRESHOLD = 56;
+/** Kept between the toolbar and the viewport edge when it flips. */
+const FLIP_MARGIN = 8;
 
 /** `InlineEditable` reads this to tell a click into the toolbar from a real blur. */
 export const TOOLBAR_ATTRIBUTE = 'data-rich-text-toolbar';
@@ -38,6 +41,12 @@ const BUTTON = cn(
   'transition-colors hover:bg-black/6',
   // Keyed off aria-pressed rather than a data attribute, matching the ui primitives.
   'aria-pressed:bg-brand-blue/10 aria-pressed:text-brand-blue'
+);
+
+/** Shared by the text color grid and the link color grid, so the two read as the same control. */
+const SWATCH = cn(
+  'flex size-4 cursor-pointer items-center justify-center rounded-xs border border-grey-300 hover:border-grey-600',
+  'aria-pressed:border-brand-blue aria-pressed:ring-1 aria-pressed:ring-brand-blue'
 );
 
 type Props = {
@@ -72,10 +81,17 @@ export default function SelectionToolbar({ containerRef, active }: Props) {
   const [linkPanel, setLinkPanel] = useState(false);
   const [href, setHref] = useState('');
   const [newTab, setNewTab] = useState(true);
+  const [linkStyle, setLinkStyle] = useState<TLinkStyle>(DEFAULT_LINK_STYLE);
   const [onLink, setOnLink] = useState(false);
 
   // The selection as it was before the URL field took focus, and the link the panel last opened
   // itself for — without the latter, every selection change would reopen a panel just dismissed.
+  // Its own height, measured rather than assumed: the link panel makes it several times taller
+  // than the button row, and anchoring a tall toolbar above a selection near the top of the
+  // viewport would put its fields off-screen.
+  const toolbarRef = useRef<HTMLDivElement | null>(null);
+  const [height, setHeight] = useState(0);
+
   const savedRange = useRef<Range | null>(null);
   const autoOpenedFor = useRef<Element | null>(null);
   const linkPanelRef = useRef(false);
@@ -90,6 +106,7 @@ export default function SelectionToolbar({ containerRef, active }: Props) {
   const seedFromLink = useCallback((anchor: HTMLAnchorElement | null) => {
     setHref(anchor?.getAttribute('href') ?? '');
     setNewTab(anchor ? anchor.getAttribute('target') === '_blank' : true);
+    setLinkStyle(readLinkStyle(anchor));
   }, []);
 
   const read = useCallback(() => {
@@ -138,6 +155,11 @@ export default function SelectionToolbar({ containerRef, active }: Props) {
     autoOpenedFor.current = null;
   }, [containerRef, hide, seedFromLink]);
 
+  // Re-measured whenever something that changes the toolbar's size is toggled.
+  useLayoutEffect(() => {
+    setHeight(toolbarRef.current?.offsetHeight ?? 0);
+  }, [active, rect, linkPanel, pickingColor, onLink]);
+
   useEffect(() => {
     if (!active) {
       hide();
@@ -170,9 +192,9 @@ export default function SelectionToolbar({ containerRef, active }: Props) {
     return null;
   }
 
-  const below = rect.top < FLIP_THRESHOLD;
+  const below = rect.top < height + FLIP_MARGIN * 2;
   const position: React.CSSProperties = {
-    top: below ? rect.bottom + 8 : rect.top - 8,
+    top: below ? rect.bottom + FLIP_MARGIN : rect.top - FLIP_MARGIN,
     left: rect.left + rect.width / 2,
     transform: below ? 'translate(-50%, 0)' : 'translate(-50%, -100%)',
   };
@@ -237,6 +259,7 @@ export default function SelectionToolbar({ containerRef, active }: Props) {
 
   return createPortal(
     <div
+      ref={toolbarRef}
       role="toolbar"
       aria-label={t('richText.toolbar')}
       {...{ [TOOLBAR_ATTRIBUTE]: '' }}
@@ -312,7 +335,7 @@ export default function SelectionToolbar({ containerRef, active }: Props) {
               type="button"
               aria-label={color}
               style={{ backgroundColor: color }}
-              className="size-4 rounded-xs border border-grey-300 hover:border-grey-600"
+              className={SWATCH}
               onClick={run(() => {
                 applyColor(color);
                 setPickingColor(false);
@@ -335,13 +358,51 @@ export default function SelectionToolbar({ containerRef, active }: Props) {
               ev.stopPropagation();
               if (ev.key === 'Enter') {
                 ev.preventDefault();
-                withRestoredSelection((container) => applyLink(container, href, newTab));
+                withRestoredSelection((container) => applyLink(container, href, newTab, linkStyle));
               } else if (ev.key === 'Escape') {
                 ev.preventDefault();
                 closeLinkPanel();
               }
             }}
           />
+          <div className="flex flex-col gap-1">
+            <span className="text-body2 text-txt-secondary">{t('richText.linkColor')}</span>
+            <div className="grid grid-cols-10 gap-1">
+              <button
+                type="button"
+                aria-label={t('richText.linkColorDefault')}
+                aria-pressed={linkStyle.color === null}
+                title={t('richText.linkColorDefault')}
+                className={SWATCH}
+                onClick={() => setLinkStyle((style) => ({ ...style, color: null }))}
+              >
+                <Ban className="size-3 text-grey-600" />
+              </button>
+              {PRESET_COLORS.map((color) => (
+                <button
+                  key={color}
+                  type="button"
+                  aria-label={color}
+                  aria-pressed={linkStyle.color === color}
+                  style={{ backgroundColor: color }}
+                  className={SWATCH}
+                  onClick={() => setLinkStyle((style) => ({ ...style, color }))}
+                />
+              ))}
+            </div>
+          </div>
+          <label className="flex cursor-pointer items-center gap-2 text-body2 text-txt-secondary select-none">
+            <input
+              type="checkbox"
+              checked={linkStyle.underline}
+              className="size-3.5 cursor-pointer accent-brand-blue"
+              onChange={(ev) => {
+                const underline = ev.target.checked;
+                setLinkStyle((style) => ({ ...style, underline }));
+              }}
+            />
+            {t('richText.linkUnderline')}
+          </label>
           <label className="flex cursor-pointer items-center gap-2 text-body2 text-txt-secondary select-none">
             <input
               type="checkbox"
@@ -365,7 +426,7 @@ export default function SelectionToolbar({ containerRef, active }: Props) {
               type="button"
               disabled={href.trim().length === 0}
               className="cursor-pointer rounded-sm bg-brand-blue px-2 py-1 text-body2 text-white hover:bg-brand-blue/90 disabled:pointer-events-none disabled:opacity-60"
-              onClick={() => withRestoredSelection((container) => applyLink(container, href, newTab))}
+              onClick={() => withRestoredSelection((container) => applyLink(container, href, newTab, linkStyle))}
             >
               {t('richText.linkApply')}
             </button>

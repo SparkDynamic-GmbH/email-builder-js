@@ -105,6 +105,16 @@ describe('normalizeRichText', () => {
     );
   });
 
+  it('keeps a link’s own color and decoration, and only a link’s', () => {
+    expect(
+      normalizeRichText('<a href="https://example.com" style="color: rgb(255, 0, 0); text-decoration: none">x</a>')
+    ).toBe('<a href="https://example.com" style="color: #FF0000; text-decoration: none">x</a>');
+    // On a span the decoration is the tags' job, so it is dropped there as it always was.
+    expect(normalizeRichText('<span style="color: #FF0000; text-decoration: none">x</span>')).toBe(
+      '<span style="color: #FF0000">x</span>'
+    );
+  });
+
   it('removes the trailing break a browser keeps for focus', () => {
     expect(normalizeRichText('text<br>')).toBe('text');
     expect(normalizeRichText('text<br><br>')).toBe('text');
@@ -117,5 +127,12 @@ describe('normalizeRichText', () => {
     expect(normalized).toBe('<strong>bold</strong> <span style="color: #FF0000">red</span><br><em>next line</em>');
     // Nothing is dropped on the way through; insane only spells the void element differently.
     expect(sanitizeRichText(normalized)).toBe(normalized.replace('<br>', '<br/>'));
+  });
+
+  it('produces a styled link the block sanitizer passes through unchanged', () => {
+    const normalized = normalizeRichText(
+      '<a href="https://example.com" target="_blank" style="color: rgb(0, 0, 255); text-decoration: none">x</a>'
+    );
+    expect(sanitizeRichText(normalized)).toBe(normalized);
   });
 });
