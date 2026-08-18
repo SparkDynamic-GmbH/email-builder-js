@@ -187,7 +187,7 @@ export default function TableEditor({ props, style }: TableProps) {
       />
       {isSelected && (
         <div
-          className="flex flex-wrap items-center gap-1 border-t border-grey-300 bg-white/80 px-2 py-1"
+          className="eb-chrome flex flex-wrap items-center gap-1 border-t border-grey-300 bg-white/80 px-2 py-1"
           onClick={(ev) => ev.stopPropagation()}
         >
           <Button size="small" onClick={addRow}>

@@ -36,7 +36,7 @@ export default function CanvasImagePickerOverlay({ library, currentUrl, onSelect
               onClick();
             }}
             className={cn(
-              'pointer-events-auto rounded-full bg-black/70 px-3 py-1.5 text-body2 text-white opacity-0',
+              'eb-chrome pointer-events-auto rounded-full bg-black/70 px-3 py-1.5 text-body2 text-white opacity-0',
               'transition-opacity duration-150 group-hover/image-overlay:opacity-100',
               'hover:bg-black/85 focus-visible:opacity-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-white'
             )}

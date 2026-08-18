@@ -73,6 +73,20 @@
   line-height: 2.66;
 }
 
+/**
+ * Canvas chrome. Editor UI rendered *inside* `EmailLayoutEditor` inherits the
+ * document's own typography — the font family the user picked for the email,
+ * its letter spacing and line height — because it sits in the same subtree.
+ * That is the email's styling, not the editor's, so any chrome on the canvas
+ * resets it back.
+ */
+@utility eb-chrome {
+  font-family: var(--font-sans);
+  font-weight: 400;
+  letter-spacing: normal;
+  line-height: 1.5;
+}
+
 @utility text-h6 {
   font-size: 16px;
   font-weight: 500;
