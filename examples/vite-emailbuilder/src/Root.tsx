@@ -1,6 +1,12 @@
 import React, { createContext, useContext, useMemo, useState } from 'react';
 
-import { EmailBuilderProvider, TLanguage, ToastProvider, TooltipProvider } from '@sparkdynamic/email-builder/editor';
+import {
+  EmailBuilderProvider,
+  TBlockTemplate,
+  TLanguage,
+  ToastProvider,
+  TooltipProvider,
+} from '@sparkdynamic/email-builder/editor';
 
 import App from './App';
 import getConfiguration from './getConfiguration';
@@ -8,6 +14,7 @@ import { appTranslations, getInitialLanguage, storeLanguage } from './i18n';
 import { imageLibrary } from './imageLibrary';
 import { saveDraft } from './persistence';
 import { EDITOR_REGISTRY } from './registry';
+import { loadTemplates, removeTemplate, saveTemplate } from './templateLibrary';
 
 // Where the document comes from is the host's business: this app reads it out of
 // the URL hash, falling back to the stored draft; a real host would load it from
@@ -28,6 +35,10 @@ export function useSetLanguage() {
  */
 export default function Root() {
   const [language, setLanguage] = useState<TLanguage>(getInitialLanguage);
+  // The saved partials live here, above the provider, because they are the
+  // host's data: the editor calls `save`, we persist and set state, and the
+  // list it renders is this array.
+  const [templates, setTemplates] = useState<TBlockTemplate[]>(loadTemplates);
 
   const setAndStore = useMemo(
     () => (next: TLanguage) => {
@@ -35,6 +46,15 @@ export default function Root() {
       setLanguage(next);
     },
     []
+  );
+
+  const templateLibrary = useMemo(
+    () => ({
+      templates,
+      save: async (draft: Parameters<typeof saveTemplate>[0]) => setTemplates(await saveTemplate(draft)),
+      remove: async (template: TBlockTemplate) => setTemplates(await removeTemplate(template)),
+    }),
+    [templates]
   );
 
   // Stable per language: a fresh object each render would rebuild the editor's
@@ -52,6 +72,7 @@ export default function Root() {
           language={language}
           translations={translations}
           imageLibrary={imageLibrary}
+          templateLibrary={templateLibrary}
         >
           <SetLanguageContext.Provider value={setAndStore}>
             <App />
