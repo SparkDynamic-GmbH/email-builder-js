@@ -6,6 +6,7 @@ import {
   TLanguage,
   ToastProvider,
   TooltipProvider,
+  TStylePreset,
 } from '@sparkdynamic/email-builder/editor';
 
 import App from './App';
@@ -14,6 +15,7 @@ import { appTranslations, getInitialLanguage, storeLanguage } from './i18n';
 import { imageLibrary } from './imageLibrary';
 import { saveDraft } from './persistence';
 import { EDITOR_REGISTRY } from './registry';
+import { loadStylePresets, removeStylePreset, saveStylePreset } from './stylePresets';
 import { loadTemplates, removeTemplate, saveTemplate } from './templateLibrary';
 
 // Where the document comes from is the host's business: this app reads it out of
@@ -39,6 +41,9 @@ export default function Root() {
   // host's data: the editor calls `save`, we persist and set state, and the
   // list it renders is this array.
   const [templates, setTemplates] = useState<TBlockTemplate[]>(loadTemplates);
+  // Same deal for the named stylings: the editor calls `save`, we persist and
+  // set state, and the Presets tab renders this array.
+  const [presets, setPresets] = useState<TStylePreset[]>(loadStylePresets);
 
   const setAndStore = useMemo(
     () => (next: TLanguage) => {
@@ -57,6 +62,15 @@ export default function Root() {
     [templates]
   );
 
+  const stylePresets = useMemo(
+    () => ({
+      presets,
+      save: async (draft: Parameters<typeof saveStylePreset>[0]) => setPresets(await saveStylePreset(draft)),
+      remove: async (preset: TStylePreset) => setPresets(await removeStylePreset(preset)),
+    }),
+    [presets]
+  );
+
   // Stable per language: a fresh object each render would rebuild the editor's
   // translate function on every render.
   const translations = useMemo(() => appTranslations(language), [language]);
@@ -73,6 +87,7 @@ export default function Root() {
           translations={translations}
           imageLibrary={imageLibrary}
           templateLibrary={templateLibrary}
+          stylePresets={stylePresets}
         >
           <SetLanguageContext.Provider value={setAndStore}>
             <App />

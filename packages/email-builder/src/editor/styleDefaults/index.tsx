@@ -22,5 +22,5 @@ export {
   stylePresetKey,
 } from './helpers';
 export { BUILT_IN_STYLE_PRESETS } from './presets';
-export { default as StylePresetPicker } from './StylePresetPicker';
+export { default as StylePresetPanel } from './StylePresetPanel';
 export { TBlockDefaults, TStylePreset, TStylePresetDraft, TStylePresetLayout, TStylePresetLibrary } from './types';

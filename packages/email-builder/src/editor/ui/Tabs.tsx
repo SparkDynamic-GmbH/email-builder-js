@@ -14,13 +14,16 @@ type Props<T extends string> = {
 export default function Tabs<T extends string>({ value, onValueChange, children, className }: Props<T>) {
   return (
     <RadixTabs.Root value={value} onValueChange={(v) => onValueChange(v as T)} className={className}>
-      <RadixTabs.List className="flex h-full items-stretch">{children}</RadixTabs.List>
+      {/* Scrolls rather than wraps: the inspector's tab row can hold four in a
+          320px drawer, and a wrapped row would break the 49px header height. */}
+      <RadixTabs.List className="flex h-full items-stretch overflow-x-auto">{children}</RadixTabs.List>
     </RadixTabs.Root>
   );
 }
 
 const TAB_CLASSES = cn(
-  'flex min-w-8 items-center justify-center border-b border-transparent px-3 py-2 text-[14px] font-medium',
+  'flex min-w-8 shrink-0 items-center justify-center whitespace-nowrap border-b border-transparent px-3 py-2',
+  'text-[14px] font-medium',
   'leading-normal text-txt-secondary transition-colors hover:text-txt-primary',
   // Keyed off aria-selected, not data-state: wrapping a trigger in a Radix
   // Tooltip overwrites data-state with the tooltip's own open/closed value.

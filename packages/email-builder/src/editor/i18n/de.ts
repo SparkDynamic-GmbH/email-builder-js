@@ -2,7 +2,7 @@
 
 /** German. Typed against the English key set, so a new key fails the build here. */
 const de: TTranslations = {
-  // Saving
+  // Saving…
   'save.save': 'Speichern',
   'save.saving': 'Wird gespeichert…',
   'save.saved': 'Gespeichert',
@@ -204,30 +204,36 @@ const de: TTranslations = {
   'templates.error.insert': 'Für diese Vorlage war kein Platz zu finden.',
 
   // Style presets and block defaults
+  'inspector.tab.presets': 'Stilvorlagen',
   'stylePresets.title': 'Stilvorlagen',
   'stylePresets.helper':
-    'Ein benanntes Aussehen fÃ¼r die ganze E-Mail: Seitenfarben, Schriftart und die Startwerte jedes Blocks.',
-  'stylePresets.empty': 'Keine Stilvorlagen verfÃ¼gbar.',
+    'Ein benanntes Aussehen für die ganze E-Mail: Seitenfarben, Schriftart und die Startwerte jedes Blocks.',
+  'stylePresets.empty': 'Keine Stilvorlagen verfügbar.',
+  'stylePresets.apply': '{name} anwenden',
   'stylePresets.applyTitle': '{name} anwenden',
-  'stylePresets.applyBody': 'Setzt das Seitenlayout und das Aussehen aller BlÃ¶cke, die Sie ab jetzt hinzufÃ¼gen.',
+  'stylePresets.applyBody': 'Setzt das Seitenlayout und das Aussehen aller Blöcke, die Sie ab jetzt hinzufügen.',
   'stylePresets.applyConfirm': 'Anwenden',
-  'stylePresets.restyle': 'Auch die bereits vorhandenen BlÃ¶cke umgestalten',
+  'stylePresets.restyle': 'Auch die bereits vorhandenen Blöcke umgestalten',
   'stylePresets.restyleHelper':
-    'Ersetzt AbstÃ¤nde, GrÃ¶Ãe und Schriftart jedes Blocks im Entwurf. Inhalte bleiben unverÃ¤ndert, und es zÃ¤hlt als ein Schritt beim RÃ¼ckgÃ¤ngigmachen.',
+    'Ersetzt Abstände, Größe und Schriftart jedes Blocks im Entwurf. Inhalte bleiben unverändert, und es zählt als ein Schritt beim Rückgängigmachen.',
   'stylePresets.saveAs': 'Aktuellen Stil speichern',
   'stylePresets.saveTitle': 'Als Stilvorlage speichern',
+  'stylePresets.saveBody':
+    'Speichert das Seitenlayout und die Blockvorgaben dieses Designs unter einem Namen, damit sie für eine andere E-Mail verwendet werden können.',
   'stylePresets.name': 'Name der Stilvorlage',
   'stylePresets.namePlaceholder': 'Marken-Newsletter',
   'stylePresets.save': 'Speichern',
-  'stylePresets.saving': 'Speichernâ¦',
+  'stylePresets.saving': 'Wird gespeichert…',
   'stylePresets.cancel': 'Abbrechen',
-  'stylePresets.remove': 'Stilvorlage lÃ¶schen',
+  'stylePresets.remove': 'Stilvorlage löschen',
+  'stylePresets.delete': '{name} löschen',
   'stylePresets.error.name': 'Geben Sie der Stilvorlage einen Namen.',
   'stylePresets.error.save': 'Die Stilvorlage konnte nicht gespeichert werden.',
+  'stylePresets.error.remove': 'Die Stilvorlage konnte nicht gelöscht werden.',
   'styleDefaults.title': 'Block-Standardwerte',
   'styleDefaults.helper':
-    'Wie ein Block aussieht, sobald Sie ihn hinzufÃ¼gen. Bereits vorhandene BlÃ¶cke behalten ihr eigenes Aussehen.',
-  'styleDefaults.reset': 'Auf Standard zurÃ¼cksetzen',
+    'Wie ein Block aussieht, sobald Sie ihn hinzufügen. Bereits vorhandene Blöcke behalten ihr eigenes Aussehen.',
+  'styleDefaults.reset': 'Auf Standard zurücksetzen',
 
   // JSON-Import / -Export
   'json.import': 'JSON importieren',

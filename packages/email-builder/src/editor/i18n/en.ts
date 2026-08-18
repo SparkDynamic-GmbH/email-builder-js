@@ -6,7 +6,7 @@
  * `{name}` placeholders are substituted by the translate function.
  */
 const en = {
-  // Saving
+  // Saving…
   'save.save': 'Save',
   'save.saving': 'Saving…',
   'save.saved': 'Saved',
@@ -208,9 +208,11 @@ const en = {
   'templates.error.insert': 'There was nowhere to put this template.',
 
   // Style presets and block defaults
+  'inspector.tab.presets': 'Presets',
   'stylePresets.title': 'Style presets',
   'stylePresets.helper': 'A named look for the whole email: page colours, typeface, and what each block starts from.',
   'stylePresets.empty': 'No presets available.',
+  'stylePresets.apply': 'Apply {name}',
   'stylePresets.applyTitle': 'Apply {name}',
   'stylePresets.applyBody': 'This sets the page styling and what blocks you add from now on will look like.',
   'stylePresets.applyConfirm': 'Apply',
@@ -219,14 +221,18 @@ const en = {
     'Replaces the spacing, size and typeface of every block in the design. Content is untouched, and this counts as one undo step.',
   'stylePresets.saveAs': 'Save current styling',
   'stylePresets.saveTitle': 'Save as style preset',
+  'stylePresets.saveBody':
+    'Keeps the page styling and the block defaults of this design under a name, so it can be applied to another email.',
   'stylePresets.name': 'Preset name',
   'stylePresets.namePlaceholder': 'Brand newsletter',
   'stylePresets.save': 'Save',
-  'stylePresets.saving': 'Savingâ¦',
+  'stylePresets.saving': 'Saving…',
   'stylePresets.cancel': 'Cancel',
   'stylePresets.remove': 'Delete preset',
+  'stylePresets.delete': 'Delete {name}',
   'stylePresets.error.name': 'Give the preset a name.',
   'stylePresets.error.save': 'The preset could not be saved.',
+  'stylePresets.error.remove': 'The preset could not be deleted.',
   'styleDefaults.title': 'Block defaults',
   'styleDefaults.helper':
     'What a block looks like the moment you add it. Blocks already in the design keep their own styling.',

@@ -2,7 +2,7 @@ import React from 'react';
 
 import { useDocument, useEditorActions } from '../EditorContext';
 import { useTranslate } from '../i18n';
-import { BlockDefaultsPanel, StylePresetPicker } from '../styleDefaults';
+import { BlockDefaultsPanel } from '../styleDefaults';
 import useExternalRevision from '../styleDefaults/useExternalRevision';
 
 import EmailLayoutSidebarPanel from './ConfigurationPanel/input-panels/EmailLayoutSidebarPanel';
@@ -26,7 +26,6 @@ export default function StylesPanel() {
 
   return (
     <>
-      <StylePresetPicker />
       <EmailLayoutSidebarPanel
         key={`root-${revision}`}
         data={data}

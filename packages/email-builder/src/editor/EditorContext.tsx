@@ -46,7 +46,7 @@ type TEditorState = {
   future: THistoryEntry[];
 
   selectedBlockId: string | null;
-  selectedSidebarTab: 'block-configuration' | 'styles' | 'templates';
+  selectedSidebarTab: 'block-configuration' | 'styles' | 'presets' | 'templates';
   selectedMainTab: 'editor' | 'preview' | 'json' | 'html';
   selectedScreenSize: 'desktop' | 'mobile';
 

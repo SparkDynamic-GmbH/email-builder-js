@@ -206,24 +206,38 @@ describe('applyStylePreset', () => {
 });
 
 function renderInspector(library?: TStylePresetLibrary) {
-  return render(
+  const rendered = render(
     <TooltipProvider>
       <EmailBuilderProvider registry={REGISTRY} initialDocument={DOCUMENT} stylePresets={library}>
         <InspectorDrawer />
       </EmailBuilderProvider>
     </TooltipProvider>
   );
+  openPresetsTab();
+  return rendered;
 }
 
-describe('the Styles tab', () => {
+/**
+ * The presets are their own tab and the drawer opens on Styles; Radix's tab
+ * triggers activate on mousedown, not click.
+ */
+function openPresetsTab() {
+  const tab = screen.queryByRole('tab', { name: 'Presets' });
+  if (tab !== null) {
+    fireEvent.mouseDown(tab);
+  }
+}
+
+describe('the Presets tab', () => {
   it('offers the built-in presets when the host configured none', () => {
     renderInspector();
     expect(screen.getByText('Default')).toBeTruthy();
     expect(screen.getByText('Editorial')).toBeTruthy();
   });
 
-  it('offers none when the host passed an empty set', () => {
+  it('has no tab at all when the host passed an empty set', () => {
     renderInspector({ presets: [] });
+    expect(screen.queryByRole('tab', { name: 'Presets' })).toBeNull();
     expect(screen.queryByText('Default')).toBeNull();
   });
 
@@ -236,6 +250,7 @@ describe('the Styles tab', () => {
         </EmailBuilderProvider>
       </TooltipProvider>
     );
+    openPresetsTab();
 
     fireEvent.click(screen.getByText('Editorial'));
     expect(onChange).not.toHaveBeenCalled();
@@ -247,6 +262,20 @@ describe('the Styles tab', () => {
     expect(document.root.data.fontFamily).toBe('MODERN_SERIF');
     // Restyle was left off, so the block already there is untouched.
     expect(document.text).toEqual(DOC.text);
+  });
+
+  it('offers a delete only for the entries the host did not mark read-only', () => {
+    const remove = jest.fn<(preset: TStylePreset) => void>();
+    renderInspector({
+      presets: [
+        { id: 'mine', name: 'Mine' },
+        { id: 'shipped', name: 'Shipped', readOnly: true },
+      ],
+      remove,
+    });
+
+    expect(screen.getByRole('button', { name: 'Delete Mine' })).toBeTruthy();
+    expect(screen.queryByRole('button', { name: 'Delete Shipped' })).toBeNull();
   });
 
   it('hands the host a draft of the current styling', async () => {

@@ -45,6 +45,12 @@ export type TStylePreset = {
   description?: string | null;
   /** A preview image for the list; without one the list shows a colour swatch. */
   thumbnailUrl?: string | null;
+  /**
+   * Hides the delete affordance for this entry even when the library has a
+   * `remove`. A host that offers its own saved presets alongside a set it ships
+   * marks the shipped ones with this, since they are not the user's to delete.
+   */
+  readOnly?: boolean;
   /** The layout's colours, border and typeface. Fields left out are not touched. */
   layout?: TStylePresetLayout | null;
   /**

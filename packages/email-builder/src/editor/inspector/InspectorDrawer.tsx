@@ -2,6 +2,7 @@ import React from 'react';
 
 import { useEditorActions, useInspectorDrawerOpen, useSelectedSidebarTab } from '../EditorContext';
 import { useTranslate } from '../i18n';
+import { StylePresetPanel, useStylePresets } from '../styleDefaults';
 import { TemplateLibraryPanel, useTemplateLibrary } from '../templateLibrary';
 import Drawer from '../ui/Drawer';
 import Tabs, { Tab } from '../ui/Tabs';
@@ -15,11 +16,14 @@ export default function InspectorDrawer() {
   const t = useTranslate();
   const { setSidebarTab } = useEditorActions();
   const inspectorDrawerOpen = useInspectorDrawerOpen();
-  // The tab only exists when the host gave the provider a library; a selection
-  // left pointing at it after the library goes away falls back to Styles.
+  // Both of these tabs only exist when the host gave the provider the library
+  // behind them; a selection left pointing at one after it goes away falls back
+  // to Styles.
   const hasTemplates = useTemplateLibrary() !== null;
+  const hasPresets = useStylePresets() !== null;
   const selected = useSelectedSidebarTab();
-  const selectedSidebarTab = selected === 'templates' && !hasTemplates ? 'styles' : selected;
+  const selectedSidebarTab =
+    (selected === 'templates' && !hasTemplates) || (selected === 'presets' && !hasPresets) ? 'styles' : selected;
 
   const renderCurrentSidebarPanel = () => {
     switch (selectedSidebarTab) {
@@ -27,6 +31,8 @@ export default function InspectorDrawer() {
         return <ConfigurationPanel />;
       case 'styles':
         return <StylesPanel />;
+      case 'presets':
+        return <StylePresetPanel />;
       case 'templates':
         return <TemplateLibraryPanel />;
     }
@@ -38,6 +44,7 @@ export default function InspectorDrawer() {
         <Tabs value={selectedSidebarTab} onValueChange={setSidebarTab} className="h-full">
           <Tab value="styles">{t('inspector.tab.styles')}</Tab>
           <Tab value="block-configuration">{t('inspector.tab.inspect')}</Tab>
+          {hasPresets && <Tab value="presets">{t('inspector.tab.presets')}</Tab>}
           {hasTemplates && <Tab value="templates">{t('inspector.tab.templates')}</Tab>}
         </Tabs>
       </div>

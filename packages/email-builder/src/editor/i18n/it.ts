@@ -222,29 +222,35 @@ const it: TTranslations = {
   'input.value': 'Valore',
 
   // Style presets and block defaults
+  'inspector.tab.presets': 'Preimpostazioni',
   'stylePresets.title': 'Preimpostazioni di stile',
   'stylePresets.helper':
-    'Un aspetto con un nome per tutta lâe-mail: colori della pagina, carattere e valori iniziali di ogni blocco.',
+    'Un aspetto con un nome per tutta l’e-mail: colori della pagina, carattere e valori iniziali di ogni blocco.',
   'stylePresets.empty': 'Nessuna preimpostazione disponibile.',
+  'stylePresets.apply': 'Applica {name}',
   'stylePresets.applyTitle': 'Applica {name}',
-  'stylePresets.applyBody': 'Imposta lo stile della pagina e lâaspetto dei blocchi che aggiungerai dâora in poi.',
+  'stylePresets.applyBody': 'Imposta lo stile della pagina e l’aspetto dei blocchi che aggiungerai d’ora in poi.',
   'stylePresets.applyConfirm': 'Applica',
-  'stylePresets.restyle': 'Riformatta anche i blocchi giÃ  presenti',
+  'stylePresets.restyle': 'Riformatta anche i blocchi già presenti',
   'stylePresets.restyleHelper':
     'Sostituisce spaziatura, dimensione e carattere di ogni blocco del progetto. I contenuti restano invariati e conta come un solo annullamento.',
   'stylePresets.saveAs': 'Salva lo stile attuale',
   'stylePresets.saveTitle': 'Salva come preimpostazione',
+  'stylePresets.saveBody':
+    'Salva con un nome lo stile della pagina e i valori iniziali dei blocchi di questo progetto, così da applicarli a un’altra e-mail.',
   'stylePresets.name': 'Nome della preimpostazione',
   'stylePresets.namePlaceholder': 'Newsletter del marchio',
   'stylePresets.save': 'Salva',
-  'stylePresets.saving': 'Salvataggioâ¦',
+  'stylePresets.saving': 'Salvataggio…',
   'stylePresets.cancel': 'Annulla',
   'stylePresets.remove': 'Elimina preimpostazione',
+  'stylePresets.delete': 'Elimina {name}',
   'stylePresets.error.name': 'Dai un nome alla preimpostazione.',
-  'stylePresets.error.save': 'Non Ã¨ stato possibile salvare la preimpostazione.',
+  'stylePresets.error.save': 'Non è stato possibile salvare la preimpostazione.',
+  'stylePresets.error.remove': 'Non è stato possibile eliminare la preimpostazione.',
   'styleDefaults.title': 'Valori predefiniti dei blocchi',
   'styleDefaults.helper':
-    'Lâaspetto di un blocco nel momento in cui lo aggiungi. I blocchi giÃ  presenti mantengono il proprio.',
+    'L’aspetto di un blocco nel momento in cui lo aggiungi. I blocchi già presenti mantengono il proprio.',
   'styleDefaults.reset': 'Ripristina',
 };
 

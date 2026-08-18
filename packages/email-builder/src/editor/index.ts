@@ -116,7 +116,7 @@ export {
   setBlockDefault,
   setBlockDefaults,
   STYLE_PRESET_LAYOUT_KEYS,
-  StylePresetPicker,
+  StylePresetPanel,
   StylePresetProvider,
   stylePresetKey,
   TBlockDefaults,
