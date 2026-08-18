@@ -18,6 +18,9 @@ const HEAD =
   '<meta name="viewport" content="width=device-width,initial-scale=1">' +
   '<!--[if mso]><xml><o:OfficeDocumentSettings><o:PixelsPerInch>96</o:PixelsPerInch>' +
   '</o:OfficeDocumentSettings></xml><![endif]-->' +
+  '<style>@media only screen and (max-width:600px){' +
+  '.eb-column{display:block!important;width:100%!important;padding-left:0!important;padding-right:0!important}' +
+  '}</style>' +
   '</head>';
 
 describe('renderToStaticMarkup', () => {
@@ -65,9 +68,10 @@ describe('createReader', () => {
     const { renderToStaticMarkup } = createReader(noteBlocks);
 
     const result = renderToStaticMarkup({ root: { type: 'Note', data: { text: 'Hi' } } }, { rootBlockId: 'root' });
-    // A conditional comment is why the head is concatenated rather than rendered: React has no
-    // comment node to emit one with.
+    // A conditional comment and a stylesheet are why the head is concatenated rather than rendered:
+    // React has no comment node, and it would escape the `>` in a media query.
     expect(result).toContain('<!--[if mso]>');
+    expect(result).toContain('@media only screen and (max-width:600px)');
     expect(result).not.toContain('&lt;');
   });
 

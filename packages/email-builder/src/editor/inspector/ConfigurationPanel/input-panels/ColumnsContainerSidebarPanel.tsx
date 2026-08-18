@@ -14,6 +14,7 @@ import { useTranslate } from '../../../i18n';
 import { ToggleButton } from '../../../ui/ToggleGroup';
 
 import BaseSidebarPanel from './helpers/BaseSidebarPanel';
+import BooleanInput from './helpers/inputs/BooleanInput';
 import ColumnWidthsInput from './helpers/inputs/ColumnWidthsInput';
 import RadioGroupInput from './helpers/inputs/RadioGroupInput';
 import SliderInput from './helpers/inputs/SliderInput';
@@ -82,6 +83,12 @@ export default function ColumnsContainerPanel({ data, setData }: ColumnsContaine
           <AlignVerticalJustifyEnd className="size-5" />
         </ToggleButton>
       </RadioGroupInput>
+
+      <BooleanInput
+        label={t('field.stackOnMobile')}
+        defaultValue={data.props?.stackOnMobile ?? true}
+        onChange={(stackOnMobile) => updateData({ ...data, props: { ...data.props, stackOnMobile } })}
+      />
 
       <MultiStylePropertyPanel
         names={['backgroundColor', 'padding']}

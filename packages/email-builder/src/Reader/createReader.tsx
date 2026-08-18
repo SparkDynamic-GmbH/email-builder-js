@@ -13,12 +13,29 @@ import {
 import { ReaderBlock, ReaderContext } from './ReaderBlock';
 
 /**
+ * A table's cells cannot wrap, so a column that stacks is one that has stopped
+ * being a cell. `!important` is what beats the width `fixedWidths` writes inline
+ * on the cell; the horizontal gap padding goes with it, since stacked it would
+ * only indent one column against the other.
+ *
+ * The `<style>` block is a real dependency — a client that strips it falls back
+ * to the desktop layout rather than breaking, but it does fall back. Anything
+ * that has to survive stripping belongs inline on the block instead, the way the
+ * image block's `max-width` already does.
+ */
+const RESPONSIVE_STYLESHEET =
+  '@media only screen and (max-width:600px){' +
+  '.eb-column{display:block!important;width:100%!important;padding-left:0!important;padding-right:0!important}' +
+  '}';
+
+/**
  * Built as a string rather than JSX: a conditional comment is not a node React
- * can emit.
+ * can emit, and the contents of a `<style>` would come back escaped.
  *
  * `PixelsPerInch` is what stops Outlook scaling the whole email by 4/3 on a
  * Windows display above 96 DPI. Without the viewport meta, a phone lays the
- * message out at desktop width and scales the whole thing down.
+ * message out at desktop width and scales it down, so the media query above
+ * would never get the chance to match.
  */
 const HEAD =
   '<head>' +
@@ -26,6 +43,7 @@ const HEAD =
   '<meta name="viewport" content="width=device-width,initial-scale=1">' +
   '<!--[if mso]><xml><o:OfficeDocumentSettings><o:PixelsPerInch>96</o:PixelsPerInch>' +
   '</o:OfficeDocumentSettings></xml><![endif]-->' +
+  `<style>${RESPONSIVE_STYLESHEET}</style>` +
   '</head>';
 
 /**

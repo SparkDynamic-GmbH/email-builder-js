@@ -10,6 +10,16 @@ describe('block-columns-container', () => {
     expect(render(<ColumnsContainer />).asFragment()).toMatchSnapshot();
   });
 
+  it('leaves the stacking class off when the row is told not to stack', () => {
+    const { container } = render(<ColumnsContainer props={{ columnsCount: 2, stackOnMobile: false }} />);
+    expect(container.querySelectorAll('.eb-column')).toHaveLength(0);
+  });
+
+  it('marks every cell for stacking by default', () => {
+    const { container } = render(<ColumnsContainer props={{ columnsCount: 3 }} />);
+    expect(container.querySelectorAll('.eb-column')).toHaveLength(3);
+  });
+
   describe('columnsCount 2', () => {
     it('renders column children', () => {
       const columns = [<>bread</>, <>tomato</>, <>lettuce</>];

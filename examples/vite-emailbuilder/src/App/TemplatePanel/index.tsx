@@ -67,8 +67,11 @@ export default function TemplatePanel({ samplesDrawerOpen, onToggleSamplesDrawer
           </div>
         );
       case 'preview':
+        // `eb-canvas` is the query container the package's stacking rule measures. The editor tab
+        // gets it from the canvas itself; the preview renders the reader's own markup, so the host
+        // has to establish it — otherwise the mobile toggle shows columns the email would stack.
         return (
-          <div style={mainBoxStyle}>
+          <div className="eb-canvas" style={mainBoxStyle}>
             <Reader document={document} rootBlockId="root" />
           </div>
         );

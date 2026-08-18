@@ -105,6 +105,7 @@ const en = {
   'field.shape': 'Shape',
   'field.size': 'Size',
   'field.sourceUrl': 'Source URL',
+  'field.stackOnMobile': 'Stack on mobile',
   'field.stripedRowColor': 'Striped rows',
   'field.style': 'Style',
   'field.text': 'Text',

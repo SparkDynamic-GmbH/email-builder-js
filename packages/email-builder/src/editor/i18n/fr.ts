@@ -102,6 +102,7 @@ const fr: TTranslations = {
   'field.shape': 'Forme',
   'field.size': 'Taille',
   'field.sourceUrl': 'URL source',
+  'field.stackOnMobile': 'Empiler sur mobile',
   'field.stripedRowColor': 'Lignes alternées',
   'field.style': 'Style',
   'field.text': 'Texte',

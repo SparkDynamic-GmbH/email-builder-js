@@ -101,6 +101,7 @@ const de: TTranslations = {
   'field.shape': 'Form',
   'field.size': 'Größe',
   'field.sourceUrl': 'Quell-URL',
+  'field.stackOnMobile': 'Auf Mobilgeräten stapeln',
   'field.stripedRowColor': 'Zebrastreifen',
   'field.style': 'Stil',
   'field.text': 'Text',

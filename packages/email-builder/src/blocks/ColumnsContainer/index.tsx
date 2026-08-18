@@ -42,6 +42,12 @@ export const ColumnsContainerPropsSchema = z.object({
         .nullable(),
       columnsGap: z.number().optional().nullable(),
       contentAlignment: z.enum(['top', 'middle', 'bottom']).optional().nullable(),
+      /**
+       * Let the columns fall one under another on a narrow screen. On by default,
+       * because side-by-side columns in a 600px layout are unreadable on a phone —
+       * but a logo beside a date is a row that reads better left alone.
+       */
+      stackOnMobile: z.boolean().optional().nullable(),
     })
     .optional()
     .nullable(),
@@ -56,7 +62,15 @@ const ColumnsContainerPropsDefaults = {
   columnsCount: 2,
   columnsGap: 0,
   contentAlignment: 'middle',
+  stackOnMobile: true,
 } as const;
+
+/**
+ * The hook the export's media query and the canvas's container query both hang
+ * off. Neither rule is here, because a cell cannot be told to stack inline: the
+ * whole point is a declaration that applies only below a width.
+ */
+const STACKING_CLASS = 'eb-column';
 
 export function ColumnsContainer({ style, columns, props }: ColumnsContainerProps) {
   const backgroundColor = style?.backgroundColor ?? undefined;
@@ -70,6 +84,7 @@ export function ColumnsContainer({ style, columns, props }: ColumnsContainerProp
     columnsGap: props?.columnsGap ?? ColumnsContainerPropsDefaults.columnsGap,
     contentAlignment: props?.contentAlignment ?? ColumnsContainerPropsDefaults.contentAlignment,
     fixedWidths: props?.fixedWidths,
+    stackOnMobile: props?.stackOnMobile ?? ColumnsContainerPropsDefaults.stackOnMobile,
   };
 
   return (
@@ -115,6 +130,7 @@ type Props = {
     columnsCount: 2 | 3;
     columnsGap: number;
     contentAlignment: 'top' | 'middle' | 'bottom';
+    stackOnMobile: boolean;
   };
   index: number;
   columns?: TColumn[];
@@ -135,7 +151,11 @@ function TableCell({ index, props, columns }: Props) {
     width: props.fixedWidths?.[index] ?? undefined,
   };
   const children = (columns && columns[index]) ?? null;
-  return <td style={style}>{children}</td>;
+  return (
+    <td className={props.stackOnMobile ? STACKING_CLASS : undefined} style={style}>
+      {children}
+    </td>
+  );
 }
 
 function getPaddingBefore(index: number, { columnsGap, columnsCount }: Props['props']) {

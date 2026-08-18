@@ -37,6 +37,8 @@ export default function EmailLayoutEditor(props: EmailLayoutProps) {
 
   return (
     <div
+      // Establishes the query container the stacking rule in styles.css measures.
+      className="eb-canvas"
       onClick={() => {
         setSelectedBlockId(null);
       }}

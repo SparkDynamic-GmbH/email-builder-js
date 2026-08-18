@@ -90,3 +90,30 @@
     border-radius: 4px;
   }
 }
+
+/**
+ * The canvas mirror of the `@media` rule the reader writes into the exported
+ * document's head. It has to be a *container* query and not a media query: the
+ * mobile toggle narrows a box to 370px inside a window that is still full width,
+ * so a viewport query would never match and the canvas would keep showing a
+ * desktop layout while the email itself stacked. Same class, same breakpoint —
+ * change one and change the other, in `Reader/createReader.tsx`.
+ *
+ * The container is named so a host that puts its own container above the canvas
+ * cannot capture the query.
+ */
+@layer components {
+  .eb-canvas {
+    container-type: inline-size;
+    container-name: eb-email;
+  }
+
+  @container eb-email (max-width: 600px) {
+    .eb-column {
+      display: block !important;
+      width: 100% !important;
+      padding-left: 0 !important;
+      padding-right: 0 !important;
+    }
+  }
+}
