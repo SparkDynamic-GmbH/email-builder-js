@@ -5,7 +5,7 @@ import { useSelectedBlockId } from '../../editor/EditorContext';
 
 import { insertLineBreak } from './richText/commands';
 import normalizeRichText from './richText/normalize';
-import SelectionToolbar from './richText/SelectionToolbar';
+import SelectionToolbar, { TOOLBAR_ATTRIBUTE } from './richText/SelectionToolbar';
 
 /**
  * `contentEditable="plaintext-only"` keeps the browser from injecting markup we cannot store —
@@ -202,11 +202,12 @@ export default function InlineEditable({
       } as const)
     : {};
 
-  let className: string | undefined;
+  // `eb-editable` is a styling hook, not a utility: see the link rule in styles.css.
+  let className = 'eb-editable';
   if (editing) {
-    className = 'outline-none';
+    className += ' outline-none';
   } else if (isSelected && !disabled) {
-    className = 'cursor-text';
+    className += ' cursor-text';
   }
 
   return (
@@ -215,7 +216,22 @@ export default function InlineEditable({
         ref={ref}
         {...editableProps}
         className={className}
+        onMouseDown={(ev) => {
+          // A link is focusable, and letting it take focus here costs the click its editing
+          // session: the editable is focused by the effect below and then blurred straight back
+          // out again, committing the block. Preventing the press keeps focus where it was; the
+          // caret is placed from the pointer either way.
+          if (!editing && (ev.target as HTMLElement).closest('a')) {
+            ev.preventDefault();
+          }
+        }}
         onClick={(ev) => {
+          // A link on the canvas is content being edited, not navigation — following it would
+          // take the editor's own page with it. Clicking one lands the caret inside it instead,
+          // which is what opens the link panel on the selection toolbar.
+          if ((ev.target as HTMLElement).closest('a')) {
+            ev.preventDefault();
+          }
           // First click selects the block (EditorBlockWrapper); clicking a selected block starts editing.
           if (isSelected) {
             startEditing(ev);
@@ -224,8 +240,13 @@ export default function InlineEditable({
         onDoubleClick={startEditing}
         onKeyDown={handleKeyDown}
         onPaste={handlePaste}
-        onBlur={() => {
+        onBlur={(ev) => {
           if (!editing) {
+            return;
+          }
+          // The selection toolbar's link field has to take focus to be typed into. It restores the
+          // range itself, so a blur into it is not the end of editing.
+          if ((ev.relatedTarget as HTMLElement | null)?.closest(`[${TOOLBAR_ATTRIBUTE}]`)) {
             return;
           }
           commit();

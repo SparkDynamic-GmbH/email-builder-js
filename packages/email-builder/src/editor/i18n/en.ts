@@ -146,6 +146,13 @@ const en = {
   'richText.underline': 'Underline',
   'richText.strikethrough': 'Strikethrough',
   'richText.color': 'Text color',
+  'richText.link': 'Insert link',
+  'richText.editLink': 'Edit link',
+  'richText.removeLink': 'Remove link',
+  'richText.linkUrl': 'Link address',
+  'richText.linkPlaceholder': 'https://example.com',
+  'richText.linkNewTab': 'Open in a new tab',
+  'richText.linkApply': 'Apply',
   'richText.clearFormatting': 'Clear formatting',
 
   // Table canvas controls

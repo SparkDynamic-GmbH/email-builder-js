@@ -2,6 +2,18 @@
 
 `@sparkdynamic/email-builder`. This is a hard fork of [usewaypoint/email-builder-js](https://github.com/usewaypoint/email-builder-js) at upstream `ce3e610`, so it has its own version line and does not follow upstream's. It stays on 0.x while the extension API can still change.
 
+## Unreleased
+
+### Added — links in rich text
+
+- **The selection toolbar can wrap a selection in a link.** A link button opens a small panel with the address and an "Open in a new tab" toggle, and Apply wraps the selection — or retargets the link the caret is already in. A bare `example.com` becomes `https://example.com` and a bare address becomes `mailto:`, since the sanitizer only passes http, https and mailto.
+- **Clicking a link on the canvas opens its settings instead of following it.** Selecting a link's block and clicking the link lands the caret inside it, which shows the toolbar over the link with its address filled in and a Remove link button. Following the link would take the editor's own page with it, so the click's default is prevented either way.
+- **Remove link** unwraps the anchor and keeps its words, from either the toolbar button or the panel.
+- The link panel is the one part of the toolbar allowed to take focus, because its field has to be typed into: the range is saved on every read of the selection and restored before a command runs, and `InlineEditable` treats a blur into the toolbar as no blur at all rather than committing the block.
+- `normalizeRichText` now unwraps an anchor with no address and keeps `target` only when it is `_blank`. The tags and attributes themselves were already allowed through `sanitizeRichText`; what was missing was the UI.
+- The canvas puts a link's browser default look back — blue and underlined — which a host's preflight strips but the email clients rendering the same markup apply. Without it a link is indistinguishable from the words around it.
+- The catalogs gain `richText.link`, `richText.editLink`, `richText.removeLink`, `richText.linkUrl`, `richText.linkPlaceholder`, `richText.linkNewTab` and `richText.linkApply`, in every language.
+
 ## 0.1.4 — 2026-07-27
 
 ### Added

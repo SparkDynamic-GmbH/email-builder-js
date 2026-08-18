@@ -82,6 +82,29 @@ describe('normalizeRichText', () => {
     );
   });
 
+  it('keeps a link opened in a new tab', () => {
+    expect(normalizeRichText('<a href="https://example.com" target="_blank" rel="noopener">link</a>')).toBe(
+      '<a href="https://example.com" target="_blank">link</a>'
+    );
+  });
+
+  it('drops a target that is not _blank', () => {
+    expect(normalizeRichText('<a href="https://example.com" target="_self">link</a>')).toBe(
+      '<a href="https://example.com">link</a>'
+    );
+  });
+
+  it('unwraps an anchor with no address', () => {
+    expect(normalizeRichText('<a>orphan</a>')).toBe('orphan');
+    expect(normalizeRichText('<a href="">orphan</a>')).toBe('orphan');
+  });
+
+  it('keeps the marks inside a link', () => {
+    expect(normalizeRichText('<a href="https://example.com"><b>bold</b> link</a>')).toBe(
+      '<a href="https://example.com"><strong>bold</strong> link</a>'
+    );
+  });
+
   it('removes the trailing break a browser keeps for focus', () => {
     expect(normalizeRichText('text<br>')).toBe('text');
     expect(normalizeRichText('text<br><br>')).toBe('text');

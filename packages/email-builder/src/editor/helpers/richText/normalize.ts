@@ -165,6 +165,16 @@ function normalizeElement(element: Element) {
   if (tag === 'span' && !element.hasAttribute('style')) {
     unwrap(element);
   }
+
+  // An anchor with no address is not a link — `removeFormat` leaves those behind. `target` is
+  // stored only as `_blank`, the one value that means anything in an email client.
+  if (tag === 'a') {
+    if (!element.getAttribute('href')) {
+      unwrap(element);
+    } else if (element.getAttribute('target') !== '_blank') {
+      element.removeAttribute('target');
+    }
+  }
 }
 
 export default function normalizeRichText(html: string): string {

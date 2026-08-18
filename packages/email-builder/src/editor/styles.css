@@ -38,6 +38,21 @@
 }
 
 /**
+ * A host's preflight resets `a` to `color: inherit; text-decoration: inherit`, which on the canvas
+ * leaves a link indistinguishable from the words around it — while the email clients that render
+ * the same markup apply their own defaults and show it blue and underlined. This puts those
+ * defaults back for the editable blocks only, so what the canvas shows is what an inbox shows.
+ * An inline colour on the link itself still wins, as it does there.
+ */
+@layer components {
+  .eb-editable a {
+    color: #0000ee;
+    text-decoration: underline;
+    cursor: pointer;
+  }
+}
+
+/**
  * react-colorful renders its own internals, so they can only be reached with
  * descendant selectors. These rules are the former MUI `sx` block from
  * ColorInput/Picker.tsx, translated one-for-one.

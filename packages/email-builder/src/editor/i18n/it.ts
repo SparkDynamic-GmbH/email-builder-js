@@ -142,6 +142,13 @@ const it: TTranslations = {
   'richText.underline': 'Sottolineato',
   'richText.strikethrough': 'Barrato',
   'richText.color': 'Colore del testo',
+  'richText.link': 'Inserisci link',
+  'richText.editLink': 'Modifica link',
+  'richText.removeLink': 'Rimuovi link',
+  'richText.linkUrl': 'Indirizzo del link',
+  'richText.linkPlaceholder': 'https://example.com',
+  'richText.linkNewTab': 'Apri in una nuova scheda',
+  'richText.linkApply': 'Applica',
   'richText.clearFormatting': 'Rimuovi formattazione',
 
   // Table canvas controls
