@@ -23,4 +23,14 @@ describe('Divider', () => {
       ).asFragment()
     ).toMatchSnapshot();
   });
+
+  it('renders a narrow rule as a table of that width, positioned by the align attribute', () => {
+    expect(
+      render(<Divider props={{ lineColor: '#8A1338', lineHeight: 3, lineWidth: 72, align: 'center' }} />).asFragment()
+    ).toMatchSnapshot();
+  });
+
+  it('ignores alignment at full width', () => {
+    expect(render(<Divider props={{ align: 'right' }} />).asFragment()).toMatchSnapshot();
+  });
 });

@@ -8,6 +8,8 @@ import { useTranslate } from '../../../i18n';
 import BaseSidebarPanel from './helpers/BaseSidebarPanel';
 import ColorInput from './helpers/inputs/ColorInput';
 import SliderInput from './helpers/inputs/SliderInput';
+import TextAlignInput from './helpers/inputs/TextAlignInput';
+import TextDimensionInput from './helpers/inputs/TextDimensionInput';
 import MultiStylePropertyPanel from './helpers/style-inputs/MultiStylePropertyPanel';
 
 type DividerSidebarPanelProps = {
@@ -29,6 +31,7 @@ export default function DividerSidebarPanel({ data, setData }: DividerSidebarPan
 
   const lineColor = data.props?.lineColor ?? DividerPropsDefaults.lineColor;
   const lineHeight = data.props?.lineHeight ?? DividerPropsDefaults.lineHeight;
+  const lineWidth = data.props?.lineWidth ?? DividerPropsDefaults.lineWidth;
 
   return (
     <BaseSidebarPanel title={t('panel.Divider')}>
@@ -47,6 +50,19 @@ export default function DividerSidebarPanel({ data, setData }: DividerSidebarPan
         defaultValue={lineHeight}
         onChange={(lineHeight) => updateData({ ...data, props: { ...data.props, lineHeight } })}
       />
+      <TextDimensionInput
+        label={t('field.width')}
+        defaultValue={lineWidth}
+        onChange={(lineWidth) => updateData({ ...data, props: { ...data.props, lineWidth } })}
+      />
+      {/* A full-width rule has nowhere to be aligned to, so the control only appears with a width. */}
+      {lineWidth === null ? null : (
+        <TextAlignInput
+          label={t('field.alignment')}
+          defaultValue={data.props?.align ?? DividerPropsDefaults.align}
+          onChange={(align) => updateData({ ...data, props: { ...data.props, align } })}
+        />
+      )}
       <MultiStylePropertyPanel
         names={['backgroundColor', 'padding']}
         value={data.style}
