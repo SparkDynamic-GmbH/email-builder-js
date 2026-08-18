@@ -2,6 +2,12 @@
 
 `@sparkdynamic/email-builder`. This is a hard fork of [usewaypoint/email-builder-js](https://github.com/usewaypoint/email-builder-js) at upstream `ce3e610`, so it has its own version line and does not follow upstream's. It stays on 0.x while the extension API can still change.
 
+## Unreleased
+
+### Changed
+
+- **A tab row that overflows now scrolls with arrows and a fade.** Four tabs do not fit the 320px inspector in every language — German runs to `Stile / Details / Stilvorlagen / Vorlagen` — so the row gets a chevron at each end that has more behind it and fades the tab running off that edge, and the scrollbar is hidden since a bar inside the 49px header would eat the labels. A row that fits is unchanged, and the arrows are `aria-hidden`: keyboard arrows already move through the tabs, and the selected one is scrolled into view.
+
 ## 0.1.7 — 2026-08-18
 
 ### Added — style presets and per-block defaults
