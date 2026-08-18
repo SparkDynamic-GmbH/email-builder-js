@@ -20,8 +20,12 @@ type Props = {
   label: string;
   defaultValue: TPaddingValue | null;
   onChange: (value: TPaddingValue) => void;
+  /** Four sliders over the four sides of a box — border widths use it as well as padding. */
+  min?: number;
+  max?: number;
+  step?: number;
 };
-export default function PaddingInput({ label, defaultValue, onChange }: Props) {
+export default function PaddingInput({ label, defaultValue, onChange, min = 0, max = 80, step = 4 }: Props) {
   const [value, setValue] = useState(() => {
     if (defaultValue) {
       return defaultValue;
@@ -52,9 +56,9 @@ export default function PaddingInput({ label, defaultValue, onChange }: Props) {
         value={value.top}
         setValue={(num) => handleChange('top', num)}
         units="px"
-        step={4}
-        min={0}
-        max={80}
+        step={step}
+        min={min}
+        max={max}
         marks
       />
 
@@ -63,9 +67,9 @@ export default function PaddingInput({ label, defaultValue, onChange }: Props) {
         value={value.bottom}
         setValue={(num) => handleChange('bottom', num)}
         units="px"
-        step={4}
-        min={0}
-        max={80}
+        step={step}
+        min={min}
+        max={max}
         marks
       />
 
@@ -74,9 +78,9 @@ export default function PaddingInput({ label, defaultValue, onChange }: Props) {
         value={value.left}
         setValue={(num) => handleChange('left', num)}
         units="px"
-        step={4}
-        min={0}
-        max={80}
+        step={step}
+        min={min}
+        max={max}
         marks
       />
 
@@ -85,9 +89,9 @@ export default function PaddingInput({ label, defaultValue, onChange }: Props) {
         value={value.right}
         setValue={(num) => handleChange('right', num)}
         units="px"
-        step={4}
-        min={0}
-        max={80}
+        step={step}
+        min={min}
+        max={max}
         marks
       />
     </div>

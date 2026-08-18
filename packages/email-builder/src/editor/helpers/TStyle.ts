@@ -3,6 +3,7 @@
 export type TStyle = {
   backgroundColor?: any;
   borderColor?: any;
+  borderWidth?: any;
   borderRadius?: any;
   color?: any;
   fontFamily?: any;

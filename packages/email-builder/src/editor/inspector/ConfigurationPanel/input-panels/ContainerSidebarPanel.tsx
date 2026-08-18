@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import type { ZodError } from 'zod';
 
 import { ContainerProps, ContainerPropsSchema } from '../../../../blocks/Container/ContainerPropsSchema';
+import { TStyle } from '../../../helpers/TStyle';
 import { useTranslate } from '../../../i18n';
 
 import BaseSidebarPanel from './helpers/BaseSidebarPanel';
@@ -24,13 +25,18 @@ export default function ContainerSidebarPanel({ data, setData }: ContainerSideba
       setErrors(res.error);
     }
   };
+  // Widths draw nothing without a colour, so they follow it rather than preceding it.
+  const names: (keyof TStyle)[] = [
+    'backgroundColor',
+    'borderColor',
+    ...(data.style?.borderColor ? (['borderWidth'] as const) : []),
+    'borderRadius',
+    'padding',
+  ];
+
   return (
     <BaseSidebarPanel title={t('panel.Container')}>
-      <MultiStylePropertyPanel
-        names={['backgroundColor', 'borderColor', 'borderRadius', 'padding']}
-        value={data.style}
-        onChange={(style) => updateData({ ...data, style })}
-      />
+      <MultiStylePropertyPanel names={names} value={data.style} onChange={(style) => updateData({ ...data, style })} />
     </BaseSidebarPanel>
   );
 }

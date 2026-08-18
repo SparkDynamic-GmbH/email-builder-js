@@ -31,6 +31,18 @@ export default function SingleStylePropertyPanel({ name, value, onChange }: Styl
       );
     case 'borderColor':
       return <NullableColorInput label={t('field.borderColor')} defaultValue={defaultValue} onChange={handleChange} />;
+    case 'borderWidth':
+      // The same four-sided control as padding, over a much smaller range.
+      return (
+        <PaddingInput
+          label={t('field.borderWidth')}
+          defaultValue={defaultValue}
+          onChange={handleChange}
+          min={0}
+          max={16}
+          step={1}
+        />
+      );
     case 'borderRadius':
       return (
         <SliderInput
