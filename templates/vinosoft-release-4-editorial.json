@@ -1,0 +1,1438 @@
+{
+  "root": {
+    "type": "EmailLayout",
+    "data": {
+      "backdropColor": "#EFE9E2",
+      "canvasColor": "#FDFBF8",
+      "borderColor": "#E2D9CF",
+      "textColor": "#403C38",
+      "fontFamily": "MODERN_SANS",
+      "preheader": "Release 4 ist da: neues .NET-Fundament, spürbar schneller – und vollgepackt mit Ihren Wünschen.",
+      "childrenIds": [
+        "block-header",
+        "block-eyebrow",
+        "block-title",
+        "block-title-rule",
+        "block-intro",
+        "block-divider-intro",
+        "block-section-label",
+        "block-feature-01",
+        "block-feature-01-p2",
+        "block-feature-01-p3",
+        "block-feature-02",
+        "block-feature-03",
+        "block-feature-03-p2",
+        "block-feature-03-p3",
+        "block-feature-04",
+        "block-feature-04-p2",
+        "block-feature-04-p3",
+        "block-feature-04-p4",
+        "block-feature-05",
+        "block-feature-06",
+        "block-feature-07",
+        "block-feature-08",
+        "block-feature-09",
+        "block-callout-outer",
+        "block-divider-close",
+        "block-closing",
+        "block-cta",
+        "block-support",
+        "block-signature",
+        "block-footer"
+      ]
+    }
+  },
+  "block-header": {
+    "type": "Container",
+    "data": {
+      "style": {
+        "borderColor": "#E2D9CF",
+        "borderWidth": {
+          "top": 0,
+          "right": 0,
+          "bottom": 1,
+          "left": 0
+        },
+        "padding": {
+          "top": 28,
+          "bottom": 24,
+          "left": 40,
+          "right": 40
+        }
+      },
+      "props": {
+        "childrenIds": ["block-header-row"]
+      }
+    }
+  },
+  "block-header-row": {
+    "type": "ColumnsContainer",
+    "data": {
+      "style": {
+        "padding": {
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        }
+      },
+      "props": {
+        "columnsCount": 2,
+        "columnsGap": 0,
+        "contentAlignment": "middle",
+        "stackOnMobile": false,
+        "fixedWidths": [200, null, null],
+        "columns": [
+          {
+            "childrenIds": ["block-logo"]
+          },
+          {
+            "childrenIds": ["block-date"]
+          },
+          {
+            "childrenIds": []
+          }
+        ]
+      }
+    }
+  },
+  "block-logo": {
+    "type": "Image",
+    "data": {
+      "props": {
+        "url": "https://sparkdynamic.blob.core.windows.net/assets/media/7718d173-1f3f-4f8c-b282-5b5a1c183bce/newsletters/d2bab17f-0dfd-423b-acb2-39f182c58709__vinosoft-logo-1.png",
+        "alt": "Vinosoft",
+        "width": 180,
+        "contentAlignment": "middle",
+        "linkHref": "https://www.vinosoft.ch"
+      },
+      "style": {
+        "padding": {
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        "textAlign": "left"
+      }
+    }
+  },
+  "block-date": {
+    "type": "Text",
+    "data": {
+      "props": {
+        "text": "Rüti ZH, 21.08.2026"
+      },
+      "style": {
+        "padding": {
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        "fontSize": 12,
+        "fontWeight": "normal",
+        "textAlign": "right",
+        "color": "#7A7168"
+      }
+    }
+  },
+  "block-eyebrow": {
+    "type": "Text",
+    "data": {
+      "props": {
+        "text": "RELEASE&nbsp;4"
+      },
+      "style": {
+        "padding": {
+          "top": 40,
+          "bottom": 0,
+          "left": 40,
+          "right": 40
+        },
+        "backgroundPadding": {
+          "top": 6,
+          "bottom": 6,
+          "left": 12,
+          "right": 12
+        },
+        "inlineBackground": true,
+        "backgroundColor": "#8A1338",
+        "color": "#FDFBF8",
+        "fontSize": 11,
+        "fontWeight": "bold",
+        "textAlign": "left"
+      }
+    }
+  },
+  "block-title": {
+    "type": "Heading",
+    "data": {
+      "props": {
+        "text": "Ein grosses Vinosoft-Update, vollgepackt mit dem, was Sie sich gewünscht haben",
+        "level": "h1"
+      },
+      "style": {
+        "padding": {
+          "top": 20,
+          "bottom": 0,
+          "left": 40,
+          "right": 40
+        },
+        "color": "#2C2A28",
+        "fontFamily": "MODERN_SERIF",
+        "fontWeight": "normal",
+        "textAlign": "left"
+      }
+    }
+  },
+  "block-title-rule": {
+    "type": "Divider",
+    "data": {
+      "props": {
+        "lineColor": "#8A1338",
+        "lineHeight": 3,
+        "lineWidth": 72,
+        "align": "left"
+      },
+      "style": {
+        "padding": {
+          "top": 16,
+          "bottom": 0,
+          "left": 40,
+          "right": 40
+        }
+      }
+    }
+  },
+  "block-intro": {
+    "type": "Text",
+    "data": {
+      "props": {
+        "text": "Wir haben das letzte Jahr damit verbracht, Vinosoft zu verbessern – und das Ergebnis ist unser bisher grösster Release. Unter der Haube läuft die Plattform jetzt auf dem neuesten .NET – dadurch ist die ganze Anwendung spürbar schneller und reaktionsfreudiger. Aber Technik ist nebensächlich; entscheidend ist, was Sie damit tun können. Hier ist also, was wirklich neu ist."
+      },
+      "style": {
+        "padding": {
+          "top": 24,
+          "bottom": 0,
+          "left": 40,
+          "right": 40
+        },
+        "fontSize": 16,
+        "fontWeight": "normal",
+        "textAlign": "left",
+        "color": "#403C38"
+      }
+    }
+  },
+  "block-divider-intro": {
+    "type": "Divider",
+    "data": {
+      "props": {
+        "lineColor": "#E2D9CF",
+        "lineHeight": 1
+      },
+      "style": {
+        "padding": {
+          "top": 36,
+          "bottom": 0,
+          "left": 40,
+          "right": 40
+        }
+      }
+    }
+  },
+  "block-section-label": {
+    "type": "Text",
+    "data": {
+      "props": {
+        "text": "WAS WIRKLICH NEU IST"
+      },
+      "style": {
+        "padding": {
+          "top": 32,
+          "bottom": 0,
+          "left": 40,
+          "right": 40
+        },
+        "fontSize": 12,
+        "fontWeight": "bold",
+        "textAlign": "left",
+        "color": "#8A1338"
+      }
+    }
+  },
+  "block-feature-01": {
+    "type": "ColumnsContainer",
+    "data": {
+      "style": {
+        "padding": {
+          "top": 24,
+          "bottom": 0,
+          "left": 40,
+          "right": 40
+        }
+      },
+      "props": {
+        "columnsCount": 2,
+        "columnsGap": 0,
+        "contentAlignment": "top",
+        "stackOnMobile": false,
+        "fixedWidths": [44, null, null],
+        "columns": [
+          {
+            "childrenIds": ["block-feature-01-num"]
+          },
+          {
+            "childrenIds": ["block-feature-01-title", "block-feature-01-body"]
+          },
+          {
+            "childrenIds": []
+          }
+        ]
+      }
+    }
+  },
+  "block-feature-01-num": {
+    "type": "Text",
+    "data": {
+      "props": {
+        "text": "01"
+      },
+      "style": {
+        "padding": {
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        "fontFamily": "MODERN_SERIF",
+        "fontSize": 26,
+        "fontWeight": "normal",
+        "textAlign": "left",
+        "color": "#B98A9C"
+      }
+    }
+  },
+  "block-feature-01-title": {
+    "type": "Text",
+    "data": {
+      "props": {
+        "text": "<strong>Ein KI-Assistent, der Ihre Büroarbeit übernimmt</strong>"
+      },
+      "style": {
+        "padding": {
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        "fontSize": 17,
+        "fontWeight": "normal",
+        "textAlign": "left",
+        "color": "#2C2A28"
+      }
+    }
+  },
+  "block-feature-01-body": {
+    "type": "Text",
+    "data": {
+      "props": {
+        "text": "Lernen Sie Ihren neuen Assistenten direkt in der App kennen. Sagen Sie ihm einfach in normaler Sprache, was Sie brauchen – «Erstelle eine Rechnung für die Meier AG über 12 Flaschen Pinot 2021» – und er erstellt das Dokument für Sie. Er funktioniert mit Offerten, Auftragsbestätigungen, Rechnungen, Gutschriften, Lieferscheinen und Bestellungen."
+      },
+      "style": {
+        "padding": {
+          "top": 6,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        "fontSize": 15,
+        "fontWeight": "normal",
+        "textAlign": "left",
+        "color": "#5C5651"
+      }
+    }
+  },
+  "block-feature-01-p2": {
+    "type": "Text",
+    "data": {
+      "props": {
+        "text": "Er sucht Ihre Kunden und Artikel heraus und füllt die Preise automatisch aus. Bitten Sie ihn, ein Dokument per E-Mail zu versenden oder das PDF direkt im Chat zu öffnen."
+      },
+      "style": {
+        "padding": {
+          "top": 14,
+          "bottom": 0,
+          "left": 84,
+          "right": 40
+        },
+        "fontSize": 15,
+        "fontWeight": "normal",
+        "textAlign": "left",
+        "color": "#5C5651"
+      }
+    }
+  },
+  "block-feature-01-p3": {
+    "type": "Text",
+    "data": {
+      "props": {
+        "text": "Ihr gesamter Gesprächsverlauf bleibt in einer Seitenleiste erhalten, sodass Sie jederzeit dort weitermachen können, wo Sie aufgehört haben.<br>Für Administratoren ist jedes Gespräch nachvollziehbar – mit monatlicher Kosten- und Nutzungsauswertung und einem im Voraus bezahlten Guthaben, damit die KI-Kosten stets planbar bleiben."
+      },
+      "style": {
+        "padding": {
+          "top": 14,
+          "bottom": 0,
+          "left": 84,
+          "right": 40
+        },
+        "fontSize": 15,
+        "fontWeight": "normal",
+        "textAlign": "left",
+        "color": "#5C5651"
+      }
+    }
+  },
+  "block-feature-02": {
+    "type": "ColumnsContainer",
+    "data": {
+      "style": {
+        "padding": {
+          "top": 28,
+          "bottom": 0,
+          "left": 40,
+          "right": 40
+        }
+      },
+      "props": {
+        "columnsCount": 2,
+        "columnsGap": 0,
+        "contentAlignment": "top",
+        "stackOnMobile": false,
+        "fixedWidths": [44, null, null],
+        "columns": [
+          {
+            "childrenIds": ["block-feature-02-num"]
+          },
+          {
+            "childrenIds": ["block-feature-02-title", "block-feature-02-body"]
+          },
+          {
+            "childrenIds": []
+          }
+        ]
+      }
+    }
+  },
+  "block-feature-02-num": {
+    "type": "Text",
+    "data": {
+      "props": {
+        "text": "02"
+      },
+      "style": {
+        "padding": {
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        "fontFamily": "MODERN_SERIF",
+        "fontSize": 26,
+        "fontWeight": "normal",
+        "textAlign": "left",
+        "color": "#B98A9C"
+      }
+    }
+  },
+  "block-feature-02-title": {
+    "type": "Text",
+    "data": {
+      "props": {
+        "text": "<strong>Finden Sie alles – sofort</strong>"
+      },
+      "style": {
+        "padding": {
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        "fontSize": 17,
+        "fontWeight": "normal",
+        "textAlign": "left",
+        "color": "#2C2A28"
+      }
+    }
+  },
+  "block-feature-02-body": {
+    "type": "Text",
+    "data": {
+      "props": {
+        "text": "Zuoberst in der App gibt es jetzt eine einzige Suchleiste. Geben Sie einen Kundennamen, eine Rechnungsnummer, eine Offerte, eine Auftragsbestätigung, eine Bestellung oder einen Artikel ein – und springen Sie direkt dorthin. Die Ergebnisse zeigen Betrag und Status auf einen Blick, und jeder sieht nur, wozu er berechtigt ist."
+      },
+      "style": {
+        "padding": {
+          "top": 6,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        "fontSize": 15,
+        "fontWeight": "normal",
+        "textAlign": "left",
+        "color": "#5C5651"
+      }
+    }
+  },
+  "block-feature-03": {
+    "type": "ColumnsContainer",
+    "data": {
+      "style": {
+        "padding": {
+          "top": 28,
+          "bottom": 0,
+          "left": 40,
+          "right": 40
+        }
+      },
+      "props": {
+        "columnsCount": 2,
+        "columnsGap": 0,
+        "contentAlignment": "top",
+        "stackOnMobile": false,
+        "fixedWidths": [44, null, null],
+        "columns": [
+          {
+            "childrenIds": ["block-feature-03-num"]
+          },
+          {
+            "childrenIds": ["block-feature-03-title", "block-feature-03-body"]
+          },
+          {
+            "childrenIds": []
+          }
+        ]
+      }
+    }
+  },
+  "block-feature-03-num": {
+    "type": "Text",
+    "data": {
+      "props": {
+        "text": "03"
+      },
+      "style": {
+        "padding": {
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        "fontFamily": "MODERN_SERIF",
+        "fontSize": 26,
+        "fontWeight": "normal",
+        "textAlign": "left",
+        "color": "#B98A9C"
+      }
+    }
+  },
+  "block-feature-03-title": {
+    "type": "Text",
+    "data": {
+      "props": {
+        "text": "<strong>Ein Shop, der besser verkauft</strong>"
+      },
+      "style": {
+        "padding": {
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        "fontSize": 17,
+        "fontWeight": "normal",
+        "textAlign": "left",
+        "color": "#2C2A28"
+      }
+    }
+  },
+  "block-feature-03-body": {
+    "type": "Text",
+    "data": {
+      "props": {
+        "text": "Sie können jetzt optional auf ein brandneues Checkout-Erlebnis umsteigen – <strong>einen anpassbaren Checkout im Shopify-Stil</strong>, den Sie selbst steuern. Es ist optional – Sie steigen um, wann immer Sie bereit sind:"
+      },
+      "style": {
+        "padding": {
+          "top": 6,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        "fontSize": 15,
+        "fontWeight": "normal",
+        "textAlign": "left",
+        "color": "#5C5651"
+      }
+    }
+  },
+  "block-feature-03-p2": {
+    "type": "Text",
+    "data": {
+      "props": {
+        "text": "Ein <strong>neu gestalteter Checkout auf einer einzigen Seite</strong> – aufgeräumt, schnell und mobilfreundlich.<br><br><strong>Machen Sie ihn zu Ihrem</strong>: Gestalten Sie den Checkout mit Ihrem Logo, Ihren Farben, Ihrer Typografie und Ihren Vertrauenshinweisen – mit Live-Vorschau.<br><br><strong>Bauen Sie Ihre Liste aus</strong>: Newsletter-Anmeldung sowie Zustimmung zu AGB/Datenschutz sind direkt in den Checkout integriert.<br><br><strong>Schweizer Altersverifikation</strong>: Verkaufen Sie altersbeschränkte Produkte in voller Übereinstimmung mit den Schweizer Altersvorgaben – Kundinnen und Kunden verifizieren sich per Ausweis-Scan, und Sie entscheiden, welche Produkte (oder alle) das erfordern."
+      },
+      "style": {
+        "padding": {
+          "top": 14,
+          "bottom": 0,
+          "left": 84,
+          "right": 40
+        },
+        "fontSize": 15,
+        "fontWeight": "normal",
+        "textAlign": "left",
+        "color": "#5C5651"
+      }
+    }
+  },
+  "block-feature-03-p3": {
+    "type": "Text",
+    "data": {
+      "props": {
+        "text": "Im Hintergrund erhalten Sie ausserdem Ihre eigene Domain mit geführter DNS-Einrichtung, einen Theme-Editor und einen Drag-and-drop-Builder für das Navigationsmenü – ganz ohne Entwickler."
+      },
+      "style": {
+        "padding": {
+          "top": 14,
+          "bottom": 0,
+          "left": 84,
+          "right": 40
+        },
+        "fontSize": 15,
+        "fontWeight": "normal",
+        "textAlign": "left",
+        "color": "#5C5651"
+      }
+    }
+  },
+  "block-feature-04": {
+    "type": "ColumnsContainer",
+    "data": {
+      "style": {
+        "padding": {
+          "top": 28,
+          "bottom": 0,
+          "left": 40,
+          "right": 40
+        }
+      },
+      "props": {
+        "columnsCount": 2,
+        "columnsGap": 0,
+        "contentAlignment": "top",
+        "stackOnMobile": false,
+        "fixedWidths": [44, null, null],
+        "columns": [
+          {
+            "childrenIds": ["block-feature-04-num"]
+          },
+          {
+            "childrenIds": ["block-feature-04-title", "block-feature-04-body"]
+          },
+          {
+            "childrenIds": []
+          }
+        ]
+      }
+    }
+  },
+  "block-feature-04-num": {
+    "type": "Text",
+    "data": {
+      "props": {
+        "text": "04"
+      },
+      "style": {
+        "padding": {
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        "fontFamily": "MODERN_SERIF",
+        "fontSize": 26,
+        "fontWeight": "normal",
+        "textAlign": "left",
+        "color": "#B98A9C"
+      }
+    }
+  },
+  "block-feature-04-title": {
+    "type": "Text",
+    "data": {
+      "props": {
+        "text": "<strong>Smarte Kollektionen: Kuratieren Sie Ihren Katalog automatisch</strong>"
+      },
+      "style": {
+        "padding": {
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        "fontSize": 17,
+        "fontWeight": "normal",
+        "textAlign": "left",
+        "color": "#2C2A28"
+      }
+    }
+  },
+  "block-feature-04-body": {
+    "type": "Text",
+    "data": {
+      "props": {
+        "text": "Mit Kollektionen gruppieren Sie Produkte zu einkaufbaren Kategorien – und sie sind jetzt deutlich leistungsfähiger. Statt jedes Produkt von Hand hinzuzufügen, können Sie nun smarte Kollektionen erstellen, die sich anhand Ihrer Regeln selbst füllen:"
+      },
+      "style": {
+        "padding": {
+          "top": 6,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        "fontSize": 15,
+        "fontWeight": "normal",
+        "textAlign": "left",
+        "color": "#5C5651"
+      }
+    }
+  },
+  "block-feature-04-p2": {
+    "type": "Text",
+    "data": {
+      "props": {
+        "text": "Ordnen Sie Produkte nach Tag, Hersteller, Preisspanne oder Kategorie zu – oder kombinieren Sie diese.<br><br>Neue passende Produkte werden automatisch hinzugefügt; Produkte, die nicht mehr passen, fallen von selbst heraus.<br><br>Die Seiten bleiben auch bei grossen Katalogen schnell, und die Produktanzahl ist stets aktuell."
+      },
+      "style": {
+        "padding": {
+          "top": 14,
+          "bottom": 0,
+          "left": 84,
+          "right": 40
+        },
+        "fontSize": 15,
+        "fontWeight": "normal",
+        "textAlign": "left",
+        "color": "#5C5651"
+      }
+    }
+  },
+  "block-feature-04-p3": {
+    "type": "Text",
+    "data": {
+      "props": {
+        "text": "Auch jede Kollektionsseite kann mehr: Fügen Sie eine <strong>Beschreibung und SEO-Angaben</strong> hinzu, laden Sie ein Titelbild hoch, wählen Sie die Sortierreihenfolge (auch nach Ihren eigenen benutzerdefinierten Feldern), wählen Sie eine Seitenvorlage, teilen Sie lange Listen auf Seiten auf und veröffentlichen oder verbergen Sie sie mit einem Klick."
+      },
+      "style": {
+        "padding": {
+          "top": 14,
+          "bottom": 0,
+          "left": 84,
+          "right": 40
+        },
+        "fontSize": 15,
+        "fontWeight": "normal",
+        "textAlign": "left",
+        "color": "#5C5651"
+      }
+    }
+  },
+  "block-feature-04-p4": {
+    "type": "Text",
+    "data": {
+      "props": {
+        "text": "Und weil Kundinnen und Kunden Shops zunehmend über Google und KI-Assistenten entdecken, liefert jeder Shop nun umfangreiche strukturierte Daten, saubere Sitemaps und maschinenlesbare Inhalte – damit Ihre Produkte gefunden werden, wo auch immer gesucht wird."
+      },
+      "style": {
+        "padding": {
+          "top": 14,
+          "bottom": 0,
+          "left": 84,
+          "right": 40
+        },
+        "fontSize": 15,
+        "fontWeight": "normal",
+        "textAlign": "left",
+        "color": "#5C5651"
+      }
+    }
+  },
+  "block-feature-05": {
+    "type": "ColumnsContainer",
+    "data": {
+      "style": {
+        "padding": {
+          "top": 28,
+          "bottom": 0,
+          "left": 40,
+          "right": 40
+        }
+      },
+      "props": {
+        "columnsCount": 2,
+        "columnsGap": 0,
+        "contentAlignment": "top",
+        "stackOnMobile": false,
+        "fixedWidths": [44, null, null],
+        "columns": [
+          {
+            "childrenIds": ["block-feature-05-num"]
+          },
+          {
+            "childrenIds": ["block-feature-05-title", "block-feature-05-body"]
+          },
+          {
+            "childrenIds": []
+          }
+        ]
+      }
+    }
+  },
+  "block-feature-05-num": {
+    "type": "Text",
+    "data": {
+      "props": {
+        "text": "05"
+      },
+      "style": {
+        "padding": {
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        "fontFamily": "MODERN_SERIF",
+        "fontSize": 26,
+        "fontWeight": "normal",
+        "textAlign": "left",
+        "color": "#B98A9C"
+      }
+    }
+  },
+  "block-feature-05-title": {
+    "type": "Text",
+    "data": {
+      "props": {
+        "text": "<strong>Bauen Sie auf Vinosoft auf</strong>"
+      },
+      "style": {
+        "padding": {
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        "fontSize": 17,
+        "fontWeight": "normal",
+        "textAlign": "left",
+        "color": "#2C2A28"
+      }
+    }
+  },
+  "block-feature-05-body": {
+    "type": "Text",
+    "data": {
+      "props": {
+        "text": "Entwickler können jetzt direkt über eine vollständige, dokumentierte REST-API integrieren – mit Zugriff auf Storefront, Administration und Kundenkonten, samt OpenAPI-/Swagger-Dokumentation, OAuth und sicheren Tokens."
+      },
+      "style": {
+        "padding": {
+          "top": 6,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        "fontSize": 15,
+        "fontWeight": "normal",
+        "textAlign": "left",
+        "color": "#5C5651"
+      }
+    }
+  },
+  "block-feature-06": {
+    "type": "ColumnsContainer",
+    "data": {
+      "style": {
+        "padding": {
+          "top": 28,
+          "bottom": 0,
+          "left": 40,
+          "right": 40
+        }
+      },
+      "props": {
+        "columnsCount": 2,
+        "columnsGap": 0,
+        "contentAlignment": "top",
+        "stackOnMobile": false,
+        "fixedWidths": [44, null, null],
+        "columns": [
+          {
+            "childrenIds": ["block-feature-06-num"]
+          },
+          {
+            "childrenIds": ["block-feature-06-title", "block-feature-06-body"]
+          },
+          {
+            "childrenIds": []
+          }
+        ]
+      }
+    }
+  },
+  "block-feature-06-num": {
+    "type": "Text",
+    "data": {
+      "props": {
+        "text": "06"
+      },
+      "style": {
+        "padding": {
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        "fontFamily": "MODERN_SERIF",
+        "fontSize": 26,
+        "fontWeight": "normal",
+        "textAlign": "left",
+        "color": "#B98A9C"
+      }
+    }
+  },
+  "block-feature-06-title": {
+    "type": "Text",
+    "data": {
+      "props": {
+        "text": "<strong>Dashboards, die zu Ihrer Arbeitsweise passen</strong>"
+      },
+      "style": {
+        "padding": {
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        "fontSize": 17,
+        "fontWeight": "normal",
+        "textAlign": "left",
+        "color": "#2C2A28"
+      }
+    }
+  },
+  "block-feature-06-body": {
+    "type": "Text",
+    "data": {
+      "props": {
+        "text": "Erstellen Sie Ihr eigenes Dashboard, indem Sie die für Sie wichtigen Widgets hineinziehen, und teilen Sie Layouts mit Ihrem Team. Neu bei Vinosoft? Eine Einstiegs-Checkliste führt Sie Schritt für Schritt durch die Einrichtung."
+      },
+      "style": {
+        "padding": {
+          "top": 6,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        "fontSize": 15,
+        "fontWeight": "normal",
+        "textAlign": "left",
+        "color": "#5C5651"
+      }
+    }
+  },
+  "block-feature-07": {
+    "type": "ColumnsContainer",
+    "data": {
+      "style": {
+        "padding": {
+          "top": 28,
+          "bottom": 0,
+          "left": 40,
+          "right": 40
+        }
+      },
+      "props": {
+        "columnsCount": 2,
+        "columnsGap": 0,
+        "contentAlignment": "top",
+        "stackOnMobile": false,
+        "fixedWidths": [44, null, null],
+        "columns": [
+          {
+            "childrenIds": ["block-feature-07-num"]
+          },
+          {
+            "childrenIds": ["block-feature-07-title", "block-feature-07-body"]
+          },
+          {
+            "childrenIds": []
+          }
+        ]
+      }
+    }
+  },
+  "block-feature-07-num": {
+    "type": "Text",
+    "data": {
+      "props": {
+        "text": "07"
+      },
+      "style": {
+        "padding": {
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        "fontFamily": "MODERN_SERIF",
+        "fontSize": 26,
+        "fontWeight": "normal",
+        "textAlign": "left",
+        "color": "#B98A9C"
+      }
+    }
+  },
+  "block-feature-07-title": {
+    "type": "Text",
+    "data": {
+      "props": {
+        "text": "<strong>Eine brandneue Kassen-App fürs iPad</strong>"
+      },
+      "style": {
+        "padding": {
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        "fontSize": 17,
+        "fontWeight": "normal",
+        "textAlign": "left",
+        "color": "#2C2A28"
+      }
+    }
+  },
+  "block-feature-07-body": {
+    "type": "Text",
+    "data": {
+      "props": {
+        "text": "Wir haben eine komplett neue native iOS-Kassen-App veröffentlicht – Vinosoft POS Lite –, welche die alte ersetzt. Sie ist schneller, einfacher zu bedienen und ab sofort im App Store erhältlich. Akzeptieren Sie Zahlungen mit SumUp und Twint, legen Sie Einstellungen pro Gerät fest und sind in wenigen Minuten startklar."
+      },
+      "style": {
+        "padding": {
+          "top": 6,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        "fontSize": 15,
+        "fontWeight": "normal",
+        "textAlign": "left",
+        "color": "#5C5651"
+      }
+    }
+  },
+  "block-feature-08": {
+    "type": "ColumnsContainer",
+    "data": {
+      "style": {
+        "padding": {
+          "top": 28,
+          "bottom": 0,
+          "left": 40,
+          "right": 40
+        }
+      },
+      "props": {
+        "columnsCount": 2,
+        "columnsGap": 0,
+        "contentAlignment": "top",
+        "stackOnMobile": false,
+        "fixedWidths": [44, null, null],
+        "columns": [
+          {
+            "childrenIds": ["block-feature-08-num"]
+          },
+          {
+            "childrenIds": ["block-feature-08-title", "block-feature-08-body"]
+          },
+          {
+            "childrenIds": []
+          }
+        ]
+      }
+    }
+  },
+  "block-feature-08-num": {
+    "type": "Text",
+    "data": {
+      "props": {
+        "text": "08"
+      },
+      "style": {
+        "padding": {
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        "fontFamily": "MODERN_SERIF",
+        "fontSize": 26,
+        "fontWeight": "normal",
+        "textAlign": "left",
+        "color": "#B98A9C"
+      }
+    }
+  },
+  "block-feature-08-title": {
+    "type": "Text",
+    "data": {
+      "props": {
+        "text": "<strong>Treueprogramm, benutzerdefinierte Felder und mehr</strong>"
+      },
+      "style": {
+        "padding": {
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        "fontSize": 17,
+        "fontWeight": "normal",
+        "textAlign": "left",
+        "color": "#2C2A28"
+      }
+    }
+  },
+  "block-feature-08-body": {
+    "type": "Text",
+    "data": {
+      "props": {
+        "text": "<strong>Treueprogramm</strong>: Geben Sie Treuekarten aus, verfolgen Sie Guthaben und lassen Sie Kundinnen und Kunden an der Kasse und auf Rechnungen Punkte sammeln und einlösen – mit Barcodes, Sammelausgabe und Excel-Export.<br><br><strong>Benutzerdefinierte Felder</strong>: Fügen Sie Produkten und Varianten eigene Felder (Text, Zahlen, Auswahllisten) hinzu und zeigen Sie diese direkt in Ihrem Shop an.<br><br><strong>Dokumente</strong>: bearbeitbare offene Gutschriften, E-Mail an mehrere Empfänger, Lieferschein-Unterschriften direkt am Bildschirm und automatisch wiederkehrende Rechnungen."
+      },
+      "style": {
+        "padding": {
+          "top": 6,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        "fontSize": 15,
+        "fontWeight": "normal",
+        "textAlign": "left",
+        "color": "#5C5651"
+      }
+    }
+  },
+  "block-feature-09": {
+    "type": "ColumnsContainer",
+    "data": {
+      "style": {
+        "padding": {
+          "top": 28,
+          "bottom": 0,
+          "left": 40,
+          "right": 40
+        }
+      },
+      "props": {
+        "columnsCount": 2,
+        "columnsGap": 0,
+        "contentAlignment": "top",
+        "stackOnMobile": false,
+        "fixedWidths": [44, null, null],
+        "columns": [
+          {
+            "childrenIds": ["block-feature-09-num"]
+          },
+          {
+            "childrenIds": ["block-feature-09-title", "block-feature-09-body"]
+          },
+          {
+            "childrenIds": []
+          }
+        ]
+      }
+    }
+  },
+  "block-feature-09-num": {
+    "type": "Text",
+    "data": {
+      "props": {
+        "text": "09"
+      },
+      "style": {
+        "padding": {
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        "fontFamily": "MODERN_SERIF",
+        "fontSize": 26,
+        "fontWeight": "normal",
+        "textAlign": "left",
+        "color": "#B98A9C"
+      }
+    }
+  },
+  "block-feature-09-title": {
+    "type": "Text",
+    "data": {
+      "props": {
+        "text": "<strong>Ausgereift, sicher und mehrsprachig</strong>"
+      },
+      "style": {
+        "padding": {
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        "fontSize": 17,
+        "fontWeight": "normal",
+        "textAlign": "left",
+        "color": "#2C2A28"
+      }
+    }
+  },
+  "block-feature-09-body": {
+    "type": "Text",
+    "data": {
+      "props": {
+        "text": "Zwei-Faktor-Authentifizierung, feiner abgestufte Berechtigungen und eine deutlich bessere Lokalisierung in Deutsch, Französisch und Italienisch runden das Release ab."
+      },
+      "style": {
+        "padding": {
+          "top": 6,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        "fontSize": 15,
+        "fontWeight": "normal",
+        "textAlign": "left",
+        "color": "#5C5651"
+      }
+    }
+  },
+  "block-callout-outer": {
+    "type": "Container",
+    "data": {
+      "style": {
+        "padding": {
+          "top": 32,
+          "bottom": 0,
+          "left": 40,
+          "right": 40
+        }
+      },
+      "props": {
+        "childrenIds": ["block-callout"]
+      }
+    }
+  },
+  "block-callout": {
+    "type": "Container",
+    "data": {
+      "style": {
+        "backgroundColor": "#F4EEE7",
+        "borderColor": "#8A1338",
+        "borderWidth": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 3
+        },
+        "padding": {
+          "top": 20,
+          "bottom": 20,
+          "left": 24,
+          "right": 24
+        }
+      },
+      "props": {
+        "childrenIds": ["block-callout-text"]
+      }
+    }
+  },
+  "block-callout-text": {
+    "type": "Text",
+    "data": {
+      "props": {
+        "text": "<strong>Neues Fundament:</strong> Vinosoft läuft ab Release 4 auf dem neuesten .NET. Sie merken es vor allem an kürzeren Ladezeiten und einer Oberfläche, die sofort reagiert."
+      },
+      "style": {
+        "padding": {
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        "fontSize": 15,
+        "fontWeight": "normal",
+        "textAlign": "left",
+        "color": "#403C38"
+      }
+    }
+  },
+  "block-divider-close": {
+    "type": "Divider",
+    "data": {
+      "props": {
+        "lineColor": "#E2D9CF",
+        "lineHeight": 1
+      },
+      "style": {
+        "padding": {
+          "top": 36,
+          "bottom": 0,
+          "left": 40,
+          "right": 40
+        }
+      }
+    }
+  },
+  "block-closing": {
+    "type": "Text",
+    "data": {
+      "props": {
+        "text": "<strong>Das ist ein grosser Schritt nach vorne – und erst der Anfang.</strong> Alles wird nach und nach in Ihrem Konto verfügbar sein; melden Sie sich einfach an und entdecken Sie es. Fragen? Kontaktieren Sie uns – wir helfen Ihnen gerne."
+      },
+      "style": {
+        "padding": {
+          "top": 32,
+          "bottom": 0,
+          "left": 40,
+          "right": 40
+        },
+        "fontSize": 16,
+        "fontWeight": "normal",
+        "textAlign": "left",
+        "color": "#403C38"
+      }
+    }
+  },
+  "block-cta": {
+    "type": "Button",
+    "data": {
+      "props": {
+        "text": "Alle Neuerungen ansehen",
+        "url": "https://www.vinosoft.ch/release-notes",
+        "buttonBackgroundColor": "#8A1338",
+        "buttonTextColor": "#FDFBF8",
+        "buttonStyle": "rectangle",
+        "size": "large",
+        "fullWidth": false
+      },
+      "style": {
+        "padding": {
+          "top": 28,
+          "bottom": 0,
+          "left": 40,
+          "right": 40
+        },
+        "fontWeight": "bold",
+        "textAlign": "left"
+      }
+    }
+  },
+  "block-support": {
+    "type": "Text",
+    "data": {
+      "props": {
+        "text": "Fragen zum Update? Antworten Sie einfach auf diese E-Mail oder schreiben Sie an <a href=\"mailto:support@vinosoft.ch\" style=\"color: #8A1338; text-decoration: underline\">support@vinosoft.ch</a>."
+      },
+      "style": {
+        "padding": {
+          "top": 16,
+          "bottom": 8,
+          "left": 40,
+          "right": 40
+        },
+        "fontSize": 14,
+        "fontWeight": "normal",
+        "textAlign": "left",
+        "color": "#5C5651"
+      }
+    }
+  },
+  "block-signature": {
+    "type": "Text",
+    "data": {
+      "props": {
+        "text": "Freundliche Grüsse<br><br>Vinosoft Team"
+      },
+      "style": {
+        "padding": {
+          "top": 8,
+          "bottom": 40,
+          "left": 40,
+          "right": 40
+        },
+        "fontSize": 15,
+        "fontWeight": "normal",
+        "textAlign": "left",
+        "color": "#403C38"
+      }
+    }
+  },
+  "block-footer": {
+    "type": "Container",
+    "data": {
+      "style": {
+        "backgroundColor": "#F4EEE7",
+        "borderColor": "#E2D9CF",
+        "borderWidth": {
+          "top": 1,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        },
+        "padding": {
+          "top": 24,
+          "bottom": 32,
+          "left": 40,
+          "right": 40
+        }
+      },
+      "props": {
+        "childrenIds": ["block-footer-text"]
+      }
+    }
+  },
+  "block-footer-text": {
+    "type": "Text",
+    "data": {
+      "props": {
+        "text": "Vinosoft AG · 8630 Rüti ZH · Schweiz<br>Sie erhalten diese E-Mail, weil Sie Vinosoft nutzen. <a href=\"https://www.vinosoft.ch/newsletter/abmelden\" style=\"color: #7A7168; text-decoration: underline\">Abmelden</a> · <a href=\"https://www.vinosoft.ch/datenschutz\" style=\"color: #7A7168; text-decoration: underline\">Datenschutz</a>"
+      },
+      "style": {
+        "padding": {
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        "fontSize": 12,
+        "fontWeight": "normal",
+        "textAlign": "left",
+        "color": "#7A7168"
+      }
+    }
+  }
+}
